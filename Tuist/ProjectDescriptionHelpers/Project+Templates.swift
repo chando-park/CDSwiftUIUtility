@@ -7,8 +7,15 @@ import ProjectDescription
 
 extension Project {
     /// Helper function to create the Project for this ExampleApp
-    public static func app(name: String, targetsNames:[String]) -> Project {
-        var targets = makeFrameworkTargets(targetsNames: targetsNames)
+    public static func app(name: String, frameworkTargetsNames:[String]) -> Project {
+        var targets = [Target]()
+        
+        let frameWorkTarget = makeFrameworkTargets(targetsNames: frameworkTargetsNames)
+        
+        let appTarget = makeAppTargets(name: "\(name)TestAppSwiftUI", dependencies: frameworkTargetsNames.map({TargetDependency.target(name: $0)}))
+        
+        targets += frameWorkTarget
+        targets += appTarget
         
         return Project(
             name: name,
@@ -47,36 +54,36 @@ extension Project {
     }
 //
 //    /// Helper function to create the application target and the unit test target.
-//    private static func makeAppTargets(name: String, platform: Platform, dependencies: [TargetDependency]) -> [Target] {
-//        let platform: Platform = platform
-//        let infoPlist: [String: InfoPlist.Value] = [
-//            "CFBundleShortVersionString": "1.0",
-//            "CFBundleVersion": "1",
-//            "UIMainStoryboardFile": "",
-//            "UILaunchStoryboardName": "LaunchScreen"
-//            ]
-//
-//        let mainTarget = Target(
-//            name: name,
-//            platform: platform,
-//            product: .app,
-//            bundleId: "io.tuist.\(name)",
-//            infoPlist: .extendingDefault(with: infoPlist),
-//            sources: ["Targets/\(name)/Sources/**"],
-//            resources: ["Targets/\(name)/Resources/**"],
-//            dependencies: dependencies
-//        )
-//
-//        let testTarget = Target(
-//            name: "\(name)Tests",
-//            platform: platform,
-//            product: .unitTests,
-//            bundleId: "io.tuist.\(name)Tests",
-//            infoPlist: .default,
-//            sources: ["Targets/\(name)/Tests/**"],
-//            dependencies: [
-//                .target(name: "\(name)")
-//        ])
-//        return [mainTarget, testTarget]
-//    }
+    private static func makeAppTargets(name: String, dependencies: [TargetDependency]) -> [Target] {
+        let platform: Platform = .iOS
+        let infoPlist: [String: InfoPlist.Value] = [
+            "CFBundleShortVersionString": "1.0",
+            "CFBundleVersion": "1",
+            "UIMainStoryboardFile": "",
+            "UILaunchStoryboardName": "LaunchScreen"
+            ]
+
+        let mainTarget = Target(
+            name: name,
+            platform: platform,
+            product: .app,
+            bundleId: "com.tao.\(name)",
+            infoPlist: .extendingDefault(with: infoPlist),
+            sources: ["Targets/\(name)/Sources/**"],
+            resources: ["Targets/\(name)/Resources/**"],
+            dependencies: dependencies
+        )
+
+        let testTarget = Target(
+            name: "\(name)Tests",
+            platform: platform,
+            product: .unitTests,
+            bundleId: "io.tuist.\(name)Tests",
+            infoPlist: .default,
+            sources: ["Targets/\(name)/Tests/**"],
+            dependencies: [
+                .target(name: "\(name)")
+        ])
+        return [mainTarget, testTarget]
+    }
 }

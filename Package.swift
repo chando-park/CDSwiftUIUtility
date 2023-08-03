@@ -5,12 +5,17 @@ import PackageDescription
 
 let package = Package(
     name: "CDUtility",
+    platforms: [
+        .iOS(.v13),
+        .macOS(.v10_15)//, tvOS(.v13), watchOS(.v6) 등의 플랫폼 버전을 지정합니다.
+        ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "CDWeb",
             targets: ["CDWeb"]),
     ],
+    
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),

@@ -4,16 +4,54 @@ CDWebview는 SwiftUI에서 사용하는 UIViewRepresentable 프로토콜을 구�
 
 사용방법
 
-import SwiftUI
-import CDWebview
+1. 웹뷰에서 네이티브에 전달할 메세지를 설정합니다. 해당 열거형의 이름이 메세지가 됩니다.
+```
+public enum NativeMessage: String, NativeMessageList_P, CaseIterable{
+    case onInterfaceDownloadStudyGuideFile
+    case onInterfaceShowPopup
+    case onInterfaceMessage
+}
 
-import SwiftUI
-import CDWebview
+- 웹에서는 아래와 같이 호출합니다.
+webkit.messageHandlers.<NativeMessage의 String형태>.postMessage(<body>)
+- 예시
+webkit.messageHandlers.onInterfaceDownloadStudyGuideFile.postMessage(url)
 
+- 그러면 커뮤니 케이터에서 클로저로 아래와 같이 받습니다.
+- message 가 NativeMessage 형태로오게 되고 body가 url이 전달 됩니다.
+@ObservedObject var comunicator = WebViewCommunicator(nativeMessages: NativeMessage.allCases, act: { message, body in
+        
+})
+```
+
+2. CDWebview를 사용하려면 CDWebAddress_P 프로토콜을 구현해야 합니다. 이 프로토콜은 URL과 헤더 정보를 제공합니다.
+```
+public enum Address: String, CDWebAddress_P, CaseIterable{
+    case pdf
+    
+    public var url: URL?{
+        switch self {
+        case .pdf:
+            return URL(string: "https://<주소>")
+        }
+    }
+    
+    public var headers: [String : String]{
+        SharedHeaders.list.common
+    }
+}
+
+```
+```
 struct ContentView: View {
+
+    @ObservedObject var comunicator = WebViewCommunicator(nativeMessages: NativeMessage.allCases, act: { message, body in
+        print("message : \(message)")
+    })
+
     var body: some View {
-        CDWebview(address: YourWebAddress(),
-                  webViewCommunicator: YourWebViewCommunicator(),
+        CDWebview(address: Address.pdf,
+                  webViewCommunicator: comunicator,
                   onStarted: {
                       // WebView가 시작되었을 때 수행할 동작
                   },
@@ -25,6 +63,8 @@ struct ContentView: View {
                   })
     }
 }
+```
+
 
 
 

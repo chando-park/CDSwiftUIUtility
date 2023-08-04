@@ -2,20 +2,21 @@ import UIKit
 import SwiftUI
 import WebKit
 
-public struct CDWebview<NativeMessage:NativeFuntionList_P, Address: CDWebAddress_P>: UIViewRepresentable {
+public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress_P>: UIViewRepresentable {
+
     private let address: Address
     
-    public var onStarted: (() -> Void)? = nil
-    public var onFinished: (() -> Void)? = nil
-    public var onError: ((_ message: String?) -> Void)? = nil
+    private var onStarted: (() -> Void)? = nil
+    private var onFinished: ((_ webView: WKWebView) -> Void)? = nil
+    private var onError: ((_ message: CDWebError?) -> Void)? = nil
 
     @ObservedObject var webViewCommunicator: WebViewCommunicator<NativeMessage>
     
     public init(address: Address,
                 webViewCommunicator: WebViewCommunicator<NativeMessage>,
                 onStarted: (() -> Void)? = nil,
-                onFinished: (() -> Void)? = nil,
-                onError: ((_: String?) -> Void)? = nil) {
+                onFinished: ((_ webView: WKWebView) -> Void)? = nil,
+                onError: ((_: CDWebError?) -> Void)? = nil) {
         
         self.webViewCommunicator = webViewCommunicator
         self.address = address
@@ -37,7 +38,7 @@ public struct CDWebview<NativeMessage:NativeFuntionList_P, Address: CDWebAddress
             uiView.load(request)
             print("loadHtml allHTTPHeaderFields \(String(describing: request.allHTTPHeaderFields))")
         }else{
-            self.onError?("Invalid url")
+            self.onError?(.invalidURL)
         }
     }
     
@@ -62,11 +63,13 @@ public struct CDWebview<NativeMessage:NativeFuntionList_P, Address: CDWebAddress
         }
         
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            self.owner.onFinished?()
+            self.owner.onFinished?(webView)
         }
         
         public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            self.owner.onError?(error.localizedDescription)
+            let code = (error as NSError).code
+            let message = error.localizedDescription
+            self.owner.onError?(.specificError(code, message))
         }
     }
 }

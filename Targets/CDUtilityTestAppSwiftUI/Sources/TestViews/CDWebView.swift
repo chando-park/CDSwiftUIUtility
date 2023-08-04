@@ -8,7 +8,7 @@
 import SwiftUI
 import CDWeb
 
-public enum JS_native_call_message: String, NativeFuntionList_P, CaseIterable{
+public enum NativeMessage: String, NativeMessageList_P, CaseIterable{
     case onInterfaceDownloadStudyGuideFile
     case onInterfaceShowPopup
     case onInterfaceMessage
@@ -30,7 +30,7 @@ public enum Address: String, CDWebAddress_P, CaseIterable{
 }
 
 struct WebTestView: View {
-    @ObservedObject var comunicator = WebViewCommunicator(nativeMessages: JS_native_call_message.allCases, act: { message, body in
+    @ObservedObject var comunicator = WebViewCommunicator(nativeMessages: NativeMessage.allCases, act: { message, body in
         print("message : \(message)")
     })
     var body: some View {

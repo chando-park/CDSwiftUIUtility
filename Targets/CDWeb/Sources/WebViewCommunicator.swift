@@ -7,7 +7,7 @@
 
 import WebKit
 
-public class WebViewCommunicator<NativeMessage: NativeFuntionList_P>: ObservableObject {
+public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: ObservableObject {
     
     weak var webView: WKWebView?
     let nativeMessages: [NativeMessage]

@@ -7,6 +7,9 @@ CDWebview는 SwiftUI에서 사용하는 UIViewRepresentable 프로토콜을 구�
 import SwiftUI
 import CDWebview
 
+import SwiftUI
+import CDWebview
+
 struct ContentView: View {
     var body: some View {
         CDWebview(address: YourWebAddress(),
@@ -22,5 +25,6 @@ struct ContentView: View {
                   })
     }
 }
+
 
 

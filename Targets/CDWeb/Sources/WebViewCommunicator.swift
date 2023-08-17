@@ -11,9 +11,10 @@ public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: Observable
     
     weak var webView: WKWebView?
     let nativeMessages: [NativeMessage]
-    let act: (_ nativeMessage: NativeMessage,_ body: String) -> Void
+    let act: (_ nativeMessage: NativeMessage,_ body: String, _ webview: WKWebView?) -> Void
 
-    public init(nativeMessages: [NativeMessage], act: @escaping (_: NativeMessage, _: String) -> Void) {
+    public init(webView: WKWebView? = nil, nativeMessages: [NativeMessage], act: @escaping (_: NativeMessage, _: String, _: WKWebView?) -> Void) {
+        self.webView = webView
         self.nativeMessages = nativeMessages
         self.act = act
     }
@@ -25,7 +26,7 @@ public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: Observable
     func actInNavive(message: WKScriptMessage){
         if let nm = NativeMessage(rawValue: message.name),
            let messagebody = message.body as? String{
-            act(nm,messagebody)
+            act(nm,messagebody,webView)
         }
         
     }    

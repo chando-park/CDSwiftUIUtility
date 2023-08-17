@@ -30,7 +30,7 @@ public enum Address: String, CDWebAddress_P, CaseIterable{
 }
 
 struct WebTestView: View {
-    @ObservedObject var comunicator = WebViewCommunicator(nativeMessages: NativeMessage.allCases, act: { message, body in
+    @ObservedObject var comunicator = WebViewCommunicator(nativeMessages: NativeMessage.allCases, act: { message, body, webview in
         print("message : \(message)")
     })
     var body: some View {

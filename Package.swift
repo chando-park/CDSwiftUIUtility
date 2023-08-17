@@ -14,6 +14,9 @@ let package = Package(
         .library(
             name: "CDWeb",
             targets: ["CDWeb"]),
+        .library(
+            name: "CDSheetRouter",
+            targets: ["CDSheetRouter"]),
     ],
     
     dependencies: [
@@ -27,10 +30,21 @@ let package = Package(
             name: "CDWeb",
             dependencies: [],
             path: "Targets/CDWeb/Sources"),
-        .testTarget(
-            name: "CDWebTests",
-            dependencies: ["CDWeb"],
-            path: "Targets/CDWeb/Tests"),
+        
+            .testTarget(
+                name: "CDWebTests",
+                dependencies: ["CDWeb"],
+                path: "Targets/CDWeb/Tests"),
+        
+            .target(
+                name: "CDSheetRouter",
+                dependencies: [],
+                path: "Targets/CDSheetRouter/Sources"),
+        
+            .testTarget(
+                name: "CDSheetRouterTests",
+                dependencies: ["CDSheetRouter"],
+                path: "Targets/CDSheetRouter/Tests"),
         
     ]
 )

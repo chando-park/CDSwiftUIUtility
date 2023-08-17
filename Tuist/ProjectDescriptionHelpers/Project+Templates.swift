@@ -7,6 +7,11 @@ import ProjectDescription
 
 extension Project {
     /// Helper function to create the Project for this ExampleApp
+    ///
+    static var iOSTargetVersion: String {
+        "14.0"
+    }
+    
     public static func app(name: String, frameworkTargetsNames:[String]) -> Project {
         var targets = [Target]()
         
@@ -32,16 +37,16 @@ extension Project {
                                  platform: .iOS,
                                  product: .framework,
                                  bundleId: "com.tao.\(name)",
-                                 deploymentTarget: .iOS(targetVersion: "13.0", devices: [.ipad,.iphone,.mac]),
+                                 deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.ipad,.iphone,.mac]),
                                  infoPlist: .default,
                                  sources: ["Targets/\(name)/Sources/**"],
-                                 resources: ["Targets/\(name)/Resources/**"],
+//                                 resources: ["Targets/\(name)/Resources/**"],
                                  dependencies: [])
             let tests = Target(name: "\(name)Tests",
                                platform: .iOS,
                                product: .unitTests,
                                bundleId: "com.tao.\(name)Tests",
-                               deploymentTarget: .iOS(targetVersion: "13.0", devices: [.ipad,.iphone,.mac]),
+                               deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.ipad,.iphone,.mac]),
                                infoPlist: .default,
                                sources: ["Targets/\(name)/Tests/**"],
                                resources: [],
@@ -70,7 +75,7 @@ extension Project {
             platform: platform,
             product: .app,
             bundleId: "com.tao.\(name)",
-            deploymentTarget: .iOS(targetVersion: "13.0", devices: [.ipad,.iphone,.mac]),
+            deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.ipad,.iphone,.mac]),
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Targets/\(name)/Sources/**"],
             resources: ["Targets/\(name)/Resources/**"],
@@ -82,7 +87,7 @@ extension Project {
             platform: platform,
             product: .unitTests,
             bundleId: "io.tuist.\(name)Tests",
-            deploymentTarget: .iOS(targetVersion: "13.0", devices: [.ipad,.iphone,.mac]),
+            deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.ipad,.iphone,.mac]),
             infoPlist: .default,
             sources: ["Targets/\(name)/Tests/**"],
             dependencies: [

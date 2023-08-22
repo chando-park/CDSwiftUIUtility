@@ -25,5 +25,6 @@ let localHelper = LocalHelper(name: "MyPlugin")
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers CDUtility
 let project = Project.app(name: "CDUtility",
-                          frameworkTargetsNames: ["CDWeb","CDSheetRouter"])
-//Project.app(name: "CDUtility", targetsNames: ["CDWeb"])
+                          frameworkTargetsNames: ["CDWeb",
+                                                  "CDSheetRouter",
+                                                  "CDNavigation"])

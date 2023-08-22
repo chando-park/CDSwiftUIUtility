@@ -1,5 +1,5 @@
 //
-//  Coordinator.swift
+//  Route.swift
 //  Phonics
 //
 //  Created by LittleFoxiOSDeveloper on 2023/06/28.
@@ -10,35 +10,36 @@ import Foundation
 import SwiftUI
 import Combine
 
-
-public struct Routering<SheetRouter: SheetRouterProtocol>: ViewModifier {
+public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
     @Binding var sheets: [SheetRouterContext<SheetRouter>]
     
-    
     private var isActiveBinding: Binding<Bool> {
-        if sheets.count == 0 {
+        if sheets.isEmpty {
             return .constant(false)
-        }else{
+        } else {
             return Binding(
-                get: {
-                    sheets.count > 0
-                },
+                get: { sheets.isEmpty == false },
                 set: { isShowing in
-                    if isShowing == false{
-                        if  let _ = sheets.last{
-                            sheets.removeLast()
-                        }
+                    if !isShowing, let _ = sheets.last {
+                        sheets.removeLast()
                     }
-                })
+                }
+            )
         }
     }
     
-    private var isPusheSheeted: Binding<Bool> {
+    private var isPushSheeted: Binding<Bool> {
         sheets.last?.animation == .push ? isActiveBinding : .constant(false)
     }
     
     private var isFullSheeted: Binding<Bool> {
-        sheets.last?.animation == .full ? isActiveBinding : .constant(false)
+        
+        switch sheets.last?.animation {
+        case .full(_):
+            return isActiveBinding
+        default:
+            return .constant(false)
+        }
     }
     
     private var isFrontSheeted: Binding<Bool> {
@@ -46,27 +47,28 @@ public struct Routering<SheetRouter: SheetRouterProtocol>: ViewModifier {
     }
     
     public func body(content: Content) -> some View {
-        
         if sheets.isEmpty {
             content
-        }else{
+        } else {
             content
                 .fullScreenCover(isPresented: isFullSheeted) {
                     sheets.last?.router.buildView(isSheeted: isFullSheeted)
+                        
                 }
-                .sheet(isPresented: isFrontSheeted, content: {
+                .sheet(isPresented: isFrontSheeted) {
                     sheets.last?.router.buildView(isSheeted: isFrontSheeted)
-                })
+                }
                 .background(
                     NavigationLink(
-                        destination: sheets.last?.router.buildView(isSheeted: isPusheSheeted),
-                        isActive: isPusheSheeted,
+                        destination: sheets.last?.router.buildView(isSheeted: isPushSheeted),
+                        isActive: isPushSheeted,
                         label: EmptyView.init
                     )
                     .hidden()
                 )
+                .transaction({ t in
+                    t.disablesAnimations = sheets.last?.animation.isAnimationOn == false
+                })
         }
-        
-        
     }
 }

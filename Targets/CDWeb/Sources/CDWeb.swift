@@ -28,8 +28,10 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
     public func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         webView.navigationDelegate = context.coordinator
-        webView.configuration.userContentController.addScriptMessages(context.coordinator, messages: webViewCommunicator.nativeMessages)
+        
         webViewCommunicator.webView = webView
+        webViewCommunicator.addScriptMessages(context.coordinator)
+        
         return webView
     }
     
@@ -41,6 +43,8 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
             self.onError?(.invalidURL)
         }
     }
+    
+    
     
     public func makeCoordinator() -> WebSlave {
         WebSlave(owner: self)

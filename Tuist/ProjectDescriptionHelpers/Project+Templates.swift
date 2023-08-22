@@ -40,7 +40,7 @@ extension Project {
                                  deploymentTarget: .iOS(targetVersion: iOSTargetVersion, devices: [.ipad,.iphone,.mac]),
                                  infoPlist: .default,
                                  sources: ["Targets/\(name)/Sources/**"],
-//                                 resources: ["Targets/\(name)/Resources/**"],
+                                 resources: ["Targets/\(name)/Resources/**"],
                                  dependencies: [])
             let tests = Target(name: "\(name)Tests",
                                platform: .iOS,

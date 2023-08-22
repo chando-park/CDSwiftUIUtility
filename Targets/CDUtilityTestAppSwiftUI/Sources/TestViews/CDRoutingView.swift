@@ -13,9 +13,7 @@ enum SheetRouter: SheetRouterProtocol {
     case fullsheet
     case frontsheet
     case pushsheet
-    
-    var id: String { "\(self)" }
-    
+  
     @ViewBuilder func buildView(isSheeted: Binding<Bool>) -> some View {
         switch self {
         case .fullsheet:
@@ -37,15 +35,11 @@ struct CDRoutingView: View {
         List {
             Section {
                 Button("full") {
-                    router.go(.fullsheet, animation: .full)
+                    router.go(.fullsheet, animation: .full(animationOn: false))
                 }
-            }
-            Section {
                 Button("push") {
                     router.go(.pushsheet, animation: .push)
                 }
-            }
-            Section {
                 Button("front") {
                     router.go(.frontsheet, animation: .front)
                 }
@@ -59,6 +53,7 @@ struct CDRoutingTestingView: View{
     var body: some View {
         NavigationView {
             CDRoutingView(router: SheetRouterOperator<SheetRouter>())
+                .navigationTitle("Sheet Animation")
         }
     }
 }

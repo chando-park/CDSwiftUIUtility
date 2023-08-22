@@ -16,11 +16,19 @@ public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: Observable
     public init(webView: WKWebView? = nil, nativeMessages: [NativeMessage], act: @escaping (_: NativeMessage, _: String, _: WKWebView?) -> Void) {
         self.webView = webView
         self.nativeMessages = nativeMessages
-        self.act = act
+        self.act = act        
     }
 
     public func sendMessageToWeb<Fuction:JavascripFunctionList_P>(function: Fuction, param: [String]?) {
         self.webView?.callJavaScript(function: function,param: param)
+    }
+    
+    public func addScriptMessages(_ handler: WKScriptMessageHandler){
+        self.webView?.configuration.userContentController.addScriptMessages(handler, messages: self.nativeMessages)
+    }
+    
+    public func removeScriptMessages(){
+        self.webView?.configuration.userContentController.removeScriptMessages(messages: self.nativeMessages)
     }
     
     func actInNavive(message: WKScriptMessage){

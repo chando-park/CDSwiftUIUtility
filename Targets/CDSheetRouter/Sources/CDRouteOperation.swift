@@ -22,7 +22,7 @@ public class SheetRouterOperator<SheetRouter:SheetRouterProtocol>: ObservableObj
 
 public extension View {
     func routering<SheetRouter: SheetRouterProtocol>(_ sheets: Binding<[SheetRouterContext<SheetRouter>]>) -> some View {
-        modifier(Routering(sheets: sheets))
+        modifier(MovingRoute(sheets: sheets))
     }
 }
 

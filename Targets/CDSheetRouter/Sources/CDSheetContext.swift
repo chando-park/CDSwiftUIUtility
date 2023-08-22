@@ -7,11 +7,25 @@
 
 import SwiftUI
 
-public enum SheetAnimation{
-    case none
-    case full
+public enum SheetAnimation: Equatable{
+    case full(animationOn: Bool)
     case front
     case push
+    
+    var isAnimationOn: Bool{
+        switch self {
+        case .full(let animationOn):
+            return animationOn
+        case .front:
+            return true
+        case .push:
+            return true
+        }
+    }
+    
+    static public func == (lhs: SheetAnimation, rhs: SheetAnimation) -> Bool {
+        "\(lhs.self)" == "\(rhs.self)"
+    }
 }
 
 public protocol SheetRouterProtocol: Identifiable, Equatable {
@@ -28,5 +42,7 @@ public extension SheetRouterProtocol{
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id
     }
+    
+    var id: String { "\(self)" }
 }
 

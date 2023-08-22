@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "CDUtility",
     platforms: [
-        .iOS(.v13),
+        .iOS(.v14),
         .macOS(.v10_15)//, tvOS(.v13), watchOS(.v6) 등의 플랫폼 버전을 지정합니다.
         ],
     products: [
@@ -17,6 +17,9 @@ let package = Package(
         .library(
             name: "CDSheetRouter",
             targets: ["CDSheetRouter"]),
+        .library(
+            name: "CDNavigation",
+            targets: ["CDNavigation"]),
     ],
     
     dependencies: [
@@ -45,6 +48,16 @@ let package = Package(
                 name: "CDSheetRouterTests",
                 dependencies: ["CDSheetRouter"],
                 path: "Targets/CDSheetRouter/Tests"),
+        
+            .target(
+                name: "CDNavigation",
+                dependencies: [],
+                path: "Targets/CDNavigation/Sources"),
+        
+            .testTarget(
+                name: "CDNavigationTests",
+                dependencies: ["CDNavigation"],
+                path: "Targets/CDNavigation/Tests"),
         
     ]
 )

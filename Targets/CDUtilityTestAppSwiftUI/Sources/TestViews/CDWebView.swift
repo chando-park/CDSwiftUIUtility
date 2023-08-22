@@ -25,7 +25,9 @@ public enum Address: String, CDWebAddress_P, CaseIterable{
     }
     
     public var headers: [String : String]{
-        SharedHeaders.list.common
+        var h = SharedHeaders.list.common
+        h["api-user-agent"] = "LF_APP_iOS:phone/2.7.9/iPhone15,2/iOS:16.6"
+        return h
     }
 }
 

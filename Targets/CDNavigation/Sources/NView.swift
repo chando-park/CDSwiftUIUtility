@@ -10,60 +10,71 @@ import Foundation
 import UIKit
 import SwiftUI
 
-public class NController: UINavigationController {
-    
-    private let topInset: CGFloat
-    
-//    override var preferredStatusBarStyle: UIStatusBarStyle {
-//        return .lightContent
-//    }
-    
-    init(topInset:CGFloat, rootViewController: UIViewController) {
-        self.topInset = topInset
-        super.init(rootViewController: rootViewController)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        additionalSafeAreaInsets.top = self.topInset
-    }
-}
+
 
 public struct NView<Content: View>: UIViewControllerRepresentable {
     
     @Binding var statusBarColor: Color
-    @Binding var bgImage: UIImage?
+    @Binding var navigationBarBackgroundType: ConvertedNavigationController.NavigationBarBackgroundType
+    @Binding var navigationBarTitleType: ConvertedNavigationController.NavigationBarTitleType
+    @Binding var closeImage: UIImage?
+    @Binding var backImage: UIImage?
+    @Binding var isNavigationBarHidden: Bool
+    @Binding var isBackBtnHidden: Bool
+    @Binding var isCloseBtnHidden: Bool
     
     var topInset: CGFloat
     
-    var configure:((NController) -> Void)? = nil
     var content: () -> Content
     
     var callback: (UINavigationController, UIViewController) -> Void
-
-    public func makeUIViewController(context: Context) -> NController {
-        let navigationController = NController(topInset: topInset, rootViewController: UIHostingController(rootView: content()))
+    
+    
+    public init(statusBarColor: Binding<Color>,
+                navigationBarBackgroundType: Binding<ConvertedNavigationController.NavigationBarBackgroundType>,
+                navigationBarTitleType: Binding<ConvertedNavigationController.NavigationBarTitleType>,
+                closeImage: Binding<UIImage?>,
+                backImage: Binding<UIImage?>,
+                isNavigationBarHidden: Binding<Bool>,
+                isBackBtnHidden: Binding<Bool>,
+                isCloseBtnHidden: Binding<Bool>,
+                topInset: CGFloat, // topInset 추가
+                content: @escaping () -> Content, // content 추가
+                callback: @escaping (UINavigationController, UIViewController) -> Void) {
+        _statusBarColor = statusBarColor
+        _navigationBarBackgroundType = navigationBarBackgroundType
+        _navigationBarTitleType = navigationBarTitleType
+        _closeImage = closeImage
+        _backImage = backImage
+        _isNavigationBarHidden = isNavigationBarHidden
+        _isBackBtnHidden = isBackBtnHidden
+        _isCloseBtnHidden = isCloseBtnHidden
+        self.topInset = topInset // topInset 초기화
+        self.content = content // content 초기화
+        self.callback = callback
+    }
+    
+    public func makeUIViewController(context: Context) -> ConvertedNavigationController {
+        
+        let root = content()
+            .isNViewBackButtonHiddenView(true)
+        let navigationController = ConvertedNavigationController(topInset: topInset,
+                                                                 navigationBarBackgroundType: navigationBarBackgroundType,
+                                                                 navigationBarTitleType: navigationBarTitleType,
+                                                                 closeImage: closeImage,
+                                                                 backImage: backImage,
+                                                                 rootViewController: UIHostingController(rootView: root))
         navigationController.delegate = context.coordinator
         return navigationController
     }
     
-    public func updateUIViewController(_ uiViewController: NController, context: Context) {
+    public func updateUIViewController(_ uiViewController: ConvertedNavigationController, context: Context) {
 
         uiViewController.setStatusBar(color: UIColor(self.statusBarColor))
-        uiViewController.additionalSafeAreaInsets.top = self.topInset - UINavigationController().navigationBar.frame.size.height
+        uiViewController.isNaviBarHidden = self.isNavigationBarHidden
+        uiViewController.isBackBtnHidden = self.isBackBtnHidden
+        uiViewController.isCloseBtnHidden = self.isCloseBtnHidden
         
-        let v = UIImageView(frame: CGRect(origin: CGPoint(x: 0,
-                                                          y: uiViewController.statusBarHeight),
-                                          size: CGSize(width: uiViewController.view.frame.size.width,
-                                                       height: self.topInset)))
-        v.image = self.bgImage
-        uiViewController.view.addSubview(v)
-        
-        self.configure?(uiViewController)
     }
     
     public func makeCoordinator() -> NavigationSlave {
@@ -79,63 +90,18 @@ public struct NView<Content: View>: UIViewControllerRepresentable {
             self.owner = owner
         }
         
-        public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
             self.owner.callback(navigationController, viewController)
+            
+            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: viewController).subjectType)")
+
         }
-        
-    }
-}
-
-struct TestView: View{
-    @State var statusBarColor: Color = .green
-    @State var bgImage: UIImage? = UIImage(named: Bundle.module.bundlePath + "/top-bg-img.png")
-    
-    var body: some View{
-        
-        NView(
-            statusBarColor: $statusBarColor,
-            bgImage: $bgImage,
-            topInset: 180) {
-                ZStack{
-                    Color.yellow
-                    NavigationLink("new") {
-                        SecoundScreenView()
-                    }
-                }
-            } callback: { n, c in
-                print("n \(n), c \(c.self)")
-                if n.children.count > 1 {
-                    self.bgImage = nil
-                }else{
-                    self.bgImage = UIImage(named: Bundle.module.bundlePath + "/top-bg-img.png")
-                }
-                
-                
-            }
-            .ignoresSafeArea()
-        
-        
-    }
-}
-
-
-struct NView_Previews: PreviewProvider {
-    static var previews: some View {
-        TestView()
     }
 }
 
 
 
-struct SecoundScreenView: View {
 
-    var body: some View {
-        VStack(spacing: 0){
-            Color.black
-            Color.gray
-        }//.ignoresSafeArea()
-    }
-}
 
 public extension UIViewController{
     

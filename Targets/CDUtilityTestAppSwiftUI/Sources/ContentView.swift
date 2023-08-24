@@ -13,6 +13,7 @@ import CDSheetRouter
 enum AppRouter: SheetRouterProtocol {
     case web
     case router
+    case navigation
     
     var id: String { "\(self)" }
     
@@ -22,6 +23,8 @@ enum AppRouter: SheetRouterProtocol {
             WebTestView()
         case .router:
             CDRoutingTestingView()
+        case .navigation:
+            NavigtionTestView()
         }
     }
 
@@ -39,6 +42,9 @@ struct ContentView: View{
                 }
                 Button("router") {
                     router.go(.router, animation: .push)
+                }
+                Button("navigation") {
+                    router.go(.navigation, animation: .full(animationOn: true))
                 }
             }
         }

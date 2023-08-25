@@ -15,9 +15,15 @@ public class ConvertedNavigationController: UINavigationController {
         case paint(color: UIColor)
     }
     
-    public enum NavigationBarTitleType{
+    public enum NavigationBarTitleType: Equatable{
 //        case image(image: UIImage)
         case text(title: String?, color: UIColor?)
+        var title: String?{
+            switch self {
+            case .text(let title, _):
+                return title
+            }
+        }
     }
     
     private let topInset: CGFloat
@@ -28,6 +34,8 @@ public class ConvertedNavigationController: UINavigationController {
     
     private var titleLabel: UILabel?
 //    private var titleLabel: UILabel?
+    
+    private var statusbarView: UIView!
     
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -42,7 +50,6 @@ public class ConvertedNavigationController: UINavigationController {
                     self.naviBar?.frame.origin.y = self.statusBarHeight
                 }
             }
-            
         }
     }
     
@@ -80,7 +87,6 @@ public class ConvertedNavigationController: UINavigationController {
                     closeBtn.frame.origin.x = self.view.frame.size.width - left - closeBtn.frame.size.width
                 }
             }
-            
         }
     }
     
@@ -94,7 +100,7 @@ public class ConvertedNavigationController: UINavigationController {
                 self.titleLabel?.sizeToFit()
                 self.titleLabel?.center.x = self.naviBar!.frame.size.width/2
                 self.titleLabel?.frame.origin.y = (self.topInset - (self.titleLabel?.frame.size.height ?? 0))/2 + self.statusBarHeight
-                
+
                 break
             default:
                 break
@@ -159,6 +165,21 @@ public class ConvertedNavigationController: UINavigationController {
         
         self.navigationBarTitleType = navigationBarTitleType
         
+        self.statusbarView = UIView()
+        self.view.addSubview(statusbarView)
+        
+        statusbarView.translatesAutoresizingMaskIntoConstraints = false
+        statusbarView.heightAnchor
+            .constraint(equalToConstant: statusBarHeight).isActive = true
+        statusbarView.widthAnchor
+            .constraint(equalTo: self.view.widthAnchor, multiplier: 1.0).isActive = true
+        statusbarView.topAnchor
+            .constraint(equalTo: self.view.topAnchor).isActive = true
+        statusbarView.centerXAnchor
+            .constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        self.navigationBar.backgroundColor = .clear
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -171,5 +192,12 @@ public class ConvertedNavigationController: UINavigationController {
     
     @objc private func closeCallback(_ sender: UIButton){
         self.dismiss(animated: true)
+    }
+    
+    func setStatusBar(color: UIColor){
+        UIView.animate(withDuration: 0.2) {
+            self.statusbarView.backgroundColor = color
+        }
+        
     }
 }

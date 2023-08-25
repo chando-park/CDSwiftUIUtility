@@ -12,9 +12,14 @@ public struct CDNavigationView<Content: View>: View{
     @ObservedObject var config: CDNavigationViewConfiguration
     var content: () -> Content
     
+    public init(config: CDNavigationViewConfiguration, content: @escaping () -> Content) {
+        self.config = config
+        self.content = content
+    }
+    
     public var body: some View{
         
-        NView(
+        CDRawNaviationView(
             statusBarColor: $config.statusBarColor,
             navigationBarBackgroundType:  $config.navigationBarBackgroundType,
             navigationBarTitleType: $config.navigationBarTitleType,
@@ -23,21 +28,29 @@ public struct CDNavigationView<Content: View>: View{
             isNavigationBarHidden:  $config.isNavigationBarHidden,
             isBackBtnHidden:  $config.isBackBtnHidden,
             isCloseBtnHidden:  $config.isCloseBtnHidden,
-            topInset: UIScreen.main.bounds.height*(183/2436),content: content,
+            topInset: UIScreen.main.bounds.height*(183/2436),
+            content: content,
             callback: { n, c in
-//                print("n \(n), c \(c.self)")
-                if n.children.count > 1 {
-//                    self.isNavigationBarHidden = true
-//                    self.isBackBtnHidden = false
-                    
-                }else{
-//                    self.isNavigationBarHidden = false
-//                    self.isBackBtnHidden = true
-                }
             })
             .onPreferenceChange(NViewBackButtonHiddenPreferenceKey.self) { isHidden in
-                print("isHidden \(isHidden)")
                 config.isBackBtnHidden = isHidden
+            }
+            .onPreferenceChange(NViewTitlePreferenceKey.self) { title in
+                if let t = title{
+                    config.navigationBarTitleType = t
+                }
+            }
+            .onPreferenceChange(NViewStatusBarColorPreferenceKey.self) { color in
+                config.statusBarColor = color
+                
+            }
+            .onPreferenceChange(NViewBarHiddenPreferenceKey.self) { isHidden in
+                config.isNavigationBarHidden = isHidden
+                
+            }
+            .onPreferenceChange(NViewCloseButtonHiddenPreferenceKey.self) { isHidden in
+                config.isCloseBtnHidden = isHidden
+                
             }
             .ignoresSafeArea([.container])
         
@@ -59,7 +72,11 @@ struct NView_Previews: PreviewProvider {
                 Color.yellow
                 NavigationLink("new") {
                     SecoundScreenView()
-                        .isNViewBackButtonHiddenView(false)
+                        .nViewTitle(.text(title: "회원 가입", color: .black))
+                        .isNViewBackButtonHidden(false)
+                        .nViewStatusBarColor(.purple)
+                        .nViewIsNaviBarHidden()
+                        .nViewIsCloseButtonHidden()
                         .navigationBarBackButtonHidden()
                 }
             }
@@ -71,14 +88,20 @@ struct NView_Previews: PreviewProvider {
 
 struct SecoundScreenView: View {
 
+    @State private var items = Array(1...20) // 초기 데이터
+    
     var body: some View {
-        VStack(spacing: 0){
-            Color.black
-            Color.gray
+        List(items, id: \.self) { item in
+            Text("Item \(item)")
+                .onAppear {
+                    if item == items.last {
+                        // 리스트의 마지막 아이템이 나타나면 새로운 데이터를 추가
+//                        loadMoreData()//
+                        print("isLast")
+                    }
+                }
         }
-        .onAppear(perform: {
-//            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: self).subjectType)")
-        })
         .ignoresSafeArea([.container])
+//        .edgesIgnoringSafeArea([.top])
     }
 }

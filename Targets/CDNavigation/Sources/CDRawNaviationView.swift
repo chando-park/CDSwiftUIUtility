@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 import SwiftUI
 
-
-
-public struct NView<Content: View>: UIViewControllerRepresentable {
+public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
     
     @Binding var statusBarColor: Color
     @Binding var navigationBarBackgroundType: ConvertedNavigationController.NavigationBarBackgroundType
@@ -57,7 +55,12 @@ public struct NView<Content: View>: UIViewControllerRepresentable {
     public func makeUIViewController(context: Context) -> ConvertedNavigationController {
         
         let root = content()
-            .isNViewBackButtonHiddenView(true)
+            .isNViewBackButtonHidden(true)
+            .nViewTitle(self.navigationBarTitleType)
+            .nViewStatusBarColor(self.statusBarColor)
+            .nViewIsNaviBarHidden(self.isNavigationBarHidden)
+            .nViewIsCloseButtonHidden(false)
+            .ignoresSafeArea([.container])
         let navigationController = ConvertedNavigationController(topInset: topInset,
                                                                  navigationBarBackgroundType: navigationBarBackgroundType,
                                                                  navigationBarTitleType: navigationBarTitleType,
@@ -74,6 +77,7 @@ public struct NView<Content: View>: UIViewControllerRepresentable {
         uiViewController.isNaviBarHidden = self.isNavigationBarHidden
         uiViewController.isBackBtnHidden = self.isBackBtnHidden
         uiViewController.isCloseBtnHidden = self.isCloseBtnHidden
+        uiViewController.navigationBarTitleType = self.navigationBarTitleType
         
     }
     
@@ -84,16 +88,16 @@ public struct NView<Content: View>: UIViewControllerRepresentable {
     
     public class NavigationSlave: NSObject, UINavigationControllerDelegate{
         
-        var owner: NView
+        var owner: CDRawNaviationView
         
-        public init(owner: NView) {
+        public init(owner: CDRawNaviationView) {
             self.owner = owner
         }
         
-        public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
             self.owner.callback(navigationController, viewController)
-            
-            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: viewController).subjectType)")
+            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: self.owner).subjectType)")
+            print("viewController \(viewController)")
 
         }
     }
@@ -104,27 +108,10 @@ public struct NView<Content: View>: UIViewControllerRepresentable {
 
 
 public extension UIViewController{
-    
     var statusBarHeight : CGFloat {
         if let safeFrame = UIApplication.shared.windows.first?.safeAreaInsets{
             return Swift.max(safeFrame.top, safeFrame.left)
         }
         return 0
-    }
-    
-    func setStatusBar(color: UIColor){
-        let statusbarView = UIView()
-        statusbarView.backgroundColor = color
-        self.view.addSubview(statusbarView)
-        
-        statusbarView.translatesAutoresizingMaskIntoConstraints = false
-        statusbarView.heightAnchor
-            .constraint(equalToConstant: statusBarHeight).isActive = true
-        statusbarView.widthAnchor
-            .constraint(equalTo: self.view.widthAnchor, multiplier: 1.0).isActive = true
-        statusbarView.topAnchor
-            .constraint(equalTo: self.view.topAnchor).isActive = true
-        statusbarView.centerXAnchor
-            .constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
 }

@@ -44,10 +44,13 @@ public class ConvertedNavigationController: UINavigationController {
     var isNaviBarHidden: Bool = false{
         didSet{
             UIView.animate(withDuration: 0.3) {
+                self.navigationBar.isHidden = self.isNaviBarHidden
                 if self.isNaviBarHidden{
                     self.naviBar?.frame.origin.y = -(self.statusBarHeight + UINavigationController().navigationBar.frame.size.height)
+                    self.additionalSafeAreaInsets.top = 0
                 }else{
                     self.naviBar?.frame.origin.y = self.statusBarHeight
+                    self.additionalSafeAreaInsets.top = self.topInset - UINavigationController().navigationBar.frame.size.height
                 }
             }
         }

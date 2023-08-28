@@ -60,7 +60,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
             .nViewStatusBarColor(self.statusBarColor)
             .nViewIsNaviBarHidden(self.isNavigationBarHidden)
             .nViewIsCloseButtonHidden(false)
-            .ignoresSafeArea([.container])
+//            .ignoresSafeArea([.container])
         let navigationController = ConvertedNavigationController(topInset: topInset,
                                                                  navigationBarBackgroundType: navigationBarBackgroundType,
                                                                  navigationBarTitleType: navigationBarTitleType,

@@ -64,6 +64,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
         let navigationController = ConvertedNavigationController(topInset: topInset,
                                                                  navigationBarBackgroundType: navigationBarBackgroundType,
                                                                  navigationBarTitleType: navigationBarTitleType,
+                                                                 statusBarColor: UIColor(statusBarColor),
                                                                  closeImage: closeImage,
                                                                  backImage: backImage,
                                                                  rootViewController: UIHostingController(rootView: root))

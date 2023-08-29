@@ -15,7 +15,7 @@ struct NavigtionTestView: View{
                                                                navigationBarTitleType: .text(title: "회원 탈퇴", color: .white),
                                                                closeImage: UIImage(named: "home-menu.png"),
                                                                backImage: UIImage(named: "pre-menu.png"),
-                                                               isNavigationBarHidden: true,
+                                                               isNavigationBarHidden: false,
                                                                isBackBtnHidden: true,
                                                                isCloseBtnHidden: false)){
             ZStack{

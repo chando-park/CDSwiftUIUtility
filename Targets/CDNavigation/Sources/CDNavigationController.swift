@@ -114,7 +114,7 @@ public class ConvertedNavigationController: UINavigationController {
         }
     }
     
-    init(topInset:CGFloat, navigationBarBackgroundType: NavigationBarBackgroundType, navigationBarTitleType: NavigationBarTitleType, closeImage: UIImage?, backImage: UIImage?, rootViewController: UIViewController) {
+    init(topInset:CGFloat, navigationBarBackgroundType: NavigationBarBackgroundType, navigationBarTitleType: NavigationBarTitleType, statusBarColor: UIColor, closeImage: UIImage?, backImage: UIImage?, rootViewController: UIViewController) {
         self.topInset = topInset
         super.init(rootViewController: rootViewController)
         
@@ -169,6 +169,7 @@ public class ConvertedNavigationController: UINavigationController {
         self.navigationBarTitleType = navigationBarTitleType
         
         self.statusbarView = UIView()
+        self.statusbarView.backgroundColor = statusBarColor
         self.view.addSubview(statusbarView)
         
         statusbarView.translatesAutoresizingMaskIntoConstraints = false
@@ -198,7 +199,7 @@ public class ConvertedNavigationController: UINavigationController {
     }
     
     func setStatusBar(color: UIColor){
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: 0.1) {
             self.statusbarView.backgroundColor = color
         }
         

@@ -199,9 +199,9 @@ public class ConvertedNavigationController: UINavigationController {
     }
     
     func setStatusBar(color: UIColor){
-        UIView.animate(withDuration: 0.1) {
+//        UIView.animate(withDuration: 0.1) {
             self.statusbarView.backgroundColor = color
-        }
+//        }
         
     }
 }

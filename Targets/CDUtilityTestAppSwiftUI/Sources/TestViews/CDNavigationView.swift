@@ -17,7 +17,7 @@ struct NavigtionTestView: View{
                                                                backImage: UIImage(named: "pre-menu.png"),
                                                                isNavigationBarHidden: false,
                                                                isBackBtnHidden: true,
-                                                               isCloseBtnHidden: false)){
+                                                               isCloseBtnHidden: true)){
             ZStack{
                 
                 Color.yellow

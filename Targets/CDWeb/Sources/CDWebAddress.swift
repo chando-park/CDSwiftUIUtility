@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol CDWebAddress_P: RawRepresentable where RawValue == String {
+public protocol CDWebAddress_P{
     var url: URL?{ get }
     var headers: [String:String]{get}
 }

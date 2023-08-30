@@ -24,7 +24,7 @@ public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: Observable
 //    }
     
     public init(webView: WKWebView? = nil,
-                nativeMessages: [NativeMessage],
+                nativeMessages: [NativeMessage]?,
                 act: @escaping (_: NativeMessage, _: String, _: WKWebView?) -> Void,
                 onStarted: (() -> Void)? = nil,
                 onFinished: ((_: WKWebView) -> Void)? = nil,

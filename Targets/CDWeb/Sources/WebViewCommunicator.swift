@@ -10,7 +10,7 @@ import WebKit
 public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: ObservableObject {
     
     weak var webView: WKWebView?
-    let nativeMessages: [NativeMessage]
+    let nativeMessages: [NativeMessage]?
     let act: (_ nativeMessage: NativeMessage,_ body: String, _ webview: WKWebView?) -> Void
     
     var onStarted: (() -> Void)? = nil
@@ -42,11 +42,16 @@ public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: Observable
     }
     
     public func addScriptMessages(_ handler: WKScriptMessageHandler){
-        self.webView?.configuration.userContentController.addScriptMessages(handler, messages: self.nativeMessages)
+        if let nativeMessages = nativeMessages{
+            self.webView?.configuration.userContentController.addScriptMessages(handler, messages: nativeMessages)
+        }
+        
     }
     
     public func removeScriptMessages(){
-        self.webView?.configuration.userContentController.removeScriptMessages(messages: self.nativeMessages)
+        if let nativeMessages = nativeMessages{
+            self.webView?.configuration.userContentController.removeScriptMessages(messages: nativeMessages)
+        }
     }
     
     func actInNavive(message: WKScriptMessage){

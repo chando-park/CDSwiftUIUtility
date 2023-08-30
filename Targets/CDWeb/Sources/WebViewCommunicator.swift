@@ -12,11 +12,29 @@ public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: Observable
     weak var webView: WKWebView?
     let nativeMessages: [NativeMessage]
     let act: (_ nativeMessage: NativeMessage,_ body: String, _ webview: WKWebView?) -> Void
+    
+    var onStarted: (() -> Void)? = nil
+    var onFinished: ((_ webView: WKWebView) -> Void)? = nil
+    var onError: ((_ message: CDWebError?) -> Void)? = nil
 
-    public init(webView: WKWebView? = nil, nativeMessages: [NativeMessage], act: @escaping (_: NativeMessage, _: String, _: WKWebView?) -> Void) {
+//    public init(webView: WKWebView? = nil, nativeMessages: [NativeMessage], act: @escaping (_: NativeMessage, _: String, _: WKWebView?) -> Void) {
+//        self.webView = webView
+//        self.nativeMessages = nativeMessages
+//        self.act = act        
+//    }
+    
+    public init(webView: WKWebView? = nil,
+                nativeMessages: [NativeMessage],
+                act: @escaping (_: NativeMessage, _: String, _: WKWebView?) -> Void,
+                onStarted: (() -> Void)? = nil,
+                onFinished: ((_: WKWebView) -> Void)? = nil,
+                onError: ((_: CDWebError?) -> Void)? = nil) {
         self.webView = webView
         self.nativeMessages = nativeMessages
-        self.act = act        
+        self.act = act
+        self.onStarted = onStarted
+        self.onFinished = onFinished
+        self.onError = onError
     }
 
     public func sendMessageToWeb<Fuction:JavascripFunctionList_P>(function: Fuction, param: [String]?) {

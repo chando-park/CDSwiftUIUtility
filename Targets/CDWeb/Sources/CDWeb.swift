@@ -5,24 +5,14 @@ import WebKit
 public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress_P>: UIViewRepresentable {
 
     private let address: Address
-    
-    private var onStarted: (() -> Void)? = nil
-    private var onFinished: ((_ webView: WKWebView) -> Void)? = nil
-    private var onError: ((_ message: CDWebError?) -> Void)? = nil
-
     @ObservedObject var webViewCommunicator: WebViewCommunicator<NativeMessage>
     
     public init(address: Address,
-                webViewCommunicator: WebViewCommunicator<NativeMessage>,
-                onStarted: (() -> Void)? = nil,
-                onFinished: ((_ webView: WKWebView) -> Void)? = nil,
-                onError: ((_: CDWebError?) -> Void)? = nil) {
+                webViewCommunicator: WebViewCommunicator<NativeMessage>) {
         
         self.webViewCommunicator = webViewCommunicator
         self.address = address
-        self.onStarted = onStarted
-        self.onFinished = onFinished
-        self.onError = onError
+
     }
     
     public func makeUIView(context: Context) -> WKWebView {
@@ -40,12 +30,10 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
             uiView.load(request)
             print("loadHtml allHTTPHeaderFields \(String(describing: request.allHTTPHeaderFields))")
         }else{
-            self.onError?(.invalidURL)
+            self.webViewCommunicator.onError?(.invalidURL)
         }
     }
-    
-    
-    
+
     public func makeCoordinator() -> WebSlave {
         WebSlave(owner: self)
     }
@@ -63,17 +51,17 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
         }
         
         public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-            self.owner.onStarted?()
+            self.owner.webViewCommunicator.onStarted?()
         }
         
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            self.owner.onFinished?(webView)
+            self.owner.webViewCommunicator.onFinished?(webView)
         }
         
         public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             let code = (error as NSError).code
             let message = error.localizedDescription
-            self.owner.onError?(.specificError(code, message))
+            self.owner.webViewCommunicator.onError?(.specificError(code, message))
         }
     }
 }

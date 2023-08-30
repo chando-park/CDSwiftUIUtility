@@ -5,7 +5,7 @@ import WebKit
 public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress_P>: UIViewRepresentable {
 
     private let address: Address
-    @ObservedObject var webViewCommunicator: WebViewCommunicator<NativeMessage>
+    var webViewCommunicator: WebViewCommunicator<NativeMessage>
     
     public init(address: Address,
                 webViewCommunicator: WebViewCommunicator<NativeMessage>) {
@@ -22,16 +22,19 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
         webViewCommunicator.webView = webView
         webViewCommunicator.addScriptMessages(context.coordinator)
         
-        return webView
-    }
-    
-    public func updateUIView(_ uiView: WKWebView, context: Context) {
+        
         if let request = address.request {
-            uiView.load(request)
+            webView.load(request)
             print("loadHtml allHTTPHeaderFields \(String(describing: request.allHTTPHeaderFields))")
         }else{
             self.webViewCommunicator.onError?(.invalidURL)
         }
+        
+        return webView
+    }
+    
+    public func updateUIView(_ uiView: WKWebView, context: Context) {
+        
     }
 
     public func makeCoordinator() -> WebSlave {

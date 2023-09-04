@@ -12,7 +12,10 @@ import SwiftUI
 struct CDUtiltyTestAppSwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                ContentView()
+            }
+            
         }
     }
 }

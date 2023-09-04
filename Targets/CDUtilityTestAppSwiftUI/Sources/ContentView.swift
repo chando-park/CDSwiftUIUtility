@@ -46,9 +46,12 @@ struct ContentView: View{
                 Button("navigation") {
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
+                
             }
         }
-        .routering($router.sheets)
+        .routering($router.sheets) { sheetContext in
+            print("sheetContext \(sheetContext)")
+        }
     }
 }
 

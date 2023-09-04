@@ -45,7 +45,9 @@ struct CDRoutingView: View {
                 }
             }
         }
-        .routering($router.sheets)
+        .routering($router.sheets) { sheetContext in
+            print("sheetContext \(sheetContext)")
+        }
     }
 }
 
@@ -53,7 +55,7 @@ struct CDRoutingTestingView: View{
     var body: some View {
         NavigationView {
             CDRoutingView(router: SheetRouterOperator<SheetRouter>())
-                .navigationTitle("Sheet Animation")
+            .navigationTitle("Sheet Animation")
         }
     }
 }

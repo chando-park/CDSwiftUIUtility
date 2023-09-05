@@ -27,9 +27,30 @@ enum SheetRouter: SheetRouterProtocol {
 
 }
 
+struct TestModel: Hashable{
+    var name: String
+}
+
+enum MianEventKind: EventKind{
+    case login
+    case signup
+}
+
+class TestVM: PlatformOperatorVM_P{
+
+    func received(event: MianEventKind) {
+        switch event {
+        case .login:
+            break
+        case .signup:
+            print("signup")
+        }
+    }
+}
+
 struct CDRoutingView: View {
     
-    @StateObject var router: SheetRouterOperator<SheetRouter>
+    @StateObject var router: PlatformOperator<SheetRouter,TestVM>
 
     var body: some View {
         List {
@@ -45,16 +66,14 @@ struct CDRoutingView: View {
                 }
             }
         }
-        .routering($router.sheets) { sheetContext in
-            print("sheetContext \(sheetContext)")
-        }
+        .routering($router.sheets)
     }
 }
 
 struct CDRoutingTestingView: View{
     var body: some View {
         NavigationView {
-            CDRoutingView(router: SheetRouterOperator<SheetRouter>())
+            CDRoutingView(router: PlatformOperator<SheetRouter,TestVM>(viewModel: TestVM()))
             .navigationTitle("Sheet Animation")
         }
     }

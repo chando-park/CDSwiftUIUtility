@@ -30,9 +30,20 @@ enum AppRouter: SheetRouterProtocol {
 
 }
 
+enum AppRouterKind: EventKind{
+    case login
+    case signup
+}
+
+class AppRouterVM: PlatformOperatorVM_P{
+    func received(event: AppRouterKind) {
+        
+    }
+}
+
 struct ContentView: View{
     
-    @StateObject var router =  SheetRouterOperator<AppRouter>()
+    @StateObject var router =  PlatformOperator<AppRouter,AppRouterVM>(viewModel: AppRouterVM())
     
     var body: some View {
         List {
@@ -49,9 +60,7 @@ struct ContentView: View{
                 
             }
         }
-        .routering($router.sheets) { sheetContext in
-            print("sheetContext \(sheetContext)")
-        }
+        .routering($router.sheets)
     }
 }
 

@@ -5,7 +5,7 @@
 //  Created by Littlefox iOS Developer on 2023/09/06.
 //
 
-import Foundation
+import SwiftUI
 
 public protocol PlatformOperatorVM_P: ObservableObject{
     associatedtype Event: EventKind
@@ -17,4 +17,13 @@ extension EventKind{
     public var id: String{
         "\(self)"
     }
+}
+
+
+
+struct EmptySheetRouter: SheetRouterProtocol{
+    func buildView(isSheeted: Binding<Bool>) -> some View {
+        EmptyView()
+    }
+    
 }

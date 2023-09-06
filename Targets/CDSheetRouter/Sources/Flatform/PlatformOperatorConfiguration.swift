@@ -21,7 +21,7 @@ extension EventKind{
 
 
 
-struct EmptySheetRouter: SheetRouterProtocol{
+public struct EmptySheetRouter: SheetRouterProtocol{
     func buildView(isSheeted: Binding<Bool>) -> some View {
         EmptyView()
     }

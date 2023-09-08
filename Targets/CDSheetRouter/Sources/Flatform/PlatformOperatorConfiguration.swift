@@ -19,8 +19,6 @@ extension EventKind{
     }
 }
 
-
-
 public struct EmptySheetRouter: SheetRouterProtocol{
     public func buildView(isSheeted: Binding<Bool>) -> some View {
         EmptyView()

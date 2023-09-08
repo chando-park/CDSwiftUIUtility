@@ -21,7 +21,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
     @Binding var isBackBtnHidden: Bool
     @Binding var isCloseBtnHidden: Bool
     
-    var topInset: CGFloat
+    @Binding var topInset: CGFloat
     
     var content: () -> Content
     
@@ -36,7 +36,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
                 isNavigationBarHidden: Binding<Bool>,
                 isBackBtnHidden: Binding<Bool>,
                 isCloseBtnHidden: Binding<Bool>,
-                topInset: CGFloat, // topInset 추가
+                topInset: Binding<CGFloat>, // topInset 추가
                 content: @escaping () -> Content, // content 추가
                 callback: @escaping (UINavigationController, UIViewController) -> Void) {
         _statusBarColor = statusBarColor
@@ -47,7 +47,8 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
         _isNavigationBarHidden = isNavigationBarHidden
         _isBackBtnHidden = isBackBtnHidden
         _isCloseBtnHidden = isCloseBtnHidden
-        self.topInset = topInset // topInset 초기화
+        _topInset = topInset
+//        self.topInset = topInset // topInset 초기화
         self.content = content // content 초기화
         self.callback = callback
     }
@@ -61,6 +62,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
             .nViewIsNaviBarHidden(self.isNavigationBarHidden)
             .nViewIsCloseButtonHidden(self.isCloseBtnHidden)
 //            .ignoresSafeArea([.container])
+
         let navigationController = ConvertedNavigationController(topInset: topInset,
                                                                  navigationBarBackgroundType: navigationBarBackgroundType,
                                                                  navigationBarTitleType: navigationBarTitleType,
@@ -116,3 +118,4 @@ public extension UIViewController{
         return 0
     }
 }
+

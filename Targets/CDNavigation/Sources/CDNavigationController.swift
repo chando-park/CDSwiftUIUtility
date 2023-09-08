@@ -15,13 +15,38 @@ public class ConvertedNavigationController: UINavigationController {
         case paint(color: UIColor)
     }
     
+    public struct FontInfo : Equatable{
+        let name: String?
+        let size: CGFloat
+        
+        public init(name: String? = nil, size: CGFloat) {
+            self.name = name
+            self.size = size
+        }
+        
+        var uiFont: UIFont?{
+            if let name = name {
+                return UIFont(name: name, size: size)
+            }else{
+                return UIFont.systemFont(ofSize: size)
+            }
+            
+        }
+    }
+    
     public enum NavigationBarTitleType: Equatable{
 //        case image(image: UIImage)
-        case text(title: String?, color: UIColor?)
+        case text(title: String?, color: UIColor?, font: FontInfo)
         var title: String?{
             switch self {
-            case .text(let title, _):
+            case .text(let title, _,_):
                 return title
+            }
+        }
+        var fontInfo: FontInfo{
+            switch self{
+            case .text(_,_, let font):
+                return font
             }
         }
     }
@@ -33,9 +58,9 @@ public class ConvertedNavigationController: UINavigationController {
     private var closeBtn: UIButton?
     
     private var titleLabel: UILabel?
-//    private var titleLabel: UILabel?
     
     private var statusbarView: UIView!
+    private var fontInfo: FontInfo!
     
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -96,9 +121,10 @@ public class ConvertedNavigationController: UINavigationController {
     var navigationBarTitleType: NavigationBarTitleType?{
         set{
             switch newValue{
-            case .text(let title, let color):
+            case .text(let title, let color, let fontInfo):
                 self.titleLabel?.text = title
                 self.titleLabel?.textColor = color
+                self.titleLabel?.font = fontInfo.uiFont
                 
                 self.titleLabel?.sizeToFit()
                 self.titleLabel?.center.x = self.naviBar!.frame.size.width/2
@@ -110,7 +136,7 @@ public class ConvertedNavigationController: UINavigationController {
             }
         }
         get{
-            .text(title: self.titleLabel?.text, color: self.titleLabel?.textColor)
+            .text(title: self.titleLabel?.text, color: self.titleLabel?.textColor, font: self.fontInfo)
         }
     }
     
@@ -162,11 +188,12 @@ public class ConvertedNavigationController: UINavigationController {
         
         self.titleLabel = UILabel()
         self.titleLabel?.frame.size.width = self.view.frame.size.width - ((self.backBtn?.frame.origin.x ?? 0) + (self.backBtn?.frame.size.width ?? 0))*2.1
-        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: (74.0/183.0)*self.topInset)
+//        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: (74.0/183.0)*self.topInset)
         
         self.view.addSubview(self.titleLabel!)
         
         self.navigationBarTitleType = navigationBarTitleType
+        self.fontInfo = navigationBarTitleType.fontInfo
         
         self.statusbarView = UIView()
         self.statusbarView.backgroundColor = statusBarColor

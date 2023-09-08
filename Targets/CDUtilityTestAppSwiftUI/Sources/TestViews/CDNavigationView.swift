@@ -9,10 +9,12 @@ import SwiftUI
 import CDNavigation
 
 struct NavigtionTestView: View{
+    let topIsect = UIScreen.main.bounds.height*(183/2436)
     var body: some View{
         CDNavigationView(config: CDNavigationViewConfiguration(statusBarColor: .green,
                                                                navigationBarBackgroundType: .paint(color: .orange),
-                                                               navigationBarTitleType: .text(title: "회원 탈퇴", color: .white),
+                                                               navigationBarTitleType: .text(title: "회원 탈퇴", color: .white, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect)),
+                                                               topInset: topIsect,
                                                                closeImage: UIImage(named: "home-menu.png"),
                                                                backImage: UIImage(named: "pre-menu.png"),
                                                                isNavigationBarHidden: false,
@@ -24,7 +26,7 @@ struct NavigtionTestView: View{
                 ForumView()
                 NavigationLink("new") {
                     SecoundScreenView()
-                        .nViewTitle(.text(title: "회원 가입", color: .black))
+                        .nViewTitle(.text(title: "회원 가입", color: .black, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect)))
                         .isNViewBackButtonHidden(false)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)

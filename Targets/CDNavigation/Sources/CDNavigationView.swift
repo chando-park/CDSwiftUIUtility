@@ -28,7 +28,7 @@ public struct CDNavigationView<Content: View>: View{
             isNavigationBarHidden:  $config.isNavigationBarHidden,
             isBackBtnHidden:  $config.isBackBtnHidden,
             isCloseBtnHidden:  $config.isCloseBtnHidden,
-            topInset: UIScreen.main.bounds.height*(183/2436),
+            topInset: $config.topInset,//UIScreen.main.bounds.height*(183/2436),
             content: content,
             callback: { n, c in
             })

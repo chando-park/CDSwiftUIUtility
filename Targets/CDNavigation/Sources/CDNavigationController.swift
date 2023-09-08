@@ -51,7 +51,7 @@ public class ConvertedNavigationController: UINavigationController {
         }
     }
     
-    private let topInset: CGFloat
+    private let navigationBarHeight: CGFloat
     private var naviBar: UIImageView?
     
     private var backBtn: UIButton?
@@ -75,7 +75,7 @@ public class ConvertedNavigationController: UINavigationController {
                     self.additionalSafeAreaInsets.top = 0
                 }else{
                     self.naviBar?.frame.origin.y = self.statusBarHeight
-                    self.additionalSafeAreaInsets.top = self.topInset - UINavigationController().navigationBar.frame.size.height
+                    self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
                 }
             }
         }
@@ -128,7 +128,7 @@ public class ConvertedNavigationController: UINavigationController {
                 
                 self.titleLabel?.sizeToFit()
                 self.titleLabel?.center.x = self.naviBar!.frame.size.width/2
-                self.titleLabel?.frame.origin.y = (self.topInset - (self.titleLabel?.frame.size.height ?? 0))/2 + self.statusBarHeight
+                self.titleLabel?.frame.origin.y = (self.navigationBarHeight - (self.titleLabel?.frame.size.height ?? 0))/2 + self.statusBarHeight
 
                 break
             default:
@@ -140,16 +140,16 @@ public class ConvertedNavigationController: UINavigationController {
         }
     }
     
-    init(topInset:CGFloat, navigationBarBackgroundType: NavigationBarBackgroundType, navigationBarTitleType: NavigationBarTitleType, statusBarColor: UIColor, closeImage: UIImage?, backImage: UIImage?, rootViewController: UIViewController) {
-        self.topInset = topInset
+    init(navigationBarHeight:CGFloat, navigationBarBackgroundType: NavigationBarBackgroundType, navigationBarTitleType: NavigationBarTitleType, statusBarColor: UIColor, closeImage: UIImage?, backImage: UIImage?, rootViewController: UIViewController) {
+        self.navigationBarHeight = navigationBarHeight
         super.init(rootViewController: rootViewController)
         
-        self.additionalSafeAreaInsets.top = self.topInset - UINavigationController().navigationBar.frame.size.height
+        self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
         
         self.naviBar = UIImageView(frame: CGRect(origin: CGPoint(x: 0,
                                                                  y: self.statusBarHeight),
                                                  size: CGSize(width: self.view.frame.size.width,
-                                                              height: self.topInset)))
+                                                              height: self.navigationBarHeight)))
         switch navigationBarBackgroundType {
         case .image(let image):
             self.naviBar?.image = image
@@ -162,10 +162,10 @@ public class ConvertedNavigationController: UINavigationController {
         
         
         if let backImage = backImage {
-            let btnHeight = (118.0/183.0)*self.topInset
+            let btnHeight = (118.0/183.0)*self.navigationBarHeight
             let btnWidth = btnHeight*(backImage.size.width/backImage.size.height)
             let left = btnWidth*(42.0/110)
-            let top = (self.topInset - btnHeight)/2
+            let top = (self.navigationBarHeight - btnHeight)/2
             self.backBtn = UIButton(frame: CGRect(origin: CGPoint(x: left, y: top+statusBarHeight),
                                                    size: CGSize(width: btnWidth, height: btnHeight)))
             self.backBtn?.setImage(backImage, for: .normal)
@@ -175,10 +175,10 @@ public class ConvertedNavigationController: UINavigationController {
         }
         
         if let closeImage = closeImage {
-            let btnHeight = (118.0/183.0)*self.topInset
+            let btnHeight = (118.0/183.0)*self.navigationBarHeight
             let btnWidth = btnHeight*(closeImage.size.width/closeImage.size.height)
             let left = btnWidth*(42.0/110)
-            let top = (self.topInset - btnHeight)/2
+            let top = (self.navigationBarHeight - btnHeight)/2
             self.closeBtn = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.size.width - left - btnWidth, y: top+statusBarHeight),
                                                    size: CGSize(width: btnWidth, height: btnHeight)))
             self.closeBtn?.setImage(closeImage, for: .normal)
@@ -188,7 +188,7 @@ public class ConvertedNavigationController: UINavigationController {
         
         self.titleLabel = UILabel()
         self.titleLabel?.frame.size.width = self.view.frame.size.width - ((self.backBtn?.frame.origin.x ?? 0) + (self.backBtn?.frame.size.width ?? 0))*2.1
-//        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: (74.0/183.0)*self.topInset)
+//        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: (74.0/183.0)*self.navigationBarHeight)
         
         self.view.addSubview(self.titleLabel!)
         

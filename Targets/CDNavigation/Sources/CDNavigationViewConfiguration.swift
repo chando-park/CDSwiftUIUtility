@@ -12,7 +12,7 @@ public class CDNavigationViewConfiguration: ObservableObject{
     @Published var statusBarColor: Color
     @Published var navigationBarBackgroundType: ConvertedNavigationController.NavigationBarBackgroundType
     @Published var navigationBarTitleType: ConvertedNavigationController.NavigationBarTitleType
-    @Published var topInset: CGFloat
+    @Published var navigationBarHeight: CGFloat
     @Published var closeImage: UIImage?
     @Published var backImage: UIImage?
     @Published var isNavigationBarHidden: Bool
@@ -23,7 +23,7 @@ public class CDNavigationViewConfiguration: ObservableObject{
     public init(statusBarColor: Color,
                 navigationBarBackgroundType: ConvertedNavigationController.NavigationBarBackgroundType,
                 navigationBarTitleType: ConvertedNavigationController.NavigationBarTitleType,
-                topInset: CGFloat,
+                navigationBarHeight: CGFloat,
                 closeImage: UIImage? = nil,
                 backImage: UIImage? = nil,
                 isNavigationBarHidden: Bool,
@@ -32,7 +32,7 @@ public class CDNavigationViewConfiguration: ObservableObject{
         self.statusBarColor = statusBarColor
         self.navigationBarBackgroundType = navigationBarBackgroundType
         self.navigationBarTitleType = navigationBarTitleType
-        self.topInset = topInset
+        self.navigationBarHeight = navigationBarHeight
         self.closeImage = closeImage
         self.backImage = backImage
         self.isNavigationBarHidden = isNavigationBarHidden

@@ -21,7 +21,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
     @Binding var isBackBtnHidden: Bool
     @Binding var isCloseBtnHidden: Bool
     
-    @Binding var topInset: CGFloat
+    @Binding var navigationBarHeight: CGFloat
     
     var content: () -> Content
     
@@ -36,7 +36,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
                 isNavigationBarHidden: Binding<Bool>,
                 isBackBtnHidden: Binding<Bool>,
                 isCloseBtnHidden: Binding<Bool>,
-                topInset: Binding<CGFloat>, // topInset 추가
+                navigationBarHeight: Binding<CGFloat>, // navigationBarHeight 추가
                 content: @escaping () -> Content, // content 추가
                 callback: @escaping (UINavigationController, UIViewController) -> Void) {
         _statusBarColor = statusBarColor
@@ -47,8 +47,8 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
         _isNavigationBarHidden = isNavigationBarHidden
         _isBackBtnHidden = isBackBtnHidden
         _isCloseBtnHidden = isCloseBtnHidden
-        _topInset = topInset
-//        self.topInset = topInset // topInset 초기화
+        _navigationBarHeight = navigationBarHeight
+//        self.navigationBarHeight = navigationBarHeight // navigationBarHeight 초기화
         self.content = content // content 초기화
         self.callback = callback
     }
@@ -63,7 +63,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
             .nViewIsCloseButtonHidden(self.isCloseBtnHidden)
 //            .ignoresSafeArea([.container])
 
-        let navigationController = ConvertedNavigationController(topInset: topInset,
+        let navigationController = ConvertedNavigationController(navigationBarHeight: navigationBarHeight,
                                                                  navigationBarBackgroundType: navigationBarBackgroundType,
                                                                  navigationBarTitleType: navigationBarTitleType,
                                                                  statusBarColor: UIColor(statusBarColor),

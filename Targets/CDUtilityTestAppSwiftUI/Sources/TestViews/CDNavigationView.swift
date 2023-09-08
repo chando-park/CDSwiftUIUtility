@@ -14,7 +14,7 @@ struct NavigtionTestView: View{
         CDNavigationView(config: CDNavigationViewConfiguration(statusBarColor: .green,
                                                                navigationBarBackgroundType: .paint(color: .orange),
                                                                navigationBarTitleType: .text(title: "회원 탈퇴", color: .white, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect)),
-                                                               topInset: topIsect,
+                                                               navigationBarHeight: topIsect,
                                                                closeImage: UIImage(named: "home-menu.png"),
                                                                backImage: UIImage(named: "pre-menu.png"),
                                                                isNavigationBarHidden: false,

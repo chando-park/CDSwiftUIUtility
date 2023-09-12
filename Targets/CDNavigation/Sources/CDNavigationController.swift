@@ -155,9 +155,11 @@ public class ConvertedNavigationController: UINavigationController {
                     self.subTitleLabel?.sizeToFit()
                     self.subTitleLabel?.center.x = self.titleLabel?.center.x ?? 0
                     
-                    self.subTitleLabel?.frame.size.height = self.navigationBarHeight*(52/183)
-                    self.subTitleLabel?.frame.origin.y = self.navigationBarHeight*(18/183) + self.statusBarHeight
-                    self.titleLabel?.frame.origin.y = (self.subTitleLabel?.frame.origin.y ?? 0) + (self.subTitleLabel?.frame.size.height ?? 0)
+                    
+                    self.titleLabel?.frame.origin.y = self.navigationBarHeight*0.5 + self.statusBarHeight//(self.subTitleLabel?.frame.origin.y ?? 0) + (self.subTitleLabel?.frame.size.height ?? 0)
+//                    self.subTitleLabel?.frame.size.height = self.navigationBarHeight*(52/183)
+                    self.subTitleLabel?.frame.origin.y = (self.titleLabel?.frame.origin.y ?? 0) - (self.subTitleLabel?.frame.height ?? 0)//self.navigationBarHeight*(18/183) + self.statusBarHeight
+                    
                     
                 }else{
                     self.titleLabel?.frame.origin.y = (self.navigationBarHeight - (self.titleLabel?.frame.size.height ?? 0))/2 + self.statusBarHeight

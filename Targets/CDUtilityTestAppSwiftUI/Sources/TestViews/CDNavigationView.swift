@@ -13,7 +13,7 @@ struct NavigtionTestView: View{
     var body: some View{
         CDNavigationView(config: CDNavigationViewConfiguration(statusBarColor: .green,
                                                                navigationBarBackgroundType: .paint(color: .orange),
-                                                               navigationBarTitleType: .text(title: "회원 탈퇴", color: .white, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect)),
+                                                               navigationBarTitleType: .text(title: "회원 탈퇴",subTitle: "Phonics Works 3", color: .white, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: ConvertedNavigationController.FontInfo(size: (54.0/183.0)*self.topIsect)),
                                                                navigationBarHeight: topIsect,
                                                                closeImage: UIImage(named: "home-menu.png"),
                                                                backImage: UIImage(named: "pre-menu.png"),
@@ -26,7 +26,7 @@ struct NavigtionTestView: View{
                 ForumView()
                 NavigationLink("new") {
                     SecoundScreenView()
-                        .nViewTitle(.text(title: "회원 가입", color: .black, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect)))
+                        .nViewTitle(.text(title: "회원 가입",subTitle: nil, color: .black, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: nil))
                         .isNViewBackButtonHidden(false)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)

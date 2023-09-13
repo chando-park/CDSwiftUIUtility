@@ -18,7 +18,7 @@ public class MovingSheetOperator<SheetRouter:SheetRouterProtocol>: ObservableObj
 }
 
 public extension View {
-    func routering<SheetRouter: SheetRouterProtocol>(_ sheets: Binding<[SheetRouterContext<SheetRouter>]>) -> some View {
-        modifier(MovingRoute(sheets: sheets))
+    func routering<SheetRouter: SheetRouterProtocol>(_ sheets: Binding<[SheetRouterContext<SheetRouter>]>, sheetDetector: ((SheetRouter?) -> Void)? = nil) -> some View {
+        modifier(MovingRoute(sheets: sheets, sheetDetector: sheetDetector))
     }
 }

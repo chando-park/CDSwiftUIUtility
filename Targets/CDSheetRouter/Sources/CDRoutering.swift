@@ -12,7 +12,7 @@ import Combine
 
 public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
     @Binding var sheets: [SheetRouterContext<SheetRouter>]
-//    public var detectingSheetsChange: (([SheetRouterContext<SheetRouter>]) -> Void)?
+    var sheetDetector: ((SheetRouter?) -> Void)? = nil
     
     private var isActiveBinding: Binding<Bool> {
         if sheets.isEmpty {
@@ -25,6 +25,7 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
                 set: { isShowing in
                     if !isShowing, let _ = sheets.last {
                         sheets.removeLast()
+                        print("sheet \(sheets)")
                     }
                 }
             )
@@ -69,5 +70,8 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
             .transaction({ t in
                 t.disablesAnimations = sheets.last?.animation.isAnimationOn == false
             })
+            .onChange(of: sheets) { newValue in
+                self.sheetDetector?(newValue.last?.router)
+            }
     }
 }

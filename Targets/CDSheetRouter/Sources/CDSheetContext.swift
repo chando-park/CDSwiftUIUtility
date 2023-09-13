@@ -33,7 +33,7 @@ public protocol SheetRouterProtocol: Identifiable, Equatable {
     @ViewBuilder func buildView(isSheeted: Binding<Bool>) -> Sheet
 }
 
-public struct SheetRouterContext<R: SheetRouterProtocol>{
+public struct SheetRouterContext<R: SheetRouterProtocol>: Equatable{
     let router: R
     let animation: SheetAnimation
 }

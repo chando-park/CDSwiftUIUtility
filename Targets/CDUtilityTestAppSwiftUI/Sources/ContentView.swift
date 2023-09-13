@@ -60,7 +60,9 @@ struct ContentView: View{
                 
             }
         }
-        .routering($router.sheets)
+        .routering($router.sheets) { router in
+            print("router \(router)")
+        }
     }
 }
 

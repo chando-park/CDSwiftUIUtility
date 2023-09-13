@@ -26,7 +26,7 @@ struct NavigtionTestView: View{
                 ForumView()
                 NavigationLink("new") {
                     SecoundScreenView()
-                        .nViewTitle(.text(title: "회원 가입",subTitle: nil, color: .black, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: nil))
+                        .nViewTitle("회원가입")
                         .isNViewBackButtonHidden(false)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)

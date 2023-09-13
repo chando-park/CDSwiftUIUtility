@@ -57,7 +57,7 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
         
         let root = content()
             .isNViewBackButtonHidden(true)
-            .nViewTitle(self.navigationBarTitleType)
+            .nViewTitle(self.navigationBarTitleType.title, subTitle: self.navigationBarTitleType.subTitle)
             .nViewStatusBarColor(self.statusBarColor)
             .nViewIsNaviBarHidden(self.isNavigationBarHidden)
             .nViewIsCloseButtonHidden(self.isCloseBtnHidden)

@@ -36,9 +36,14 @@ public struct CDNavigationView<Content: View>: View{
                 config.isBackBtnHidden = isHidden
             }
             .onPreferenceChange(NViewTitlePreferenceKey.self) { title in
-                if let t = title{
-                    config.navigationBarTitleType = t
-                }
+                let font = config.navigationBarTitleType.fontInfo
+                let subFont = config.navigationBarTitleType.subFontInfo
+                let color = config.navigationBarTitleType.color
+                config.navigationBarTitleType = ConvertedNavigationController.NavigationBarTitleType.text(title: title.title,
+                                                                                                          subTitle: title.subTitle,
+                                                                                                          color: color,
+                                                                                                          font: font,
+                                                                                                          subTitleFont: subFont)
             }
             .onPreferenceChange(NViewStatusBarColorPreferenceKey.self) { color in
                 config.statusBarColor = color

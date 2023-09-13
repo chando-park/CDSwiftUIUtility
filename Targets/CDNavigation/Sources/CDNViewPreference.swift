@@ -35,19 +35,26 @@ public struct NViewBackButtonHiddenViewModifier: ViewModifier {
 
 //타이틀
 public struct NViewTitlePreferenceKey: PreferenceKey {
-    public static var defaultValue: ConvertedNavigationController.NavigationBarTitleType? = nil
-    public static func reduce(value: inout ConvertedNavigationController.NavigationBarTitleType?, nextValue: () -> ConvertedNavigationController.NavigationBarTitleType?) {
+    
+    public struct TitleInfo: Equatable{
+        var title: String?
+        var subTitle: String?
+    }
+    
+//    public typealias TitleInfo = (title: String?, subTitle: String?)
+    public static var defaultValue: TitleInfo = TitleInfo()
+    public static func reduce(value: inout TitleInfo, nextValue: () -> TitleInfo) {
         value = nextValue()
     }
 }
 
-
 public struct NViewTitlePreferenceKeyViewModifier: ViewModifier {
-    @State var title: ConvertedNavigationController.NavigationBarTitleType? = nil
-    private let __title: ConvertedNavigationController.NavigationBarTitleType?
     
-    init(title: ConvertedNavigationController.NavigationBarTitleType?) {
-        self.__title = title
+    @State var title: NViewTitlePreferenceKey.TitleInfo = NViewTitlePreferenceKey.TitleInfo()
+    private let __title: NViewTitlePreferenceKey.TitleInfo
+
+    init(title: String?, subTitle: String? = nil) {
+        self.__title = NViewTitlePreferenceKey.TitleInfo(title: title,subTitle: subTitle)
     }
     
     public func body(content: Content) -> some View {
@@ -145,8 +152,8 @@ public extension View {
         modifier(NViewBackButtonHiddenViewModifier(isBackButtonHiddenView: isHidden))
     }
     
-    func nViewTitle(_ title: ConvertedNavigationController.NavigationBarTitleType?) -> some View {
-        modifier(NViewTitlePreferenceKeyViewModifier(title: title))
+    func nViewTitle(_ title: String?, subTitle: String? = nil) -> some View {
+        modifier(NViewTitlePreferenceKeyViewModifier(title: title, subTitle: subTitle))
     }
     
     func nViewStatusBarColor(_ color: Color) -> some View {

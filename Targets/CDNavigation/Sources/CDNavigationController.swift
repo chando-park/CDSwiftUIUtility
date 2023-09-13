@@ -35,7 +35,7 @@ public class ConvertedNavigationController: UINavigationController {
     }
     
     public enum NavigationBarTitleType: Equatable{
-//        case image(image: UIImage)
+        //        case image(image: UIImage)
         case text(title: String?, subTitle: String?, color: UIColor?, font: FontInfo, subTitleFont: FontInfo?)
         var title: String?{
             switch self {
@@ -63,6 +63,14 @@ public class ConvertedNavigationController: UINavigationController {
                 return font
             }
         }
+        
+        var color: UIColor?{
+            switch self{
+            case .text(_,_,let color,_,_):
+                return color
+            }
+        }
+        
     }
     
     private let navigationBarHeight: CGFloat
@@ -138,34 +146,55 @@ public class ConvertedNavigationController: UINavigationController {
         set{
             switch newValue{
             case .text(let title, let subTitle, let color, let fontInfo,let subFontInfo):
-                self.titleLabel?.text = title
-                self.titleLabel?.textColor = color
-                self.titleLabel?.font = fontInfo.uiFont
                 
-                self.titleLabel?.sizeToFit()
-                self.titleLabel?.center.x = self.naviBar!.frame.size.width/2
-                
-                if let subTitle = subTitle{
-                    self.subTitleLabel?.isHidden = false
+                UIView.animate(withDuration: 0.1) {
+                    if title == nil {
+                        self.titleLabel?.alpha = 0
+                    }else{
+                        self.titleLabel?.alpha = 1
+                    }
                     
-                    self.subTitleLabel?.text = subTitle
-                    self.subTitleLabel?.textColor = color
-                    self.subTitleLabel?.font = subFontInfo?.uiFont
+                    self.subTitleLabel?.alpha = 0
+                } completion: { _ in
                     
-                    self.subTitleLabel?.sizeToFit()
-                    self.subTitleLabel?.center.x = self.titleLabel?.center.x ?? 0
+                    self.titleLabel?.text = title
+                    self.titleLabel?.textColor = color
+                    self.titleLabel?.font = fontInfo.uiFont
                     
+                    self.titleLabel?.sizeToFit()
+                    self.titleLabel?.center.x = self.naviBar!.frame.size.width/2
                     
-                    self.titleLabel?.frame.origin.y = self.navigationBarHeight*0.5 + self.statusBarHeight//(self.subTitleLabel?.frame.origin.y ?? 0) + (self.subTitleLabel?.frame.size.height ?? 0)
-//                    self.subTitleLabel?.frame.size.height = self.navigationBarHeight*(52/183)
-                    self.subTitleLabel?.frame.origin.y = (self.titleLabel?.frame.origin.y ?? 0) - (self.subTitleLabel?.frame.height ?? 0)//self.navigationBarHeight*(18/183) + self.statusBarHeight
-                    
-                    
-                }else{
-                    self.titleLabel?.frame.origin.y = (self.navigationBarHeight - (self.titleLabel?.frame.size.height ?? 0))/2 + self.statusBarHeight
-                    self.subTitleLabel?.isHidden = true
+                    if let subTitle = subTitle{
+                        
+                        self.subTitleLabel?.text = subTitle
+                        self.subTitleLabel?.textColor = color
+                        self.subTitleLabel?.font = subFontInfo?.uiFont
+                        
+                        self.subTitleLabel?.sizeToFit()
+                        
+                        UIView.animate(withDuration: 0.1) {
+                            if let _ = title {
+                                self.titleLabel?.alpha = 1
+                            }
+//                            self.titleLabel?.alpha = 1
+                            self.subTitleLabel?.alpha = 1
+                            self.subTitleLabel?.center.x = self.titleLabel?.center.x ?? 0
+                            
+                            
+                            self.titleLabel?.frame.origin.y = self.navigationBarHeight*0.5 + self.statusBarHeight//(self.subTitleLabel?.frame.origin.y ?? 0) + (self.subTitleLabel?.frame.size.height ?? 0)
+        //                    self.subTitleLabel?.frame.size.height = self.navigationBarHeight*(52/183)
+                            self.subTitleLabel?.frame.origin.y = (self.titleLabel?.frame.origin.y ?? 0) - (self.subTitleLabel?.frame.height ?? 0)//self.navigationBarHeight*(18/183) + self.statusBarHeight
+                        }
+                    }else{
+                        UIView.animate(withDuration: 0.1) {
+                            self.titleLabel?.frame.origin.y = (self.navigationBarHeight - (self.titleLabel?.frame.size.height ?? 0))/2 + self.statusBarHeight
+                            self.subTitleLabel?.alpha = 0
+                            if let _ = title {
+                                self.titleLabel?.alpha = 1
+                            }
+                        }
+                    }
                 }
-
                 break
             default:
                 break

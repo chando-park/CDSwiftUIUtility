@@ -27,4 +27,7 @@ let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.app(name: "CDUtility",
                           frameworkTargetsNames: ["CDWeb",
                                                   "CDSheetRouter",
-                                                  "CDNavigation"])
+                                                  "CDNavigation",
+                                                  "CDActivityView",
+                                                  "CDFileDownLoader",
+                                                  "CDDocumentViewer"])

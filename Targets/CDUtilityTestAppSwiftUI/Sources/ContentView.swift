@@ -8,12 +8,14 @@
 import SwiftUI
 import CDWeb
 import CDSheetRouter
+import CDDocumentViewer
 
 
 enum AppRouter: SheetRouterProtocol {
     case web
     case router
     case navigation
+//    case pdf
     
     var id: String { "\(self)" }
     
@@ -25,6 +27,8 @@ enum AppRouter: SheetRouterProtocol {
             CDRoutingTestingView()
         case .navigation:
             NavigtionTestView()
+//        case .pdf:
+//            CDPDFViewerView()
         }
     }
 
@@ -33,18 +37,18 @@ enum AppRouter: SheetRouterProtocol {
 enum AppRouterKind: EventKind{
     case login
     case signup
+//    case openPDF(urlStr: String)
 }
 
 class AppRouterVM: PlatformOperatorVM_P{
     func received(event: AppRouterKind) {
-        
+        print("evemnt \(event)")
     }
 }
 
 struct ContentView: View{
-    
-    @StateObject var router =  PlatformOperator<AppRouter,AppRouterVM>(viewModel: AppRouterVM())
-    
+    @ObservedObject var vm: AppRouterVM
+    @ObservedObject var router:PlatformOperator<AppRouter,AppRouterVM>
     var body: some View {
         List {
             Section {
@@ -57,19 +61,25 @@ struct ContentView: View{
                 Button("navigation") {
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
+                Button("pdf") {
+//                    print("d")
+                    router.openPDF(urlStr: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf",title: "정답")
+                }
                 
             }
         }
         .routering($router.sheets) { router in
-            print("router \(router)")
+            print("rrr \(router)")
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
+        let vm = AppRouterVM()
+        let platform = PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm)
         NavigationView {
-            ContentView()
+            ContentView(vm: vm, router: platform)
         }
     }
 }

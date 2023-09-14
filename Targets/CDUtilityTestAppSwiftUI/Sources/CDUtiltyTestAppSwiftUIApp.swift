@@ -6,14 +6,17 @@
 //
 
 import SwiftUI
+import CDSheetRouter
 
-@available(iOS 14.0, *)
 @main
 struct CDUtiltyTestAppSwiftUIApp: App {
-    var body: some Scene {
+    
+    let vm = AppRouterVM()
+    
+    var body: some Scene {        
         WindowGroup {
             NavigationView {
-                ContentView()
+                ContentView(vm: vm, router: PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm))
             }
             
         }

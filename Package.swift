@@ -8,7 +8,7 @@ let package = Package(
     platforms: [
         .iOS(.v14),
         .macOS(.v10_15)//, tvOS(.v13), watchOS(.v6) 등의 플랫폼 버전을 지정합니다.
-        ],
+    ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -20,6 +20,12 @@ let package = Package(
         .library(
             name: "CDNavigation",
             targets: ["CDNavigation"]),
+        .library(
+            name: "CDDocumentViewer",
+            targets: ["CDDocumentViewer"]),
+//        .library(
+//            name: "CDFileDownLoader",
+//            targets: ["CDFileDownLoader"]),
     ],
     
     dependencies: [
@@ -41,7 +47,7 @@ let package = Package(
         
             .target(
                 name: "CDSheetRouter",
-                dependencies: [],
+                dependencies: ["CDDocumentViewer"],
                 path: "Targets/CDSheetRouter/Sources"),
         
             .testTarget(
@@ -58,6 +64,30 @@ let package = Package(
                 name: "CDNavigationTests",
                 dependencies: ["CDNavigation"],
                 path: "Targets/CDNavigation/Tests"),
+        
+            .target(
+                name: "CDDocumentViewer",
+                dependencies: [],
+                path: "Targets/CDDocumentViewer/Sources"),
+        
+//            .target(
+//                name: "CDActivityView",
+//                dependencies: [],
+//                path: "Targets/CDActivityView/Sources"),
+//
+//            .testTarget(
+//                name: "CDActivityViewTests",
+//                dependencies: ["CDActivityView"],
+//                path: "Targets/CDActivityView/Tests"),
+//        .target(
+//            name: "CDFileDownLoader",
+//            dependencies: [],
+//            path: "Targets/CDFileDownLoader/Sources"),
+//
+//            .testTarget(
+//                name: "CDFileDownLoaderTests",
+//                dependencies: ["CDFileDownLoader"],
+//                path: "Targets/CDFileDownLoader/Tests"),
         
     ]
 )

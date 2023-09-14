@@ -17,12 +17,13 @@ public class MovingSheetOperator<SheetRouter:SheetRouterProtocol>: ObservableObj
         }
     }
     
-    public func openPDF(urlStr: String, title: String){
+    public func openPDF(urlStr: String, title: String, detecter: ((DocumentDownload.LoadStatus) -> Void)? = nil){
         let window = UIApplication.shared.keyWindow
-        let parent = window?.rootViewController
-        let d = DocumentDownload(presenter: parent!)
-        d.opnePDF(urlStr: urlStr,
-                  title: title)
+        if let parent = window?.rootViewController{
+            let d = DocumentDownload(presenter: parent, statusDetecter: detecter)
+            d.opnePDF(urlStr: urlStr, title: title)
+        }
+        
     }
 }
 

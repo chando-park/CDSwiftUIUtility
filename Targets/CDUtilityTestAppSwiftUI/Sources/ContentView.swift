@@ -62,10 +62,8 @@ struct ContentView: View{
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("pdf") {
-//                    print("d")
                     router.openPDF(urlStr: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf",title: "정답")
                 }
-                
             }
         }
         .routering($router.sheets) { router in

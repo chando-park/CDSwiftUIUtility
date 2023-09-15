@@ -25,6 +25,7 @@ public struct CDDocumentViewer: UIViewControllerRepresentable {
     public func makeUIViewController(context: UIViewControllerRepresentableContext<CDDocumentViewer>) -> UIViewController {
         
         docController.delegate = context.coordinator
+//        docController.view
         //URL(string: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf")
         let destinationURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("downloadedFile.pdf")
         CDFileDownLoader.shared.downloadFile(url: url.wrappedValue, destination: destinationURL) {
@@ -36,7 +37,10 @@ public struct CDDocumentViewer: UIViewControllerRepresentable {
                 self.docController.presentPreview(animated: false)
             }
         }
-        viewController.view.backgroundColor = .clear
+        viewController.view.backgroundColor = .yellow
+        viewController.view.alpha = 0.5
+        viewController.navigationController?.view.backgroundColor = .cyan
+        
         return viewController
     }
     

@@ -28,7 +28,7 @@ enum AppRouter: SheetRouterProtocol {
         case .navigation:
             NavigtionTestView()
         case .pdf://(let url, let title):
-            CDPDFViewerView()
+            CDPDFViewerView(isShowPreview: isSheeted)
         }
     }
 
@@ -62,7 +62,7 @@ struct ContentView: View{
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("pdf") {
-                    router.go(.pdf, animation: .push)
+                    router.go(.pdf, animation: .full(animationOn: true))
                     
                 }
             }

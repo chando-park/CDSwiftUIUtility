@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CDDocumentViewer
 
 public class MovingSheetOperator<SheetRouter:SheetRouterProtocol>: ObservableObject {
     @Published public var sheets: [SheetRouterContext<SheetRouter>] = []
@@ -15,15 +14,6 @@ public class MovingSheetOperator<SheetRouter:SheetRouterProtocol>: ObservableObj
         if let s = sheet{
             self.sheets.append(SheetRouterContext(router: s, animation: animation))
         }
-    }
-    
-    public func openPDF(urlStr: String, title: String, detecter: ((DocumentDownload.LoadStatus) -> Void)? = nil){
-        let window = UIApplication.shared.keyWindow
-        if let parent = window?.rootViewController{
-            let d = DocumentDownload(presenter: parent, statusDetecter: detecter)
-            d.opnePDF(urlStr: urlStr, title: title)
-        }
-        
     }
 }
 

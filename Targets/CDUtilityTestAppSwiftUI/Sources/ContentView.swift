@@ -9,13 +9,13 @@ import SwiftUI
 import CDWeb
 import CDSheetRouter
 import CDDocumentViewer
-
+import CDFileDownLoader
 
 enum AppRouter: SheetRouterProtocol {
     case web
     case router
     case navigation
-//    case pdf
+    case pdf//(url: URL, title: String)
     
     var id: String { "\(self)" }
     
@@ -27,8 +27,8 @@ enum AppRouter: SheetRouterProtocol {
             CDRoutingTestingView()
         case .navigation:
             NavigtionTestView()
-//        case .pdf:
-//            CDPDFViewerView()
+        case .pdf://(let url, let title):
+            CDPDFViewerView()
         }
     }
 
@@ -37,7 +37,7 @@ enum AppRouter: SheetRouterProtocol {
 enum AppRouterKind: EventKind{
     case login
     case signup
-//    case openPDF(urlStr: String)
+    case openPDF//(urlStr: String, title: String)
 }
 
 class AppRouterVM: PlatformOperatorVM_P{
@@ -62,7 +62,8 @@ struct ContentView: View{
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("pdf") {
-                    router.openPDF(urlStr: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf",title: "정답")
+                    router.go(.pdf, animation: .push)
+                    
                 }
             }
         }

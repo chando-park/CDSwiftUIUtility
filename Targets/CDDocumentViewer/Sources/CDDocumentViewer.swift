@@ -37,9 +37,8 @@ public struct CDDocumentViewer: UIViewControllerRepresentable {
                 self.docController.presentPreview(animated: false)
             }
         }
-        viewController.view.backgroundColor = .yellow
-        viewController.view.alpha = 0.5
-        viewController.navigationController?.view.backgroundColor = .cyan
+        viewController.view.backgroundColor = .clear
+        viewController.navigationController?.view.backgroundColor = .clear
         
         return viewController
     }

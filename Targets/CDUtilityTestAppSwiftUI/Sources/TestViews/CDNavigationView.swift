@@ -21,13 +21,9 @@ struct NavigtionTestView: View{
                                                                isNavigationBarHidden: false,
                                                                isBackBtnHidden: false,
                                                                isCloseBtnHidden: true),
-                         backEvent: {
-            print("backEvent")
-            action = .dismiss
-        },
                          closeEvent: {
             print("closeEvent")
-            action = .pop
+//            action = .pop
         },
                          action: $action){
             ZStack{
@@ -36,7 +32,7 @@ struct NavigtionTestView: View{
                 ForumView()
                 NavigationLink("new") {
                     SecoundScreenView()
-                        .nViewTitle("회원가입")
+                        .nViewTitle("회원가입", subTitle: "Phonics Works 2")
                         .isNViewBackButtonHidden(false)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)

@@ -184,7 +184,13 @@ public class CDNavigationController: UINavigationController {
                         self.titleLabel?.alpha = 1
                     }
                     
-                    self.subTitleLabel?.alpha = 0
+                    if subTitle == nil {
+                        self.subTitleLabel?.alpha = 0
+                    }else{
+                        self.subTitleLabel?.alpha = 1
+                    }
+                    
+//
                 } completion: { _ in
                     
                     self.titleLabel?.text = title

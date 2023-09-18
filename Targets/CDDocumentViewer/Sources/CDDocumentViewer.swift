@@ -14,24 +14,27 @@ public struct CDDocumentViewer: UIViewControllerRepresentable {
     private var isActive: Binding<Bool>
     private let viewController = UIViewController()
     private let docController: UIDocumentInteractionController
+    private let distination: URL
     
-    public init(_ isActive: Binding<Bool>, url: Binding<URL?> , title: String) {
+    private let onStart: () -> Void
+    private let onEnd: (URL) -> Void
+    
+    public init(_ isActive: Binding<Bool>, url: Binding<URL?> , title: String, distination: URL) {
         self.isActive = isActive
         self.url = url
         self.docController = UIDocumentInteractionController()
         self.docController.name = title
+        self.distination = distination
     }
     
     public func makeUIViewController(context: UIViewControllerRepresentableContext<CDDocumentViewer>) -> UIViewController {
         
         docController.delegate = context.coordinator
-//        docController.view
-        //URL(string: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf")
-        let destinationURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("downloadedFile.pdf")
-        CDFileDownLoader.shared.downloadFile(url: url.wrappedValue, destination: destinationURL) {
+//
+//        let destinationURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("downloadedFile.pdf")
+        CDFileDownLoader.shared.downloadFile(url: url.wrappedValue, destination: self.distination) {
             
         } onEnd: { destination, error in
-            
             if let destination = destination{
                 self.docController.url = destination
                 self.docController.presentPreview(animated: false)

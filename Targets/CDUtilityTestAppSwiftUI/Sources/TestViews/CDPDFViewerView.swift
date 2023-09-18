@@ -16,8 +16,9 @@ struct CDPDFViewerView: View {
     @State var isLoading: Bool = false
     @State var url: URL? = URL(string: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf")!
     var body: some View {
-        CDDocumentViewer($isShowPreview, url: $url, title: "title")
+//        CDDocumentViewer($isShowPreview, url: $url, title: "title")
 //        CDPDFKitView(document: PDFDocument(url: url!)!)
+        EmptyView()
     }
 }
 

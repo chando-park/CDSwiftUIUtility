@@ -15,7 +15,7 @@ public struct CDNavigationView<Content: View>: View{
     @Binding var action: CDNavigationController.Action?
     var content: () -> Content
     
-    public init(config: CDNavigationViewConfiguration, backEvent: CDNavigationController.Event?, closeEvent: CDNavigationController.Event?, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
+    public init(config: CDNavigationViewConfiguration, backEvent: CDNavigationController.Event? = nil, closeEvent: CDNavigationController.Event? = nil, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
         self.config = config
         self.content = content
         self.backEvent = backEvent

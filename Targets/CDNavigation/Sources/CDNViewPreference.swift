@@ -145,7 +145,6 @@ public struct NViewCloseButtonHiddenPreferenceKeyViewModifier: ViewModifier {
     }
 }
 
-
 //뷰 모디파이어
 public extension View {
     func isNViewBackButtonHidden(_ isHidden: Bool = true) -> some View {

@@ -10,8 +10,8 @@ import SwiftUI
 public class CDNavigationViewConfiguration: ObservableObject{
     
     @Published var statusBarColor: Color
-    @Published var navigationBarBackgroundType: ConvertedNavigationController.NavigationBarBackgroundType
-    @Published var navigationBarTitleType: ConvertedNavigationController.NavigationBarTitleType
+    @Published var navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType
+    @Published var navigationBarTitleType: CDNavigationController.NavigationBarTitleType
     @Published var navigationBarHeight: CGFloat
     @Published var closeImage: UIImage?
     @Published var backImage: UIImage?
@@ -21,8 +21,8 @@ public class CDNavigationViewConfiguration: ObservableObject{
     
     
     public init(statusBarColor: Color,
-                navigationBarBackgroundType: ConvertedNavigationController.NavigationBarBackgroundType,
-                navigationBarTitleType: ConvertedNavigationController.NavigationBarTitleType,
+                navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType,
+                navigationBarTitleType: CDNavigationController.NavigationBarTitleType,
                 navigationBarHeight: CGFloat,
                 closeImage: UIImage? = nil,
                 backImage: UIImage? = nil,

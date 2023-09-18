@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 import SwiftUI
 
-public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
+public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentable {
     
     @Binding var statusBarColor: Color
-    @Binding var navigationBarBackgroundType: ConvertedNavigationController.NavigationBarBackgroundType
-    @Binding var navigationBarTitleType: ConvertedNavigationController.NavigationBarTitleType
+    @Binding var navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType
+    @Binding var navigationBarTitleType: CDNavigationController.NavigationBarTitleType
     @Binding var closeImage: UIImage?
     @Binding var backImage: UIImage?
     @Binding var isNavigationBarHidden: Bool
@@ -23,20 +23,27 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
     
     @Binding var navigationBarHeight: CGFloat
     
+    @Binding var action: CDNavigationController.Action?
+    
+    var backEvent: CDNavigationController.Event?
+    var closeEvent: CDNavigationController.Event?
     var content: () -> Content
     
     var callback: (UINavigationController, UIViewController) -> Void
     
     
     public init(statusBarColor: Binding<Color>,
-                navigationBarBackgroundType: Binding<ConvertedNavigationController.NavigationBarBackgroundType>,
-                navigationBarTitleType: Binding<ConvertedNavigationController.NavigationBarTitleType>,
+                navigationBarBackgroundType: Binding<CDNavigationController.NavigationBarBackgroundType>,
+                navigationBarTitleType: Binding<CDNavigationController.NavigationBarTitleType>,
                 closeImage: Binding<UIImage?>,
                 backImage: Binding<UIImage?>,
                 isNavigationBarHidden: Binding<Bool>,
                 isBackBtnHidden: Binding<Bool>,
                 isCloseBtnHidden: Binding<Bool>,
                 navigationBarHeight: Binding<CGFloat>, // navigationBarHeight 추가
+                action: Binding<CDNavigationController.Action?>, // navigationBarHeight 추가
+                backEvent: CDNavigationController.Event?,
+                closeEvent: CDNavigationController.Event?,
                 content: @escaping () -> Content, // content 추가
                 callback: @escaping (UINavigationController, UIViewController) -> Void) {
         _statusBarColor = statusBarColor
@@ -48,39 +55,46 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
         _isBackBtnHidden = isBackBtnHidden
         _isCloseBtnHidden = isCloseBtnHidden
         _navigationBarHeight = navigationBarHeight
+        _action = action
 //        self.navigationBarHeight = navigationBarHeight // navigationBarHeight 초기화
         self.content = content // content 초기화
         self.callback = callback
+        self.backEvent = backEvent
+        self.closeEvent = closeEvent
     }
     
-    public func makeUIViewController(context: Context) -> ConvertedNavigationController {
+    public func makeUIViewController(context: Context) -> CDNavigationController {
         
         let root = content()
-            .isNViewBackButtonHidden(true)
+            .isNViewBackButtonHidden(self.isBackBtnHidden)
             .nViewTitle(self.navigationBarTitleType.title, subTitle: self.navigationBarTitleType.subTitle)
             .nViewStatusBarColor(self.statusBarColor)
             .nViewIsNaviBarHidden(self.isNavigationBarHidden)
             .nViewIsCloseButtonHidden(self.isCloseBtnHidden)
-//            .ignoresSafeArea([.container])
 
-        let navigationController = ConvertedNavigationController(navigationBarHeight: navigationBarHeight,
+        let navigationController = CDNavigationController(navigationBarHeight: navigationBarHeight,
                                                                  navigationBarBackgroundType: navigationBarBackgroundType,
                                                                  navigationBarTitleType: navigationBarTitleType,
                                                                  statusBarColor: UIColor(statusBarColor),
                                                                  closeImage: closeImage,
                                                                  backImage: backImage,
+                                                                 backEvent: backEvent,
+                                                                 closeEvent: closeEvent,
                                                                  rootViewController: UIHostingController(rootView: root))
         navigationController.delegate = context.coordinator
         return navigationController
     }
     
-    public func updateUIViewController(_ uiViewController: ConvertedNavigationController, context: Context) {
+    public func updateUIViewController(_ uiViewController: CDNavigationController, context: Context) {
 
         uiViewController.setStatusBar(color: UIColor(self.statusBarColor))
         uiViewController.isNaviBarHidden = self.isNavigationBarHidden
         uiViewController.isBackBtnHidden = self.isBackBtnHidden
         uiViewController.isCloseBtnHidden = self.isCloseBtnHidden
         uiViewController.navigationBarTitleType = self.navigationBarTitleType
+        
+        uiViewController.setBackEvent(event: self.backEvent)
+        uiViewController.action = self.action
         
     }
     
@@ -91,9 +105,9 @@ public struct CDRawNaviationView<Content: View>: UIViewControllerRepresentable {
     
     public class NavigationSlave: NSObject, UINavigationControllerDelegate{
         
-        var owner: CDRawNaviationView
+        var owner: CDNaviationViewWrapper
         
-        public init(owner: CDRawNaviationView) {
+        public init(owner: CDNaviationViewWrapper) {
             self.owner = owner
         }
         

@@ -10,16 +10,22 @@ import SwiftUI
 public struct CDNavigationView<Content: View>: View{
 
     @ObservedObject var config: CDNavigationViewConfiguration
+    var backEvent: CDNavigationController.Event?
+    var closeEvent: CDNavigationController.Event?
+    @Binding var action: CDNavigationController.Action?
     var content: () -> Content
     
-    public init(config: CDNavigationViewConfiguration, content: @escaping () -> Content) {
+    public init(config: CDNavigationViewConfiguration, backEvent: CDNavigationController.Event?, closeEvent: CDNavigationController.Event?, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
         self.config = config
         self.content = content
+        self.backEvent = backEvent
+        self.closeEvent = closeEvent
+        self._action = action
     }
     
     public var body: some View{
         
-        CDRawNaviationView(
+        CDNaviationViewWrapper(
             statusBarColor: $config.statusBarColor,
             navigationBarBackgroundType:  $config.navigationBarBackgroundType,
             navigationBarTitleType: $config.navigationBarTitleType,
@@ -28,7 +34,10 @@ public struct CDNavigationView<Content: View>: View{
             isNavigationBarHidden:  $config.isNavigationBarHidden,
             isBackBtnHidden:  $config.isBackBtnHidden,
             isCloseBtnHidden:  $config.isCloseBtnHidden,
-            navigationBarHeight: $config.navigationBarHeight,//UIScreen.main.bounds.height*(183/2436),
+            navigationBarHeight: $config.navigationBarHeight,
+            action: $action,//UIScreen.main.bounds.height*(183/2436),
+            backEvent: backEvent,
+            closeEvent: closeEvent,
             content: content,
             callback: { n, c in
             })
@@ -39,7 +48,7 @@ public struct CDNavigationView<Content: View>: View{
                 let font = config.navigationBarTitleType.fontInfo
                 let subFont = config.navigationBarTitleType.subFontInfo
                 let color = config.navigationBarTitleType.color
-                config.navigationBarTitleType = ConvertedNavigationController.NavigationBarTitleType.text(title: title.title,
+                config.navigationBarTitleType = CDNavigationController.NavigationBarTitleType.text(title: title.title,
                                                                                                           subTitle: title.subTitle,
                                                                                                           color: color,
                                                                                                           font: font,

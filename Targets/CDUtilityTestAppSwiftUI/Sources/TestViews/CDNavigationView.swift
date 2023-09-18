@@ -10,16 +10,26 @@ import CDNavigation
 
 struct NavigtionTestView: View{
     let topIsect = UIScreen.main.bounds.height*(183/2436)
+    @State var action: CDNavigationController.Action? = nil
     var body: some View{
         CDNavigationView(config: CDNavigationViewConfiguration(statusBarColor: .green,
                                                                navigationBarBackgroundType: .paint(color: .orange),
-                                                               navigationBarTitleType: .text(title: "회원 탈퇴",subTitle: "Phonics Works 3", color: .white, font: ConvertedNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: ConvertedNavigationController.FontInfo(size: (54.0/183.0)*self.topIsect)),
+                                                               navigationBarTitleType: .text(title: "회원 탈퇴",subTitle: "Phonics Works 3", color: .white, font: CDNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: CDNavigationController.FontInfo(size: (54.0/183.0)*self.topIsect)),
                                                                navigationBarHeight: topIsect,
                                                                closeImage: UIImage(named: "home-menu.png"),
                                                                backImage: UIImage(named: "pre-menu.png"),
                                                                isNavigationBarHidden: false,
-                                                               isBackBtnHidden: true,
-                                                               isCloseBtnHidden: true)){
+                                                               isBackBtnHidden: false,
+                                                               isCloseBtnHidden: true),
+                         backEvent: {
+            print("backEvent")
+            action = .dismiss
+        },
+                         closeEvent: {
+            print("closeEvent")
+            action = .pop
+        },
+                         action: $action){
             ZStack{
                 
                 Color.yellow
@@ -30,7 +40,7 @@ struct NavigtionTestView: View{
                         .isNViewBackButtonHidden(false)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)
-                        .nViewIsCloseButtonHidden()
+                        .nViewIsCloseButtonHidden(false)
                         .navigationBarBackButtonHidden()
                 }
             }

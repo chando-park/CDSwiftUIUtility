@@ -1,5 +1,5 @@
 //
-//  ConvertedNavigationController.swift
+//  CDNavigationController.swift
 //  CDNavigation
 //
 //  Created by Littlefox iOS Developer on 2023/08/24.
@@ -8,8 +8,34 @@
 import UIKit
 import SwiftUI
 
-public class ConvertedNavigationController: UINavigationController {
+public class CDNavigationController: UINavigationController {
     
+    public enum Action: Equatable{
+        case pop
+        case dismiss
+        case root
+    }
+    
+    public var action: Action?{
+        didSet{
+            if let action = action{
+                switch action {
+                case .pop:
+                    self.popViewController(animated: true)
+                    break
+                case .dismiss:
+                    self.dismiss(animated: true)
+                    break
+                case .root:
+                    self.popToRootViewController(animated: true)
+                    break
+                }
+            }
+        }
+    }
+    
+    public typealias Event = () -> Void
+
     public enum NavigationBarBackgroundType{
         case image(image: UIImage)
         case paint(color: UIColor)
@@ -85,6 +111,10 @@ public class ConvertedNavigationController: UINavigationController {
     private var statusbarView: UIView!
     private var fontInfo: FontInfo!
     private var subFontInfo: FontInfo?
+    
+    
+    private var backEvent: Event?
+    private var closeEvent: Event?
     
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -205,8 +235,18 @@ public class ConvertedNavigationController: UINavigationController {
         }
     }
     
-    init(navigationBarHeight:CGFloat, navigationBarBackgroundType: NavigationBarBackgroundType, navigationBarTitleType: NavigationBarTitleType, statusBarColor: UIColor, closeImage: UIImage?, backImage: UIImage?, rootViewController: UIViewController) {
+    init(navigationBarHeight:CGFloat,
+         navigationBarBackgroundType: NavigationBarBackgroundType,
+         navigationBarTitleType: NavigationBarTitleType,
+         statusBarColor: UIColor,
+         closeImage: UIImage?,
+         backImage: UIImage?,
+         backEvent: Event?,
+         closeEvent: Event?,
+         rootViewController: UIViewController) {
         self.navigationBarHeight = navigationBarHeight
+        self.backEvent = backEvent
+        self.closeEvent = closeEvent
         super.init(rootViewController: rootViewController)
         
         self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
@@ -285,17 +325,27 @@ public class ConvertedNavigationController: UINavigationController {
     }
 
     @objc private func backCallback(_ sender: UIButton){
-        self.popViewController(animated: true)
+        if let backEven = backEvent{
+            backEven()
+        }else{
+            self.popViewController(animated: true)
+        }
+        
     }
     
     @objc private func closeCallback(_ sender: UIButton){
-        self.dismiss(animated: true)
+        if let closeEvent = closeEvent{
+            closeEvent()
+        }else{
+            self.dismiss(animated: true)
+        }
     }
     
     func setStatusBar(color: UIColor){
-//        UIView.animate(withDuration: 0.1) {
-            self.statusbarView.backgroundColor = color
-//        }
-        
+        self.statusbarView.backgroundColor = color
+    }
+    
+    func setBackEvent(event: Event?){
+        self.backEvent = event
     }
 }

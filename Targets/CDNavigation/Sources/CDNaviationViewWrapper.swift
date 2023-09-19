@@ -66,27 +66,30 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
     public func makeUIViewController(context: Context) -> CDNavigationController {
         
         let root = content()
-            .isNViewBackButtonHidden(self.isBackBtnHidden)
             .nViewTitle(self.navigationBarTitleType.title, subTitle: self.navigationBarTitleType.subTitle)
             .nViewStatusBarColor(self.statusBarColor)
             .nViewIsNaviBarHidden(self.isNavigationBarHidden)
+            .nViewCloseButtonImage(self.closeImage)
+            .nViewBackButtonImage(self.backImage)
+            .nViewIsBackButtonHidden(self.isBackBtnHidden)
             .nViewIsCloseButtonHidden(self.isCloseBtnHidden)
-
+            
+        
         let navigationController = CDNavigationController(navigationBarHeight: navigationBarHeight,
-                                                                 navigationBarBackgroundType: navigationBarBackgroundType,
-                                                                 navigationBarTitleType: navigationBarTitleType,
-                                                                 statusBarColor: UIColor(statusBarColor),
-                                                                 closeImage: closeImage,
-                                                                 backImage: backImage,
-                                                                 backEvent: backEvent,
-                                                                 closeEvent: closeEvent,
-                                                                 rootViewController: UIHostingController(rootView: root))
+                                                          navigationBarBackgroundType: navigationBarBackgroundType,
+                                                          navigationBarTitleType: navigationBarTitleType,
+                                                          statusBarColor: UIColor(statusBarColor),
+                                                          closeImage: closeImage,
+                                                          backImage: backImage,
+                                                          backEvent: backEvent,
+                                                          closeEvent: closeEvent,
+                                                          rootViewController: UIHostingController(rootView: root))
         navigationController.delegate = context.coordinator
         return navigationController
     }
     
     public func updateUIViewController(_ uiViewController: CDNavigationController, context: Context) {
-
+        
         uiViewController.setStatusBar(color: UIColor(self.statusBarColor))
         uiViewController.isNaviBarHidden = self.isNavigationBarHidden
         uiViewController.isBackBtnHidden = self.isBackBtnHidden
@@ -95,6 +98,9 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
         
         uiViewController.setBackEvent(event: self.backEvent)
         uiViewController.action = self.action
+        
+        uiViewController.closeImage = self.closeImage
+        uiViewController.backImage = self.backImage
         
     }
     
@@ -113,8 +119,8 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
         
         public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
             self.owner.callback(navigationController, viewController)
-            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: self.owner).subjectType)")
-            print("viewController \(viewController)")
+//            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: self.owner).subjectType)")
+//            print("viewController \(viewController)")
 
         }
     }

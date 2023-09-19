@@ -17,10 +17,10 @@ struct NavigtionTestView: View{
                                                                navigationBarTitleType: .text(title: "회원 탈퇴",subTitle: "Phonics Works 3", color: .white, font: CDNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: CDNavigationController.FontInfo(size: (54.0/183.0)*self.topIsect)),
                                                                navigationBarHeight: topIsect,
                                                                closeImage: UIImage(named: "home-menu.png"),
-                                                               backImage: UIImage(named: "pre-menu.png"),
+                                                               backImage: UIImage(named: "home-menu.png"),
                                                                isNavigationBarHidden: false,
                                                                isBackBtnHidden: false,
-                                                               isCloseBtnHidden: true),
+                                                               isCloseBtnHidden: false),
                          closeEvent: {
             print("closeEvent")
 //            action = .pop
@@ -33,10 +33,12 @@ struct NavigtionTestView: View{
                 NavigationLink("new") {
                     SecoundScreenView()
                         .nViewTitle("회원가입", subTitle: "Phonics Works 2")
-                        .isNViewBackButtonHidden(false)
+                        .nViewBackButtonImage(UIImage(named: "pre-menu.png"))
+                        .nViewCloseButtonImage(UIImage(named: "pre-menu.png"))
+                        .nViewIsBackButtonHidden(false)
+                        .nViewIsCloseButtonHidden(false)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)
-                        .nViewIsCloseButtonHidden(false)
                         .navigationBarBackButtonHidden()
                 }
             }

@@ -15,7 +15,11 @@ public struct CDNavigationView<Content: View>: View{
     @Binding var action: CDNavigationController.Action?
     var content: () -> Content
     
-    public init(config: CDNavigationViewConfiguration, backEvent: CDNavigationController.Event? = nil, closeEvent: CDNavigationController.Event? = nil, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
+    public init(config: CDNavigationViewConfiguration,
+                backEvent: CDNavigationController.Event? = nil,
+                closeEvent: CDNavigationController.Event? = nil,
+                action: Binding<CDNavigationController.Action?> = .constant(nil),
+                content: @escaping () -> Content) {
         self.config = config
         self.content = content
         self.backEvent = backEvent
@@ -60,11 +64,15 @@ public struct CDNavigationView<Content: View>: View{
             }
             .onPreferenceChange(NViewBarHiddenPreferenceKey.self) { isHidden in
                 config.isNavigationBarHidden = isHidden
-                
             }
             .onPreferenceChange(NViewCloseButtonHiddenPreferenceKey.self) { isHidden in
                 config.isCloseBtnHidden = isHidden
-                
+            }
+            .onPreferenceChange(NViewCloseButtonImagePreferenceKey.self) { image in
+                config.closeImage = image
+            }
+            .onPreferenceChange(NViewBackButtonImagePreferenceKey.self) { image in
+                config.backImage = image
             }
             .ignoresSafeArea([.container])
         

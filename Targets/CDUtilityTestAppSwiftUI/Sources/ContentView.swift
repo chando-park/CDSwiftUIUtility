@@ -63,7 +63,6 @@ struct ContentView: View{
                 }
                 Button("pdf") {
                     router.go(.pdf, animation: .full(animationOn: true))
-                    
                 }
             }
         }

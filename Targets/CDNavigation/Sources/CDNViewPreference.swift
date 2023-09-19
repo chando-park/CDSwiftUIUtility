@@ -15,24 +15,6 @@ public struct NViewBackButtonHiddenPreferenceKey: PreferenceKey {
     }
 }
 
-
-public struct NViewBackButtonHiddenViewModifier: ViewModifier {
-    @State var isBackButtonHiddenView: Bool? = nil
-    private let __isBackButtonHiddenView: Bool
-    
-    init(isBackButtonHiddenView: Bool) {
-        self.__isBackButtonHiddenView = isBackButtonHiddenView
-    }
-    
-    public func body(content: Content) -> some View {
-        content
-            .preference(key: NViewBackButtonHiddenPreferenceKey.self, value: isBackButtonHiddenView ?? true)
-            .onAppear {
-                self.isBackButtonHiddenView = self.__isBackButtonHiddenView
-            }
-    }
-}
-
 //타이틀
 public struct NViewTitlePreferenceKey: PreferenceKey {
     
@@ -41,28 +23,9 @@ public struct NViewTitlePreferenceKey: PreferenceKey {
         var subTitle: String?
     }
     
-//    public typealias TitleInfo = (title: String?, subTitle: String?)
     public static var defaultValue: TitleInfo = TitleInfo()
     public static func reduce(value: inout TitleInfo, nextValue: () -> TitleInfo) {
         value = nextValue()
-    }
-}
-
-public struct NViewTitlePreferenceKeyViewModifier: ViewModifier {
-    
-    @State var title: NViewTitlePreferenceKey.TitleInfo = NViewTitlePreferenceKey.TitleInfo()
-    private let __title: NViewTitlePreferenceKey.TitleInfo
-
-    init(title: String?, subTitle: String? = nil) {
-        self.__title = NViewTitlePreferenceKey.TitleInfo(title: title,subTitle: subTitle)
-    }
-    
-    public func body(content: Content) -> some View {
-        content
-            .preference(key: NViewTitlePreferenceKey.self, value: title)
-            .onAppear {
-                self.title = self.__title
-            }
     }
 }
 
@@ -74,24 +37,6 @@ public struct NViewStatusBarColorPreferenceKey: PreferenceKey {
     }
 }
 
-
-public struct NViewStatusBarColorPreferenceKeyViewModifier: ViewModifier {
-    @State var color: Color = .clear
-    private let __color: Color
-    
-    init(color: Color) {
-        self.__color = color
-    }
-    
-    public func body(content: Content) -> some View {
-        content
-            .preference(key: NViewStatusBarColorPreferenceKey.self, value: color)
-            .onAppear {
-                self.color = self.__color
-            }
-    }
-}
-
 //네비게이션바 히든 여부
 public struct NViewBarHiddenPreferenceKey: PreferenceKey {
     public static var defaultValue: Bool = false
@@ -100,26 +45,7 @@ public struct NViewBarHiddenPreferenceKey: PreferenceKey {
     }
 }
 
-
-public struct NViewBarHiddenPreferenceKeyViewModifier: ViewModifier {
-    @State var isHidden: Bool = false
-    private let __isHidden: Bool
-    
-    init(isHidden: Bool) {
-        self.__isHidden = isHidden
-    }
-    
-    public func body(content: Content) -> some View {
-        content
-            .preference(key: NViewBarHiddenPreferenceKey.self, value: isHidden)
-            .onAppear {
-                self.isHidden = self.__isHidden
-            }
-    }
-}
-
-
-//네비게이션바 히든 여부
+//닫기 히든 여부
 public struct NViewCloseButtonHiddenPreferenceKey: PreferenceKey {
     public static var defaultValue: Bool = false
     public static func reduce(value: inout Bool, nextValue: () -> Bool) {
@@ -127,43 +53,50 @@ public struct NViewCloseButtonHiddenPreferenceKey: PreferenceKey {
     }
 }
 
-
-public struct NViewCloseButtonHiddenPreferenceKeyViewModifier: ViewModifier {
-    @State var isHidden: Bool = false
-    private let __isHidden: Bool
-    
-    init(isHidden: Bool) {
-        self.__isHidden = isHidden
+//닫기 버튼 이미지
+public struct NViewCloseButtonImagePreferenceKey: PreferenceKey {
+    public static var defaultValue: UIImage? = nil
+    public static func reduce(value: inout UIImage?, nextValue: () -> UIImage?) {
+        value = nextValue()
     }
-    
-    public func body(content: Content) -> some View {
-        content
-            .preference(key: NViewCloseButtonHiddenPreferenceKey.self, value: isHidden)
-            .onAppear {
-                self.isHidden = self.__isHidden
-            }
+}
+
+//뒤로가기 버튼 이미지
+public struct NViewBackButtonImagePreferenceKey: PreferenceKey {
+    public static var defaultValue: UIImage? = nil
+    public static func reduce(value: inout UIImage?, nextValue: () -> UIImage?) {
+        value = nextValue()
     }
 }
 
 //뷰 모디파이어
 public extension View {
-    func isNViewBackButtonHidden(_ isHidden: Bool = true) -> some View {
-        modifier(NViewBackButtonHiddenViewModifier(isBackButtonHiddenView: isHidden))
+
+    func nViewIsBackButtonHidden(_ isHidden: Bool = true) -> some View {
+        preference(key: NViewBackButtonHiddenPreferenceKey.self, value: isHidden)
     }
     
     func nViewTitle(_ title: String?, subTitle: String? = nil) -> some View {
-        modifier(NViewTitlePreferenceKeyViewModifier(title: title, subTitle: subTitle))
+        preference(key: NViewTitlePreferenceKey.self, value: NViewTitlePreferenceKey.TitleInfo(title: title, subTitle: subTitle))
     }
     
     func nViewStatusBarColor(_ color: Color) -> some View {
-        modifier(NViewStatusBarColorPreferenceKeyViewModifier(color: color))
+        preference(key: NViewStatusBarColorPreferenceKey.self, value: color)
     }
     
     func nViewIsNaviBarHidden(_ isHidden: Bool = true) -> some View {
-        modifier(NViewBarHiddenPreferenceKeyViewModifier(isHidden: isHidden))
+        preference(key: NViewBarHiddenPreferenceKey.self, value: isHidden)
     }
     
     func nViewIsCloseButtonHidden(_ isHidden: Bool = true) -> some View {
-        modifier(NViewCloseButtonHiddenPreferenceKeyViewModifier(isHidden: isHidden))
+        preference(key: NViewCloseButtonHiddenPreferenceKey.self, value: isHidden)
+    }
+    
+    func nViewCloseButtonImage(_ image: UIImage? = nil) -> some View {
+        preference(key: NViewCloseButtonImagePreferenceKey.self, value: image)
+    }
+    
+    func nViewBackButtonImage(_ image: UIImage? = nil) -> some View {
+        preference(key: NViewBackButtonImagePreferenceKey.self, value: image)
     }
 }

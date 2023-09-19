@@ -112,9 +112,10 @@ public class CDNavigationController: UINavigationController {
     private var fontInfo: FontInfo!
     private var subFontInfo: FontInfo?
     
-    
     private var backEvent: Event?
     private var closeEvent: Event?
+    
+    private var isInit: Bool = false
     
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -135,6 +136,8 @@ public class CDNavigationController: UINavigationController {
         }
     }
     
+    
+    
     var isBackBtnHidden: Bool = false{
         didSet{
             
@@ -154,6 +157,30 @@ public class CDNavigationController: UINavigationController {
         }
     }
     
+    var backImage: UIImage? {
+        didSet{
+            if oldValue == self.closeImage{
+                return
+            }
+            
+            guard let backBtn = self.backBtn else{
+                return
+            }
+            
+            UIView.animate(withDuration: 0.15) {
+                backBtn.frame.origin.x = -backBtn.frame.size.width
+            } completion: { _ in
+                backBtn.setImage(self.backImage, for: .normal)
+                if self.isBackBtnHidden == false {
+                    UIView.animate(withDuration: 0.15) {
+                        let left = backBtn.frame.size.width*(42.0/110)
+                        backBtn.frame.origin.x = left
+                    }
+                }
+            }
+        }
+    }
+    
     var isCloseBtnHidden: Bool = false{
         didSet{
             
@@ -167,6 +194,30 @@ public class CDNavigationController: UINavigationController {
                 }else{
                     let left = closeBtn.frame.size.width*(42.0/110)
                     closeBtn.frame.origin.x = self.view.frame.size.width - left - closeBtn.frame.size.width
+                }
+            }
+        }
+    }
+    
+    var closeImage: UIImage? {
+        didSet{
+            if oldValue == self.closeImage{
+                return
+            }
+            
+            guard let closeBtn = self.closeBtn else{
+                return
+            }
+            
+            UIView.animate(withDuration: 0.15) {
+                closeBtn.frame.origin.x = self.view.frame.size.width
+            } completion: { _ in
+                closeBtn.setImage(self.closeImage, for: .normal)
+                if self.isCloseBtnHidden == false {
+                    UIView.animate(withDuration: 0.15) {
+                        let left = closeBtn.frame.size.width*(42.0/110)
+                        closeBtn.frame.origin.x = self.view.frame.size.width - left - closeBtn.frame.size.width
+                    }
                 }
             }
         }
@@ -323,6 +374,8 @@ public class CDNavigationController: UINavigationController {
             .constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         self.navigationBar.backgroundColor = .clear
+        
+        self.isInit = true
         
     }
     

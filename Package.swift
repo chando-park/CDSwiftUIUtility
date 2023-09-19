@@ -26,6 +26,9 @@ let package = Package(
         .library(
             name: "CDFileDownLoader",
             targets: ["CDFileDownLoader"]),
+        .library(
+            name: "CDActivityView",
+            targets: ["CDActivityView"]),
     ],
     
     dependencies: [
@@ -75,10 +78,10 @@ let package = Package(
                 dependencies: [],
                 path: "Targets/CDFileDownLoader/Sources"),
         
-//            .target(
-//                name: "CDActivityView",
-//                dependencies: [],
-//                path: "Targets/CDActivityView/Sources"),
+            .target(
+                name: "CDActivityView",
+                dependencies: ["CDFileDownLoader"],
+                path: "Targets/CDActivityView/Sources"),
 //
 //            .testTarget(
 //                name: "CDActivityViewTests",

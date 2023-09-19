@@ -47,7 +47,13 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
     }
     
     private var isFrontSheeted: Binding<Bool> {
-        sheets.last?.animation == .front ? isActiveBinding : .constant(false)
+        switch sheets.last?.animation {
+        case .front(_):
+            return isActiveBinding
+        default:
+            return .constant(false)
+        }
+//        sheets.last?.animation == .front ? isActiveBinding : .constant(false)
     }
     
     public func body(content: Content) -> some View {
@@ -57,7 +63,12 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
                 
             }
             .sheet(isPresented: isFrontSheeted) {
-                sheets.last?.router.buildView(isSheeted: isFrontSheeted)
+                if #available(iOS 16.0, *) {
+                    sheets.last?.router.buildView(isSheeted: isFrontSheeted)
+                        .presentationDetents([(self.sheets.last?.animation.presentationDetent ?? .large) == .large ? PresentationDetent.large : PresentationDetent.medium])
+                } else {
+                    sheets.last?.router.buildView(isSheeted: isFrontSheeted)
+                }
             }
             .background(
                 NavigationLink(

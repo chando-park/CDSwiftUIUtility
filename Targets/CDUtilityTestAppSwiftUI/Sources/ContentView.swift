@@ -10,12 +10,13 @@ import CDWeb
 import CDSheetRouter
 import CDDocumentViewer
 import CDFileDownLoader
+import CDActivityView
 
 enum AppRouter: SheetRouterProtocol {
     case web
     case router
     case navigation
-    case pdf//(url: URL, title: String)
+    case activity(Binding<[CDActivityType]>)//(url: URL, title: String)
     
     var id: String { "\(self)" }
     
@@ -27,8 +28,9 @@ enum AppRouter: SheetRouterProtocol {
             CDRoutingTestingView()
         case .navigation:
             NavigtionTestView()
-        case .pdf://(let url, let title):
-            CDPDFViewerView(isShowPreview: isSheeted)
+        case .activity(let activities)://(let url, let title):
+//            CDPDFViewerView(isShowPreview: isSheeted)
+            CDActivityView(activityItmes: activities)
         }
     }
 
@@ -62,7 +64,8 @@ struct ContentView: View{
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("pdf") {
-                    router.go(.pdf, animation: .full(animationOn: true))
+                    //.constant([.image(UIImage(named: "pre-menu.png")!)]
+                    router.go(.activity(.constant([.image(UIImage(named: "pre-menu.png")!)])), animation: .front(.medium))
                 }
             }
         }

@@ -167,10 +167,15 @@ public class CDNavigationController: UINavigationController {
                 return
             }
             
+            guard let image = self.backImage else{
+                return
+            }
+            
             UIView.animate(withDuration: 0.15) {
                 backBtn.frame.origin.x = -backBtn.frame.size.width
             } completion: { _ in
-                backBtn.setImage(self.backImage, for: .normal)
+                
+                backBtn.setImage(image, for: .normal)
                 if self.isBackBtnHidden == false {
                     UIView.animate(withDuration: 0.15) {
                         let left = backBtn.frame.size.width*(42.0/110)
@@ -209,10 +214,14 @@ public class CDNavigationController: UINavigationController {
                 return
             }
             
+            guard let image = self.closeImage else{
+                return
+            }
+            
             UIView.animate(withDuration: 0.15) {
                 closeBtn.frame.origin.x = self.view.frame.size.width
             } completion: { _ in
-                closeBtn.setImage(self.closeImage, for: .normal)
+                closeBtn.setImage(image, for: .normal)
                 if self.isCloseBtnHidden == false {
                     UIView.animate(withDuration: 0.15) {
                         let left = closeBtn.frame.size.width*(42.0/110)

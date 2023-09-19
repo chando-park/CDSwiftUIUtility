@@ -33,7 +33,7 @@ struct NavigtionTestView: View{
                 NavigationLink("new") {
                     SecoundScreenView()
                         .nViewTitle("회원가입", subTitle: "Phonics Works 2")
-                        .nViewBackButtonImage(UIImage(named: "pre-menu.png"))
+//                        .nViewBackButtonImage(UIImage(named: "pre-menu.png"))
                         .nViewCloseButtonImage(UIImage(named: "pre-menu.png"))
                         .nViewIsBackButtonHidden(false)
                         .nViewIsCloseButtonHidden(false)

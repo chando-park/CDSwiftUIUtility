@@ -12,18 +12,18 @@ struct NavigtionTestView: View{
     let topIsect = UIScreen.main.bounds.height*(183/2436)
     @State var action: CDNavigationController.Action? = nil
     var body: some View{
-        CDNavigationView(config: CDNavigationViewConfiguration(statusBarColor: .green,
-                                                               navigationBarBackgroundType: .paint(color: .orange),
-                                                               navigationBarTitleType: .text(title: "회원 탈퇴",subTitle: "Phonics Works 3", color: .white, font: CDNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: CDNavigationController.FontInfo(size: (54.0/183.0)*self.topIsect)),
-                                                               navigationBarHeight: topIsect,
-                                                               closeImage: UIImage(named: "home-menu.png"),
-                                                               backImage: UIImage(named: "home-menu.png"),
-                                                               isNavigationBarHidden: false,
-                                                               isBackBtnHidden: false,
-                                                               isCloseBtnHidden: false),
+        CDNavigationView(statusBarColor: .green,
+                         navigationBarBackgroundType: .paint(color: .orange),
+                         navigationBarTitleType: .text(title: "회원 탈퇴",subTitle: "Phonics Works 3", color: .white, font: CDNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: CDNavigationController.FontInfo(size: (54.0/183.0)*self.topIsect)),
+                         navigationBarHeight: topIsect,
+                         closeImage: UIImage(named: "home-menu.png"),
+                         backImage: UIImage(named: "home-menu.png"),
+                         isNavigationBarHidden: false,
+                         isBackBtnHidden: false,
+                         isCloseBtnHidden: false,
                          closeEvent: {
             print("closeEvent")
-//            action = .pop
+            //            action = .pop
         },
                          action: $action){
             ZStack{
@@ -33,7 +33,6 @@ struct NavigtionTestView: View{
                 NavigationLink("new") {
                     SecoundScreenView()
                         .nViewTitle("회원가입", subTitle: "Phonics Works 2")
-//                        .nViewBackButtonImage(UIImage(named: "pre-menu.png"))
                         .nViewCloseButtonImage(UIImage(named: "pre-menu.png"))
                         .nViewIsBackButtonHidden(false)
                         .nViewIsCloseButtonHidden(false)

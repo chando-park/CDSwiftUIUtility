@@ -16,7 +16,7 @@ enum AppRouter: SheetRouterProtocol {
     case web
     case router
     case navigation
-    case activity(Binding<CDActivityType>)//(url: URL, title: String)
+    case pdf//(url: URL, title: String)
     
     var id: String { "\(self)" }
     
@@ -28,9 +28,9 @@ enum AppRouter: SheetRouterProtocol {
             CDRoutingTestingView()
         case .navigation:
             NavigtionTestView()
-        case .activity(let activities):
-            CDActivityView(activityItem: activities)
-//            CDPDFViewerView()
+        case .pdf:
+//            CDActivityView(activityItem: activities)
+            CDPDFViewerView()
         }
     }
 
@@ -64,7 +64,8 @@ struct ContentView: View{
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("open pdf") {
-                    
+//                    self.router.go(.activity(.constant(.url(URL(string: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf")!))), animation: .front(.medium))
+                    self.router.go(.pdf, animation: .push)
                 }
             }
         }

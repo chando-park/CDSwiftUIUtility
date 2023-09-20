@@ -81,8 +81,8 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
             .transaction({ t in
                 t.disablesAnimations = sheets.last?.animation.isAnimationOn == false
             })
-            .onChange(of: sheets) { newValue in
-                self.sheetDetector?(newValue.last?.router)
-            }
+//            .onChange(of: sheets) { newValue in
+////                self.sheetDetector?(newValue.last?.router)
+//            }
     }
 }

@@ -26,6 +26,50 @@ public enum CDFileDownLoaderError: Error{
     }
 }
 
+public enum CDFileName{
+    
+    enum Storage{
+        case document
+        case cache
+    }
+    
+    case pdf(String)
+    case png(String)
+    case jpg(String)
+    case txt(String)
+    
+    var name: String{
+        switch self {
+        case .pdf(let string):
+            return string
+        case .png(let string):
+            return string
+        case .jpg(let string):
+            return string
+        case .txt(let string):
+            return string
+        }
+    }
+    
+    var extention: String{
+        switch self {
+        case .pdf(_):
+            return "pdf"
+        case .png(_):
+            return "png"
+        case .jpg(_):
+            return "jpg"
+        case .txt(_):
+            return "txt"
+        }
+    }
+    
+    var destination: URL{
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("\(self.name).\(self.extention)")
+    }
+    
+}
+
 
 public class CDFileDownLoader {
     
@@ -33,7 +77,9 @@ public class CDFileDownLoader {
     
     var cancellables = Set<AnyCancellable>()
     
-    public func downloadFile(url: URL?, destination: URL, onStart: () -> Void, onEnd: @escaping (_ destination: URL?, _ error: CDFileDownLoaderError?) -> Void){
+    public init(){}
+    
+    public func downloadFile(url: URL?, name: CDFileName, onStart: () -> Void, onEnd: @escaping (_ destination: URL?, _ error: CDFileDownLoaderError?) -> Void){
         
         onStart()
         
@@ -41,6 +87,8 @@ public class CDFileDownLoader {
             onEnd(nil, .inValidURL)
             return
         }
+        
+        let destination = name.destination
         
         URLSession.shared.dataTaskPublisher(for: fileURL)
             .receive(on: DispatchQueue.main)
@@ -52,7 +100,6 @@ public class CDFileDownLoader {
                     print("Download error: \(error)")
                     onEnd(nil, .inerError(error))
                 }
-                //                            self.isDownloading = false
             }, receiveValue: { value in
                 let data = value.data
                 do {

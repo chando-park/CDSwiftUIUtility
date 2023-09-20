@@ -239,15 +239,15 @@ public class CDNavigationController: UINavigationController {
                 
                 UIView.animate(withDuration: 0.1) {
                     if title == nil {
-                        self.titleLabel?.alpha = 0
+                        self.titleLabel?.isHidden = true
                     }else{
-                        self.titleLabel?.alpha = 1
+                        self.titleLabel?.isHidden = false
                     }
                     
                     if subTitle == nil {
-                        self.subTitleLabel?.alpha = 0
+                        self.subTitleLabel?.isHidden = true
                     }else{
-                        self.subTitleLabel?.alpha = 1
+                        self.subTitleLabel?.isHidden = false
                     }
                     
 //
@@ -270,10 +270,10 @@ public class CDNavigationController: UINavigationController {
                         
                         UIView.animate(withDuration: 0.1) {
                             if let _ = title {
-                                self.titleLabel?.alpha = 1
+                                self.titleLabel?.isHidden = false
                             }
 //                            self.titleLabel?.alpha = 1
-                            self.subTitleLabel?.alpha = 1
+                            self.subTitleLabel?.isHidden = false
                             self.subTitleLabel?.center.x = self.titleLabel?.center.x ?? 0
                             
                             
@@ -284,9 +284,9 @@ public class CDNavigationController: UINavigationController {
                     }else{
                         UIView.animate(withDuration: 0.1) {
                             self.titleLabel?.frame.origin.y = (self.navigationBarHeight - (self.titleLabel?.frame.size.height ?? 0))/2 + self.statusBarHeight
-                            self.subTitleLabel?.alpha = 0
+                            self.subTitleLabel?.isHidden = true
                             if let _ = title {
-                                self.titleLabel?.alpha = 1
+                                self.titleLabel?.isHidden = false
                             }
                         }
                     }

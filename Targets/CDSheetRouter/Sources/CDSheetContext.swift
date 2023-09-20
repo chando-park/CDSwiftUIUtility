@@ -16,32 +16,24 @@ public enum SheetAnimation: Equatable{
     }
     
     case full(animationOn: Bool)
-    case landscapeFull(animationOn: Bool)
-    case front(_PresentationDetent)
+    case front
+    case activity(_PresentationDetent)
     case push
     
     var isAnimationOn: Bool{
         switch self {
         case .full(let animationOn):
             return animationOn
-        case .landscapeFull(let animationOn):
-            return animationOn
-        case .front(_):
-            return true
-        case .push:
+        default:
             return true
         }
     }
     
     var presentationDetent: _PresentationDetent?{
         switch self {
-        case .full(_):
-            return nil
-        case .landscapeFull(_):
-            return nil
-        case .front(let presentationDetent):
+        case .activity(let presentationDetent):
             return presentationDetent
-        case .push:
+        default:
             return nil
         }
     }

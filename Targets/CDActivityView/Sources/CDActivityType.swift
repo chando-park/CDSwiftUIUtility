@@ -13,7 +13,7 @@ public enum CDActivityType: Equatable, Identifiable{
     case text(String)
     
     public var id: String{
-        "\(self)"
+        "\(self)"////
     }
     
     public static func == (lhs: CDActivityType, rhs: CDActivityType) -> Bool {
@@ -28,6 +28,15 @@ public enum CDActivityType: Equatable, Identifiable{
             return uRL
         case .text(let string):
             return string
+        }
+    }
+    
+    var isUrl: Bool{
+        switch self {
+        case .url(_):
+            return true
+        default:
+            return false
         }
     }
 }

@@ -8,38 +8,29 @@
 import SwiftUI
 
 public struct CDActivityView: UIViewControllerRepresentable {
-
-    @Binding var activityItmes: [CDActivityType]
+    @Binding var isPresented: Bool
+    public let activityItmes: [CDActivityType]
     
-    public init(activityItmes: Binding<[CDActivityType]>) {
-        self._activityItmes = activityItmes
+    public init(isPresented: Binding<Bool>, activityItmes: [CDActivityType]) {
+        self._isPresented = isPresented
+        self.activityItmes = activityItmes
     }
     
-    var isPresented: Binding<Bool> {
-        if activityItmes.isEmpty {
-            return .constant(false)
-        } else {
-            return Binding(
-                get: {
-                    activityItmes.isEmpty == false
-                },
-                set: { isShowing in
-                }
-            )
-        }
+    public func makeUIViewController(context: Context) -> UIViewController {
+        UIViewController()
     }
     
-    public func makeUIViewController(context: Context) -> UIActivityViewController {
-        
+    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         let activityViewController = UIActivityViewController(
             activityItems: activityItmes.map({$0.toActivity}),
             applicationActivities: nil
         )
         
-        return activityViewController
-    }
-    
-    public func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-
+        if isPresented && uiViewController.presentedViewController == nil {
+            uiViewController.present(activityViewController, animated: true)
+        }
+        activityViewController.completionWithItemsHandler = { (_, _, _, _) in
+            isPresented = false
+        }
     }
 }

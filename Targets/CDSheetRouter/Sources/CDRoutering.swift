@@ -48,7 +48,7 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
     
     private var isFrontSheeted: Binding<Bool> {
         switch sheets.last?.animation {
-        case .front(_):
+        case .front:
             return isActiveBinding
         default:
             return .constant(false)
@@ -93,7 +93,7 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
                 .hidden()
             )
             .transaction({ t in
-                t.disablesAnimations = sheets.last?.animation.isAnimationOn == false
+//                t.disablesAnimations = sheets.last?.animation.isAnimationOn == false
             })
             .onChange(of: sheets) { newValue in
                 self.sheetDetector?(newValue.last?.router)

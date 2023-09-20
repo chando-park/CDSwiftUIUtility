@@ -9,25 +9,30 @@ import SwiftUI
 import PDFKit
 import CDDocumentViewer
 import CDFileDownLoader
+import CDSheetRouter
+import CDActivityView
 import PDFKit
 
+
+
 struct CDPDFViewerView: View {
-    @Binding var isShowPreview: Bool
-    @State var isLoading: Bool = false
+
     @State var url: URL? = URL(string: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf")!
     var body: some View {
-//        CDDocumentViewer($isShowPreview, url: $url, title: "title")
-//        CDPDFKitView(document: PDFDocument(url: url!)!)
-        EmptyView()
+        ZStack{
+            CDPDFKitView(document: PDFDocument(url: url!)!)
+            Button("open sheets") {
+
+            }
+        }
+        
     }
 }
 
 struct CDPDFViewerView_Previews: PreviewProvider {
     static var previews: some View {
         @State var showPreview = false
-        NavigationView {
-            CDPDFViewerView(isShowPreview: $showPreview)
-        }
+        CDPDFViewerView()
         
     }
 }

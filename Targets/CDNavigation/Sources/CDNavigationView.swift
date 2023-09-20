@@ -9,36 +9,61 @@ import SwiftUI
 
 public struct CDNavigationView<Content: View>: View{
 
-    @ObservedObject var config: CDNavigationViewConfiguration
+//    @ObservedObject var config: CDNavigationViewConfiguration
+    @State var statusBarColor: Color
+    @State var navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType
+    @State var navigationBarTitleType: CDNavigationController.NavigationBarTitleType
+    @State var navigationBarHeight: CGFloat
+    @State var closeImage: UIImage?
+    @State var backImage: UIImage?
+    @State var isNavigationBarHidden: Bool
+    @State var isBackBtnHidden: Bool
+    @State var isCloseBtnHidden: Bool
     var backEvent: CDNavigationController.Event?
     var closeEvent: CDNavigationController.Event?
     @Binding var action: CDNavigationController.Action?
     var content: () -> Content
     
-    public init(config: CDNavigationViewConfiguration,
-                backEvent: CDNavigationController.Event? = nil,
-                closeEvent: CDNavigationController.Event? = nil,
-                action: Binding<CDNavigationController.Action?> = .constant(nil),
-                content: @escaping () -> Content) {
-        self.config = config
-        self.content = content
+//    public init(config: CDNavigationViewConfiguration,
+//                backEvent: CDNavigationController.Event? = nil,
+//                closeEvent: CDNavigationController.Event? = nil,
+//                action: Binding<CDNavigationController.Action?> = .constant(nil),
+//                content: @escaping () -> Content) {
+//        self.config = config
+//        self.content = content
+//        self.backEvent = backEvent
+//        self.closeEvent = closeEvent
+//        self._action = action
+//    }
+    
+    public init(statusBarColor: Color, navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType, navigationBarTitleType: CDNavigationController.NavigationBarTitleType, navigationBarHeight: CGFloat, closeImage: UIImage? = nil, backImage: UIImage? = nil, isNavigationBarHidden: Bool, isBackBtnHidden: Bool, isCloseBtnHidden: Bool, backEvent: CDNavigationController.Event? = nil, closeEvent: CDNavigationController.Event? = nil, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
+        self.statusBarColor = statusBarColor
+        self.navigationBarBackgroundType = navigationBarBackgroundType
+        self.navigationBarTitleType = navigationBarTitleType
+        self.navigationBarHeight = navigationBarHeight
+        self.closeImage = closeImage
+        self.backImage = backImage
+        self.isNavigationBarHidden = isNavigationBarHidden
+        self.isBackBtnHidden = isBackBtnHidden
+        self.isCloseBtnHidden = isCloseBtnHidden
         self.backEvent = backEvent
         self.closeEvent = closeEvent
         self._action = action
+        self.content = content
     }
     
     public var body: some View{
         
         CDNaviationViewWrapper(
-            statusBarColor: $config.statusBarColor,
-            navigationBarBackgroundType:  $config.navigationBarBackgroundType,
-            navigationBarTitleType: $config.navigationBarTitleType,
-            closeImage:  $config.closeImage,
-            backImage:  $config.backImage,
-            isNavigationBarHidden:  $config.isNavigationBarHidden,
-            isBackBtnHidden:  $config.isBackBtnHidden,
-            isCloseBtnHidden:  $config.isCloseBtnHidden,
-            navigationBarHeight: $config.navigationBarHeight,
+            statusBarColor: $statusBarColor,
+            navigationBarBackgroundType:  $navigationBarBackgroundType,
+            navigationBarTitleType: $navigationBarTitleType,
+            closeImage:  $closeImage,
+            backImage:  $backImage,
+            isNavigationBarHidden:  $isNavigationBarHidden,
+            isBackBtnHidden:  $isBackBtnHidden,
+            isCloseBtnHidden:  $isCloseBtnHidden,
+            navigationBarHeight: $navigationBarHeight,
             action: $action,//UIScreen.main.bounds.height*(183/2436),
             backEvent: backEvent,
             closeEvent: closeEvent,
@@ -46,33 +71,33 @@ public struct CDNavigationView<Content: View>: View{
             callback: { n, c in
             })
             .onPreferenceChange(NViewBackButtonHiddenPreferenceKey.self) { isHidden in
-                config.isBackBtnHidden = isHidden
+                isBackBtnHidden = isHidden
             }
             .onPreferenceChange(NViewTitlePreferenceKey.self) { title in
-                let font = config.navigationBarTitleType.fontInfo
-                let subFont = config.navigationBarTitleType.subFontInfo
-                let color = config.navigationBarTitleType.color
-                config.navigationBarTitleType = CDNavigationController.NavigationBarTitleType.text(title: title.title,
+                let font = navigationBarTitleType.fontInfo
+                let subFont = navigationBarTitleType.subFontInfo
+                let color = navigationBarTitleType.color
+                navigationBarTitleType = CDNavigationController.NavigationBarTitleType.text(title: title.title,
                                                                                                           subTitle: title.subTitle,
                                                                                                           color: color,
                                                                                                           font: font,
                                                                                                           subTitleFont: subFont)
             }
             .onPreferenceChange(NViewStatusBarColorPreferenceKey.self) { color in
-                config.statusBarColor = color
+                statusBarColor = color
                 
             }
             .onPreferenceChange(NViewBarHiddenPreferenceKey.self) { isHidden in
-                config.isNavigationBarHidden = isHidden
+                isNavigationBarHidden = isHidden
             }
             .onPreferenceChange(NViewCloseButtonHiddenPreferenceKey.self) { isHidden in
-                config.isCloseBtnHidden = isHidden
+                isCloseBtnHidden = isHidden
             }
             .onPreferenceChange(NViewCloseButtonImagePreferenceKey.self) { image in
-                config.closeImage = image
+                closeImage = image
             }
             .onPreferenceChange(NViewBackButtonImagePreferenceKey.self) { image in
-                config.backImage = image
+                backImage = image
             }
             .ignoresSafeArea([.container])
         

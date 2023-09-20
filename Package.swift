@@ -70,7 +70,7 @@ let package = Package(
         
             .target(
                 name: "CDDocumentViewer",
-                dependencies: ["CDFileDownLoader"],
+                dependencies: ["CDFileDownLoader", "CDActivityView"],
                 path: "Targets/CDDocumentViewer/Sources"),
         
             .target(
@@ -80,7 +80,7 @@ let package = Package(
         
             .target(
                 name: "CDActivityView",
-                dependencies: ["CDFileDownLoader"],
+                dependencies: [],
                 path: "Targets/CDActivityView/Sources"),
 //
 //            .testTarget(

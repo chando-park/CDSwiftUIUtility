@@ -17,12 +17,15 @@ public enum SheetAnimation: Equatable{
     
     case full(animationOn: Bool)
     case front
+    case landscape(animationOn: Bool)
     case activity(_PresentationDetent)
     case push
     
     var isAnimationOn: Bool{
         switch self {
         case .full(let animationOn):
+            return animationOn
+        case .landscape(let animationOn):
             return animationOn
         default:
             return true

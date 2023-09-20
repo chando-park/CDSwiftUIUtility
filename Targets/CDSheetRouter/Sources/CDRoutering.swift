@@ -56,6 +56,16 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
 //        sheets.last?.animation == .front ? isActiveBinding : .constant(false)
     }
     
+    private var isLandscapeSheeted: Binding<Bool> {
+        
+        switch sheets.last?.animation {
+        case .landscape(_):
+            return isActiveBinding
+        default:
+            return .constant(false)
+        }
+    }
+    
     public func body(content: Content) -> some View {
         content
             .fullScreenCover(isPresented: isFullSheeted) {
@@ -70,6 +80,10 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
                     sheets.last?.router.buildView(isSheeted: isFrontSheeted)
                 }
             }
+            
+            .landscapeFullScreenCover(isPresented: isLandscapeSheeted, content: {
+                sheets.last?.router.buildView(isSheeted: isLandscapeSheeted)
+            })
             .background(
                 NavigationLink(
                     destination: sheets.last?.router.buildView(isSheeted: isPushSheeted),

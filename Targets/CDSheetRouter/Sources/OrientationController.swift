@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 import SwiftUI
 
-class OrientationLockedController<Content: View>: UIHostingController<OrientationLockedController.Root<Content>>{
+public class OrientationLockedController<Content: View>: UIHostingController<OrientationLockedController.Root<Content>>{
     
-    class OrientationsHolder{
+    public class OrientationsHolder{
         var supportedOrientations: UIInterfaceOrientationMask
         
         init() {
@@ -19,7 +19,7 @@ class OrientationLockedController<Content: View>: UIHostingController<Orientatio
         }
     }
     
-    var orientations: OrientationsHolder!
+    public var orientations: OrientationsHolder!
     public override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
         orientations.supportedOrientations
     }
@@ -37,11 +37,11 @@ class OrientationLockedController<Content: View>: UIHostingController<Orientatio
         fatalError("init(coder:) has not been implemented")
     }
     
-    struct Root<Content: View>: View{
+    public struct Root<Content: View>: View{
         let contentView: Content
         let orientationsHolder: OrientationsHolder
         
-        var body: some View{
+        public var body: some View{
             contentView
                 .onPreferenceChange(SupportedOrientationsPreferenceKey.self) {
                     orientationsHolder.supportedOrientations = $0

@@ -10,9 +10,11 @@ import SwiftUI
 public struct CDActivityView: UIViewControllerRepresentable {
 
     @Binding var activityItem: CDActivityType
-    
-    public init(activityItem: Binding<CDActivityType>) {
+    @Binding var isPresented: Bool
+
+    public init(activityItem:  Binding<CDActivityType>, isPresented:  Binding<Bool>) {
         self._activityItem = activityItem
+        self._isPresented = isPresented
     }
 
     public func makeUIViewController(context: Context) -> UIViewController {
@@ -26,6 +28,12 @@ public struct CDActivityView: UIViewControllerRepresentable {
             applicationActivities: nil
         )
         
-        uiViewController.present(activityViewController, animated: true)
+        if isPresented && uiViewController.presentedViewController == nil {
+            uiViewController.present(activityViewController, animated: true)
+        }
+        
+        activityViewController.completionWithItemsHandler = { (_, _, _, _) in
+            isPresented = false
+        }
     }
 }

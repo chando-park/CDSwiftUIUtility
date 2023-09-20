@@ -15,17 +15,17 @@ public struct CDActivityView: UIViewControllerRepresentable {
         self._activityItem = activityItem
     }
 
-    public func makeUIViewController(context: Context) -> UIActivityViewController {
-  
+    public func makeUIViewController(context: Context) -> UIViewController {
+        UIViewController()
+        
+    }
+    
+    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         let activityViewController = UIActivityViewController(
             activityItems: [self.activityItem.toActivity],
             applicationActivities: nil
         )
         
-        return activityViewController
-    }
-    
-    public func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-
+        uiViewController.present(activityViewController, animated: true)
     }
 }

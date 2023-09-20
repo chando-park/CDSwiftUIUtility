@@ -43,7 +43,7 @@ struct CDPDFViewerView: View {
                 CDFileDownLoader.shared.downloadFile(url: URL(string: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf"),
                                                      name: .pdf("정답 보기")) {
                 } onEnd: {  destination, error in
-                    self.router.go(.activity(.constant(.url(destination!))), animation: .front(.medium))
+                    self.router.go(.activity(.constant(.url(destination!))), animation: .full(animationOn: true))
                 }
             }
         }

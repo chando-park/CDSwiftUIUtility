@@ -51,6 +51,7 @@ class AppRouterVM: PlatformOperatorVM_P{
 struct ContentView: View{
     @ObservedObject var vm: AppRouterVM
     @ObservedObject var router:PlatformOperator<AppRouter,AppRouterVM>
+    
     var body: some View {
         List {
             Section {
@@ -64,7 +65,6 @@ struct ContentView: View{
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("open pdf") {
-//                    self.router.go(.activity(.constant(.url(URL(string: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf")!))), animation: .front(.medium))
                     self.router.go(.pdf, animation: .push)
                 }
             }

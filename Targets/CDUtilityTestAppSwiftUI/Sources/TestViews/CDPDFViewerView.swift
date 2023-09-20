@@ -17,12 +17,13 @@ import PDFKit
 
 struct CDPDFViewerView: View {
 
+    @State private var isActivityViewPresented = false
     @State var url: URL? = URL(string: "https://cdn.littlefox.co.kr/phonicsworks/pdf/PW01.pdf")!
     var body: some View {
         ZStack{
-            CDPDFKitView(document: PDFDocument(url: url!)!)
+            CDPDFViewer(url: url!, name: "title", isActivityViewPresented: $isActivityViewPresented)
             Button("open sheets") {
-
+                isActivityViewPresented = true
             }
         }
         

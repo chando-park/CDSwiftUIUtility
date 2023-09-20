@@ -37,6 +37,8 @@ public struct CDPDFViewer: View{
     @State var isLoadCompleted: Bool = false
     @State var destination: URL? = nil
     
+    @State private var isProgress: Bool = false
+    
     public init(url: URL, name: String, isActivityViewPresented: Binding<Bool>) {
         self.url = url
         self.name = name
@@ -44,34 +46,41 @@ public struct CDPDFViewer: View{
     }
 
     public var body: some View{
-        CDPDFKitView(document: PDFDocument(url: url)!)
-            .background(
-                isLoadCompleted == false ?
-                  CDActivityView(
-                    isPresented: .constant(false),
-                    activityItmes: []
-                  )
-                :
-                    CDActivityView(
-                      isPresented: $isActivityViewPresented,
-                      activityItmes: [.url(self.destination!)]
+        ZStack{
+            CDPDFKitView(document: PDFDocument(url: url)!)
+                .background(
+                    isLoadCompleted == false ?
+                      CDActivityView(
+                        isPresented: .constant(false),
+                        activityItmes: []
+                      )
+                    :
+                        CDActivityView(
+                          isPresented: $isActivityViewPresented,
+                          activityItmes: [.url(self.destination!)]
+                        )
                     )
-                )
-            .onAppear {
-                if isLoadCompleted == false{
-                    self.openPDFActivitySheet(url: url, name: name)
+                .onAppear {
+                    if isLoadCompleted == false{
+                        self.openPDFActivitySheet(url: url, name: name)
+                    }
                 }
+            if isProgress{
+                ProgressView()
             }
+        }
+        
     }
     
     func openPDFActivitySheet(url: URL?, name: String){
         CDFileDownLoader.shared.downloadFile(url: url,name: .pdf(name)) {
-            
+            self.isProgress = true
         } onEnd: {  destination, error in
             if let destination = destination{
                 self.isLoadCompleted = true
                 self.destination = destination
             }
+            self.isProgress = false
         }
     }
 }

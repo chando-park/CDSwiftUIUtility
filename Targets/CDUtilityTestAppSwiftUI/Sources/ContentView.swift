@@ -16,7 +16,7 @@ enum AppRouter: SheetRouterProtocol {
     case web
     case router
     case navigation
-    case activity(Binding<[CDActivityType]>)//(url: URL, title: String)
+    case activity(Binding<CDActivityType>)//(url: URL, title: String)
     
     var id: String { "\(self)" }
     
@@ -28,9 +28,9 @@ enum AppRouter: SheetRouterProtocol {
             CDRoutingTestingView()
         case .navigation:
             NavigtionTestView()
-        case .activity(let activities)://(let url, let title):
-//            CDPDFViewerView(isShowPreview: isSheeted)
-            CDActivityView(activityItmes: activities)
+        case .activity(let activities):
+            CDActivityView(activityItem: activities)
+//            CDPDFViewerView()
         }
     }
 
@@ -63,9 +63,8 @@ struct ContentView: View{
                 Button("navigation") {
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
-                Button("pdf") {
-                    //.constant([.image(UIImage(named: "pre-menu.png")!)]
-                    router.go(.activity(.constant([.image(UIImage(named: "pre-menu.png")!)])), animation: .front(.medium))
+                Button("open pdf") {
+                    
                 }
             }
         }

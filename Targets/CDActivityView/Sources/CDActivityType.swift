@@ -30,4 +30,13 @@ public enum CDActivityType: Equatable, Identifiable{
             return string
         }
     }
+    
+    var isUrl: Bool{
+        switch self {
+        case .url(_):
+            return true
+        default:
+            return false
+        }
+    }
 }

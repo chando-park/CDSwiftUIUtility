@@ -13,7 +13,7 @@ public enum CDActivityType: Equatable, Identifiable{
     case text(String)
     
     public var id: String{
-        "\(self)"
+        "\(self)"////
     }
     
     public static func == (lhs: CDActivityType, rhs: CDActivityType) -> Bool {

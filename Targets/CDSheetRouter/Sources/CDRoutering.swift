@@ -59,7 +59,7 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
     private var isLandscapeSheeted: Binding<Bool> {
         
         switch sheets.last?.animation {
-        case .landscapeFull(_):
+        case .landscape(_):
             return isActiveBinding
         default:
             return .constant(false)

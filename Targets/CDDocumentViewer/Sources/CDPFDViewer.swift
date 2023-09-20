@@ -43,7 +43,7 @@ public struct CDPDFViewer: View{
         self._isActivityViewPresented = isActivityViewPresented
     }
 
-    var body: some View{
+    public var body: some View{
         CDPDFKitView(document: PDFDocument(url: url)!)
             .background(
                 isLoadCompleted == false ?

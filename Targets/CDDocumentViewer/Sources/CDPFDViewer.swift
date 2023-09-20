@@ -29,13 +29,19 @@ public struct CDPDFKitView: UIViewRepresentable {
     }
 }
 
-struct CDPDFViewer: View{
+public struct CDPDFViewer: View{
     
     let url: URL
     let name: String
     @Binding var isActivityViewPresented: Bool
     @State var isLoadCompleted: Bool = false
     @State var destination: URL? = nil
+    
+    public init(url: URL, name: String, isActivityViewPresented: Binding<Bool>) {
+        self.url = url
+        self.name = name
+        self._isActivityViewPresented = isActivityViewPresented
+    }
 
     var body: some View{
         CDPDFKitView(document: PDFDocument(url: url)!)

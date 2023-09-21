@@ -18,7 +18,6 @@ public class PlatformOperator<SheetRouter:SheetRouterProtocol, VM: PlatformOpera
 
     //View의 이벤트를 받아 ViewMdoel로 보냄
     public func send(_ event: VM.Event){
-        
         self.viewModel?.received(event: event)
     }
 }

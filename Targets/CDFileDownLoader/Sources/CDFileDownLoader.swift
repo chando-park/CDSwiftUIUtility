@@ -91,24 +91,32 @@ public class CDFileDownLoader {
         let destination = name.destination
         
         URLSession.shared.dataTaskPublisher(for: fileURL)
-            .receive(on: DispatchQueue.main)
+            .subscribe(on: DispatchQueue.global())
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
                     break
                 case .failure(let error):
                     print("Download error: \(error)")
-                    onEnd(nil, .inerError(error))
+                    DispatchQueue.main.async {
+                        onEnd(nil, .inerError(error))
+                    }
                 }
             }, receiveValue: { value in
                 let data = value.data
                 do {
                     try data.write(to: destination)
-                    onEnd(destination, nil)
+                    DispatchQueue.main.async {
+                        onEnd(destination, nil)
+                    }
+                    
                     print("File downloaded to: \(destination)")
                 } catch {
                     print("Error saving downloaded file: \(error)")
-                    onEnd(nil, .writingError)
+                    DispatchQueue.main.async {
+                        onEnd(nil, .writingError)
+                    }
+                    
                 }
             })
             .store(in: &cancellables)

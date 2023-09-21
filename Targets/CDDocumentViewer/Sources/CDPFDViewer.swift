@@ -12,75 +12,73 @@ import CDActivityView
 import CDFileDownLoader
 
 public struct CDPDFKitView: UIViewRepresentable {
-    let document: PDFDocument // 표시할 PDF 문서
+    @Binding var documentURL: URL? // 표시할 PDF 문서
     
-    public init(document: PDFDocument) {
-        self.document = document
+    public init(documentURL: Binding<URL?>) {
+        self._documentURL = documentURL
     }
 
     public func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
-        pdfView.document = document
         return pdfView
     }
 
     public func updateUIView(_ uiView: PDFView, context: Context) {
-        // 뷰 업데이트가 필요한 경우 추가 코드 작성
+        if let documentURL = documentURL {
+            uiView.document = PDFDocument(url: documentURL)
+        }
+        
     }
 }
 
 public struct CDPDFViewer: View{
     
-    let url: URL
+    var url: URL
     let name: String
     @Binding var isActivityViewPresented: Bool
     @State var isLoadCompleted: Bool = false
     @State var destination: URL? = nil
     
-    @State private var isProgress: Bool = false
+    var onFileDownloadStart: (() -> Void)?
+    var onFileDownloadEnd: ((_ isSuccess: Bool) -> Void)?
     
-    public init(url: URL, name: String, isActivityViewPresented: Binding<Bool>) {
+    public init(url: URL, name: String, isActivityViewPresented: Binding<Bool>, onFileDownloadStart: (() -> Void)? = nil, onFileDownloadEnd: ((_ isSuccess: Bool) -> Void)? = nil) {
         self.url = url
         self.name = name
+        self.onFileDownloadStart = onFileDownloadStart
+        self.onFileDownloadEnd = onFileDownloadEnd
         self._isActivityViewPresented = isActivityViewPresented
     }
 
     public var body: some View{
         ZStack{
-            CDPDFKitView(document: PDFDocument(url: url)!)
+            CDPDFKitView(documentURL: $destination)
                 .background(
                     isLoadCompleted == false ?
-                      CDActivityView(
-                        isPresented: .constant(false),
-                        activityItmes: []
-                      )
-                    :
-                        CDActivityView(
-                          isPresented: $isActivityViewPresented,
-                          activityItmes: [.url(self.destination!)]
-                        )
-                    )
+                    CDActivityView(isPresented: .constant(false), activityItmes: []) :
+                    CDActivityView(isPresented: $isActivityViewPresented,activityItmes: [.url(self.destination!)])
+                )
                 .onAppear {
                     if isLoadCompleted == false{
                         self.openPDFActivitySheet(url: url, name: name)
                     }
                 }
-            if isProgress{
-                ProgressView()
-            }
         }
         
     }
     
     func openPDFActivitySheet(url: URL?, name: String){
         CDFileDownLoader.shared.downloadFile(url: url,name: .pdf(name)) {
-            self.isProgress = true
+            onFileDownloadStart?()
         } onEnd: {  destination, error in
             if let destination = destination{
                 self.isLoadCompleted = true
                 self.destination = destination
+                onFileDownloadEnd?(true)
+            }else{
+                onFileDownloadEnd?(false)
             }
-            self.isProgress = false
+            
         }
     }
 }

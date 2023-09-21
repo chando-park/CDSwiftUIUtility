@@ -29,7 +29,6 @@ enum AppRouter: SheetRouterProtocol {
         case .navigation:
             NavigtionTestView()
         case .pdf:
-//            CDActivityView(activityItem: activities)
             CDPDFViewerView()
         }
     }

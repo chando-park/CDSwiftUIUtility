@@ -77,9 +77,8 @@ struct ContentView: View{
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let vm = AppRouterVM()
-        let platform = PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm)
         NavigationView {
-            ContentView(vm: vm, router: platform)
+            ContentView(vm: vm, router: PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm))
         }
     }
 }

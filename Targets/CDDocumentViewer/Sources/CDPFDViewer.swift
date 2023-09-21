@@ -42,6 +42,8 @@ public struct CDPDFViewer: View{
     var onFileDownloadStart: (() -> Void)?
     var onFileDownloadEnd: ((_ isSuccess: Bool) -> Void)?
     
+    @State var isProgress: Bool = false
+    
     public init(url: URL, name: String, isActivityViewPresented: Binding<Bool>, onFileDownloadStart: (() -> Void)? = nil, onFileDownloadEnd: ((_ isSuccess: Bool) -> Void)? = nil) {
         self.url = url
         self.name = name
@@ -56,13 +58,18 @@ public struct CDPDFViewer: View{
                 .background(
                     isLoadCompleted == false ?
                     CDActivityView(isPresented: .constant(false), activityItmes: []) :
-                    CDActivityView(isPresented: $isActivityViewPresented,activityItmes: [.url(self.destination!)])
+                        CDActivityView(isPresented: $isActivityViewPresented,activityItmes: [.url(self.destination!)])
                 )
                 .onAppear {
                     if isLoadCompleted == false{
                         self.openPDFActivitySheet(url: url, name: name)
                     }
                 }
+            
+            if isProgress{
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .red))
+            }
         }
         
     }
@@ -70,15 +77,18 @@ public struct CDPDFViewer: View{
     func openPDFActivitySheet(url: URL?, name: String){
         CDFileDownLoader.shared.downloadFile(url: url,name: .pdf(name)) {
             onFileDownloadStart?()
+            self.isProgress = true
         } onEnd: {  destination, error in
             if let destination = destination{
                 self.isLoadCompleted = true
                 self.destination = destination
                 onFileDownloadEnd?(true)
+                
             }else{
                 onFileDownloadEnd?(false)
             }
             
+            self.isProgress = false
         }
     }
 }

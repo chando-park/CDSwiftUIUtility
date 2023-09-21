@@ -34,11 +34,11 @@ struct CDPDFViewerView: View {
                 isActivityViewPresented = true
             }
             
-            if isProgress{
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .red))
-//                    .frame(width: 100, height: 100)
-            }
+//            if isProgress{
+//                ProgressView()
+//                    .progressViewStyle(CircularProgressViewStyle(tint: .red))
+////                    .frame(width: 100, height: 100)
+//            }
         }
         
     }

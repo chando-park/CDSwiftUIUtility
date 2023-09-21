@@ -20,6 +20,7 @@ public struct CDPDFKitView: UIViewRepresentable {
 
     public func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
+        pdfView.autoScales = true
         return pdfView
     }
 
@@ -68,7 +69,8 @@ public struct CDPDFViewer: View{
             
             if isProgress{
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .red))
+                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                    .scaleEffect(2, anchor: .center)
             }
         }
         

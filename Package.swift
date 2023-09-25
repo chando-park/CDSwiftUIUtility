@@ -29,6 +29,9 @@ let package = Package(
         .library(
             name: "CDActivityView",
             targets: ["CDActivityView"]),
+        .library(
+            name: "CDOrientation",
+            targets: ["CDOrientation"]),
     ],
     
     dependencies: [
@@ -82,6 +85,10 @@ let package = Package(
                 name: "CDActivityView",
                 dependencies: [],
                 path: "Targets/CDActivityView/Sources"),
+        .target(
+            name: "CDOrientation",
+            dependencies: [],
+            path: "Targets/CDOrientation/Sources"),
 //
 //            .testTarget(
 //                name: "CDActivityViewTests",

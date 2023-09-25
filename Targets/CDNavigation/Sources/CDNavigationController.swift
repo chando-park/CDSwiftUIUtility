@@ -34,8 +34,14 @@ public class CDNavigationController: UINavigationController {
         }
     }
     
+    
+    
     public typealias Event = () -> Void
-
+    
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
+        .landscape
+    }
+    
     public enum NavigationBarBackgroundType{
         case image(image: UIImage)
         case paint(color: UIColor)
@@ -95,9 +101,11 @@ public class CDNavigationController: UINavigationController {
             case .text(_,_,let color,_,_):
                 return color
             }
+            
         }
         
     }
+
     
     private let navigationBarHeight: CGFloat
     private var naviBar: UIImageView?
@@ -301,7 +309,7 @@ public class CDNavigationController: UINavigationController {
         }
     }
     
-    init(navigationBarHeight:CGFloat,
+    public init(navigationBarHeight:CGFloat,
          navigationBarBackgroundType: NavigationBarBackgroundType,
          navigationBarTitleType: NavigationBarTitleType,
          statusBarColor: UIColor,
@@ -310,9 +318,11 @@ public class CDNavigationController: UINavigationController {
          backEvent: Event?,
          closeEvent: Event?,
          rootViewController: UIViewController) {
+
         self.navigationBarHeight = navigationBarHeight
         self.backEvent = backEvent
         self.closeEvent = closeEvent
+//        self.supportedOrientations =
         super.init(rootViewController: rootViewController)
         
         self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height

@@ -39,7 +39,7 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
     private var isFullSheeted: Binding<Bool> {
         
         switch sheets.last?.animation {
-        case .full(_):
+        case .full:
             return isActiveBinding
         default:
             return .constant(false)
@@ -48,29 +48,17 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
     
     private var isFrontSheeted: Binding<Bool> {
         switch sheets.last?.animation {
-        case .front:
-            return isActiveBinding
-        default:
-            return .constant(false)
-        }
-//        sheets.last?.animation == .front ? isActiveBinding : .constant(false)
-    }
-    
-    private var isLandscapeSheeted: Binding<Bool> {
-        
-        switch sheets.last?.animation {
-        case .landscape(_):
+        case .front, .activity:
             return isActiveBinding
         default:
             return .constant(false)
         }
     }
-    
+
     public func body(content: Content) -> some View {
         content
             .fullScreenCover(isPresented: isFullSheeted) {
                 sheets.last?.router.buildView(isSheeted: isFullSheeted)
-                
             }
             .sheet(isPresented: isFrontSheeted) {
                 if #available(iOS 16.0, *) {
@@ -80,10 +68,6 @@ public struct MovingRoute<SheetRouter: SheetRouterProtocol>: ViewModifier {
                     sheets.last?.router.buildView(isSheeted: isFrontSheeted)
                 }
             }
-            
-            .landscapeFullScreenCover(isPresented: isLandscapeSheeted, content: {
-                sheets.last?.router.buildView(isSheeted: isLandscapeSheeted)
-            })
             .background(
                 NavigationLink(
                     destination: sheets.last?.router.buildView(isSheeted: isPushSheeted),

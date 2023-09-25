@@ -30,6 +30,7 @@ enum AppRouter: SheetRouterProtocol {
             NavigtionTestView()
         case .pdf:
             CDPDFViewerView()
+                
         }
     }
 
@@ -61,24 +62,28 @@ struct ContentView: View{
                     router.go(.router, animation: .push)
                 }
                 Button("navigation") {
+                    CDOrientationLock.shared.rotate(orientation: .landscape)
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("open pdf") {
+                    CDOrientationLock.shared.rotate(orientation: .landscape)
                     self.router.go(.pdf, animation: .push)
+                    
                 }
             }
         }
-        .routering($router.sheets) { router in
-            print("rrr \(router)")
-        }
+        
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let vm = AppRouterVM()
+        @ObservedObject var vm = AppRouterVM()
+        @ObservedObject var platform = PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm)
         NavigationView {
             ContentView(vm: vm, router: PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm))
+        }.routering($platform.sheets) { router in
+            print("rrr \(router)")
         }
     }
 }

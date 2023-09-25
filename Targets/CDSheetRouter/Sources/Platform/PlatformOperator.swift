@@ -10,7 +10,7 @@ import SwiftUI
 
 
 public class PlatformOperator<SheetRouter:SheetRouterProtocol, VM: PlatformOperatorVM_P>: MovingSheetOperator<SheetRouter> {
-    private weak var viewModel: VM?
+    public weak var viewModel: VM?
     
     public init(viewModel: VM) {
         self.viewModel = viewModel

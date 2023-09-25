@@ -17,15 +17,12 @@ public enum SheetAnimation: Equatable{
     
     case full(animationOn: Bool)
     case front
-    case landscape(animationOn: Bool)
     case activity(_PresentationDetent)
     case push
     
     var isAnimationOn: Bool{
         switch self {
         case .full(let animationOn):
-            return animationOn
-        case .landscape(let animationOn):
             return animationOn
         default:
             return true
@@ -40,6 +37,16 @@ public enum SheetAnimation: Equatable{
             return nil
         }
     }
+    
+//    var orientationMask: UIInterfaceOrientationMask{
+//        switch self {
+//        case .full(_, let orientation):
+//            return orientation
+//        default:
+//            return CDOrientationLock.default
+//
+//        }
+//    }
     
     static public func == (lhs: SheetAnimation, rhs: SheetAnimation) -> Bool {
         "\(lhs.self)" == "\(rhs.self)"

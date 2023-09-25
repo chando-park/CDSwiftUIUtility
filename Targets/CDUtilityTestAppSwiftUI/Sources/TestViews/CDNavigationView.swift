@@ -7,6 +7,8 @@
 
 import SwiftUI
 import CDNavigation
+import CDSheetRouter
+import CDOrientation
 
 struct NavigtionTestView: View{
     let topIsect = UIScreen.main.bounds.height*(183/2436)
@@ -21,16 +23,16 @@ struct NavigtionTestView: View{
                          isNavigationBarHidden: false,
                          isBackBtnHidden: false,
                          isCloseBtnHidden: false,
-                         closeEvent: {
-            print("closeEvent")
-            //            action = .pop
+                         backEvent: {
+            CDOrientationLock.shared.recover()
+            action = .dismiss
         },
                          action: $action){
             ZStack{
-                
                 Color.yellow
                 ForumView()
                 NavigationLink("new") {
+                    
                     SecoundScreenView()
                         .nViewTitle("회원가입", subTitle: "Phonics Works 2")
                         .nViewCloseButtonImage(UIImage(named: "pre-menu.png"))

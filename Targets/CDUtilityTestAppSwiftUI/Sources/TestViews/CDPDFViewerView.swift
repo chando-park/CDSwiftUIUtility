@@ -33,12 +33,6 @@ struct CDPDFViewerView: View {
             Button("open sheets") {
                 isActivityViewPresented = true
             }
-            
-//            if isProgress{
-//                ProgressView()
-//                    .progressViewStyle(CircularProgressViewStyle(tint: .red))
-////                    .frame(width: 100, height: 100)
-//            }
         }
         
     }

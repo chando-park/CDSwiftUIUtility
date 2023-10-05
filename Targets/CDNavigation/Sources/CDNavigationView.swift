@@ -17,8 +17,8 @@ public struct CDNavigationView<Content: View>: View{
     @State var closeImage: UIImage?
     @State var backImage: UIImage?
     @State var isNavigationBarHidden: Bool
-    @State var isBackBtnHidden: Bool
-    @State var isCloseBtnHidden: Bool
+    @Binding var isBackBtnHidden: Bool
+    @Binding var isCloseBtnHidden: Bool
     var backEvent: CDNavigationController.Event?
     var closeEvent: CDNavigationController.Event?
     @Binding var action: CDNavigationController.Action?
@@ -36,7 +36,7 @@ public struct CDNavigationView<Content: View>: View{
 //        self._action = action
 //    }
     
-    public init(statusBarColor: Color, navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType, navigationBarTitleType: CDNavigationController.NavigationBarTitleType, navigationBarHeight: CGFloat, closeImage: UIImage? = nil, backImage: UIImage? = nil, isNavigationBarHidden: Bool, isBackBtnHidden: Bool, isCloseBtnHidden: Bool, backEvent: CDNavigationController.Event? = nil, closeEvent: CDNavigationController.Event? = nil, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
+    public init(statusBarColor: Color, navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType, navigationBarTitleType: CDNavigationController.NavigationBarTitleType, navigationBarHeight: CGFloat, closeImage: UIImage? = nil, backImage: UIImage? = nil, isNavigationBarHidden: Bool, isBackBtnHidden: Binding<Bool>, isCloseBtnHidden: Binding<Bool>, backEvent: CDNavigationController.Event? = nil, closeEvent: CDNavigationController.Event? = nil, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
         self.statusBarColor = statusBarColor
         self.navigationBarBackgroundType = navigationBarBackgroundType
         self.navigationBarTitleType = navigationBarTitleType
@@ -44,8 +44,8 @@ public struct CDNavigationView<Content: View>: View{
         self.closeImage = closeImage
         self.backImage = backImage
         self.isNavigationBarHidden = isNavigationBarHidden
-        self.isBackBtnHidden = isBackBtnHidden
-        self.isCloseBtnHidden = isCloseBtnHidden
+        self._isBackBtnHidden = isBackBtnHidden
+        self._isCloseBtnHidden = isCloseBtnHidden
         self.backEvent = backEvent
         self.closeEvent = closeEvent
         self._action = action

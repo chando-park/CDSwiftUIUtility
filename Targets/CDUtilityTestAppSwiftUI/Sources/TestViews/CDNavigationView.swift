@@ -21,8 +21,8 @@ struct NavigtionTestView: View{
                          closeImage: UIImage(named: "home-menu.png"),
                          backImage: UIImage(named: "home-menu.png"),
                          isNavigationBarHidden: false,
-                         isBackBtnHidden: false,
-                         isCloseBtnHidden: false,
+                         isBackBtnHidden: .constant(false),
+                         isCloseBtnHidden: .constant(false),
                          backEvent: {
             CDOrientationLock.shared.recover()
             action = .dismiss

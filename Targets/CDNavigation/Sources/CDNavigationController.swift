@@ -319,6 +319,7 @@ public class CDNavigationController: UINavigationController {
          closeEvent: Event?,
          rootViewController: UIViewController) {
 
+ 
         self.navigationBarHeight = navigationBarHeight
         self.backEvent = backEvent
         self.closeEvent = closeEvent

@@ -42,7 +42,7 @@ public class CDNavigationController: UINavigationController {
         .landscape
     }
     
-    public enum NavigationBarBackgroundType{
+    public enum NavigationBarBackgroundType: Equatable{
         case image(image: UIImage)
         case paint(color: UIColor)
     }
@@ -145,6 +145,19 @@ public class CDNavigationController: UINavigationController {
     }
     
     
+    var navigationBarBackgroundType: NavigationBarBackgroundType = .paint(color: .clear){
+        didSet{
+            switch navigationBarBackgroundType {
+            case .image(let image):
+                self.naviBar?.image = image
+                break
+            case .paint(let color):
+                self.naviBar?.backgroundColor = color
+                break
+            }
+        }
+    }
+    
     
     var isBackBtnHidden: Bool = false{
         didSet{
@@ -167,7 +180,7 @@ public class CDNavigationController: UINavigationController {
     
     var backImage: UIImage? {
         didSet{
-            if oldValue == self.closeImage{
+            if oldValue == self.backImage{
                 return
             }
             
@@ -182,7 +195,6 @@ public class CDNavigationController: UINavigationController {
             UIView.animate(withDuration: 0.15) {
                 backBtn.frame.origin.x = -backBtn.frame.size.width
             } completion: { _ in
-                
                 backBtn.setImage(image, for: .normal)
                 if self.isBackBtnHidden == false {
                     UIView.animate(withDuration: 0.15) {

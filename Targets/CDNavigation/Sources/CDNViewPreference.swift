@@ -69,6 +69,13 @@ public struct NViewBackButtonImagePreferenceKey: PreferenceKey {
     }
 }
 
+public struct NViewNavibarBackgrounTypePreferenceKey: PreferenceKey {
+    public static var defaultValue: CDNavigationController.NavigationBarBackgroundType? = nil
+    public static func reduce(value: inout CDNavigationController.NavigationBarBackgroundType?, nextValue: () -> CDNavigationController.NavigationBarBackgroundType?) {
+        value = nextValue()
+    }
+}
+
 //뷰 모디파이어
 public extension View {
 
@@ -98,5 +105,9 @@ public extension View {
     
     func nViewBackButtonImage(_ image: UIImage? = nil) -> some View {
         preference(key: NViewBackButtonImagePreferenceKey.self, value: image)
+    }
+    
+    func nViewNavibarBackgrounType(_ type: CDNavigationController.NavigationBarBackgroundType? = nil) -> some View {
+        preference(key: NViewNavibarBackgrounTypePreferenceKey.self, value: type)
     }
 }

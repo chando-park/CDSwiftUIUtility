@@ -73,6 +73,7 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
             .nViewBackButtonImage(self.backImage)
             .nViewIsBackButtonHidden(self.isBackBtnHidden)
             .nViewIsCloseButtonHidden(self.isCloseBtnHidden)
+            .nViewNavibarBackgrounType(self.navigationBarBackgroundType)
             
         
         let navigationController = CDNavigationController(navigationBarHeight: navigationBarHeight,
@@ -101,6 +102,8 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
         
         uiViewController.closeImage = self.closeImage
         uiViewController.backImage = self.backImage
+        
+        uiViewController.navigationBarBackgroundType = self.navigationBarBackgroundType
         
     }
     

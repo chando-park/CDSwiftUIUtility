@@ -63,7 +63,7 @@ struct ContentView: View{
                     router.go(.router, animation: .push)
                 }
                 Button("navigation") {
-                    CDOrientationLock.shared.rotate(orientation: .landscape)
+//                    CDOrientationLock.shared.rotate(orientation: .landscape)
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("open pdf") {

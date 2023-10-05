@@ -23,10 +23,10 @@ struct NavigtionTestView: View{
                          isNavigationBarHidden: false,
                          isBackBtnHidden: .constant(false),
                          isCloseBtnHidden: .constant(false),
-                         backEvent: {
-            CDOrientationLock.shared.recover()
-            action = .dismiss
-        },
+//                         backEvent: {
+//            CDOrientationLock.shared.recover()
+//            action = .pop
+//        },
                          action: $action){
             ZStack{
                 Color.yellow
@@ -40,6 +40,7 @@ struct NavigtionTestView: View{
                         .nViewIsCloseButtonHidden(false)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)
+                        .nViewNavibarBackgrounType(.paint(color: .red))
                         .navigationBarBackButtonHidden()
                 }
             }

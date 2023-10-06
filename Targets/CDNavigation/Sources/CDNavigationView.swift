@@ -66,10 +66,10 @@ public struct CDNavigationView<Content: View>: View{
                 let subFont = navigationBarTitleType.subFontInfo
                 let color = navigationBarTitleType.color
                 navigationBarTitleType = CDNavigationController.NavigationBarTitleType.text(title: title.title,
-                                                                                                          subTitle: title.subTitle,
-                                                                                                          color: color,
-                                                                                                          font: font,
-                                                                                                          subTitleFont: subFont)
+                                                                                            subTitle: title.subTitle,
+                                                                                            color: color,
+                                                                                            font: font,
+                                                                                            subTitleFont: subFont)
             }
             .onPreferenceChange(NViewStatusBarColorPreferenceKey.self) { color in
                 statusBarColor = color

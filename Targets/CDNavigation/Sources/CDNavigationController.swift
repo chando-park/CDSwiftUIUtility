@@ -67,12 +67,14 @@ public class CDNavigationController: UINavigationController {
     }
     
     public enum NavigationBarTitleType: Equatable{
-        //        case image(image: UIImage)
-        case text(title: String?, subTitle: String?, color: UIColor?, font: FontInfo, subTitleFont: FontInfo?)
+        case image(image: UIImage)
+        case text(title: String?, subTitle: String?, color: UIColor?, font: FontInfo?, subTitleFont: FontInfo?)
         var title: String?{
             switch self {
             case .text(let title,_, _,_,_):
                 return title
+            default:
+                return nil
             }
         }
         
@@ -80,12 +82,16 @@ public class CDNavigationController: UINavigationController {
             switch self {
             case .text(_,let subTitle, _,_,_):
                 return subTitle
+            default:
+                return nil
             }
         }
-        var fontInfo: FontInfo{
+        var fontInfo: FontInfo?{
             switch self{
             case .text(_,_,_, let font,_):
                 return font
+            default:
+                return nil
             }
         }
         
@@ -93,6 +99,8 @@ public class CDNavigationController: UINavigationController {
             switch self{
             case .text(_,_,_,_,let font):
                 return font
+            default:
+                return nil
             }
         }
         
@@ -100,8 +108,28 @@ public class CDNavigationController: UINavigationController {
             switch self{
             case .text(_,_,let color,_,_):
                 return color
+            default:
+                return nil
             }
             
+        }
+        
+        var isImage: Bool{
+            switch self {
+            case .image:
+                return true
+            case .text:
+                return false
+            }
+        }
+        
+        var image: UIImage?{
+            switch self {
+            case .image(let image):
+                return image
+            case .text:
+                return nil
+            }
         }
         
     }
@@ -115,6 +143,8 @@ public class CDNavigationController: UINavigationController {
     
     private var titleLabel: UILabel?
     private var subTitleLabel: UILabel?
+    
+    private var titleImageView: UIImageView?
     
     private var statusbarView: UIView!
     private var fontInfo: FontInfo!
@@ -278,7 +308,7 @@ public class CDNavigationController: UINavigationController {
                     
                     self.titleLabel?.text = title
                     self.titleLabel?.textColor = color
-                    self.titleLabel?.font = fontInfo.uiFont
+                    self.titleLabel?.font = fontInfo?.uiFont
                     
                     self.titleLabel?.sizeToFit()
                     self.titleLabel?.center.x = self.naviBar!.frame.size.width/2
@@ -389,6 +419,26 @@ public class CDNavigationController: UINavigationController {
         
         self.subTitleLabel = UILabel()
         self.view.addSubview(self.subTitleLabel!)
+        
+        self.titleImageView = UIImageView()
+        self.view.addSubview(self.titleImageView!)
+        
+        if navigationBarTitleType.isImage{
+            self.titleLabel?.isHidden = true
+            self.subTitleLabel?.isHidden = true
+            
+            let h = self.navigationBarHeight*(76/183.0)
+            let w =  h*(navigationBarTitleType.image!.size.width/navigationBarTitleType.image!.size.height)
+            self.titleImageView?.frame.size = CGSize(width: w, height: h)
+            self.titleImageView?.center.x = self.view.frame.size.width/2
+            self.titleImageView?.frame.origin.y = (self.navigationBarHeight - (self.closeBtn?.frame.size.height ?? 0))/2 + statusBarHeight
+            
+        }else{
+            self.titleImageView?.isHidden = true
+            
+            self.titleLabel?.isHidden = false
+            self.subTitleLabel?.isHidden = false
+        }
         
         self.navigationBarTitleType = navigationBarTitleType
         self.fontInfo = navigationBarTitleType.fontInfo

@@ -182,8 +182,9 @@ public class CDNavigationController: UINavigationController {
                 self.naviBar?.image = image
                 break
             case .paint(let color):
+                self.naviBar?.image = nil
                 UIView.animate(withDuration: 0.3) {
-                    self.naviBar?.image = nil
+//                    self.naviBar?.image = nil
                     self.naviBar?.backgroundColor = color
                 }
                 
@@ -346,6 +347,9 @@ public class CDNavigationController: UINavigationController {
                     }
                 }
                 break
+            case .image(_):
+                self.titleLabel?.isHidden = true
+                self.subTitleLabel?.isHidden = true
             default:
                 break
             }

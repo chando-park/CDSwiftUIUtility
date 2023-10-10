@@ -429,6 +429,7 @@ public class CDNavigationController: UINavigationController {
             
             let h = self.navigationBarHeight*(76/183.0)
             let w =  h*(navigationBarTitleType.image!.size.width/navigationBarTitleType.image!.size.height)
+            self.titleImageView?.image = navigationBarTitleType.image
             self.titleImageView?.frame.size = CGSize(width: w, height: h)
             self.titleImageView?.center.x = self.view.frame.size.width/2
 //            self.titleImageView?.frame.origin.y = (self.navigationBarHeight - (self.closeBtn?.frame.size.height ?? 0))/2 + statusBarHeight

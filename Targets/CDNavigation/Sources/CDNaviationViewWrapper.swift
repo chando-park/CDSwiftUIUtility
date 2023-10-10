@@ -96,7 +96,7 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
         uiViewController.isBackBtnHidden = self.isBackBtnHidden
         uiViewController.isCloseBtnHidden = self.isCloseBtnHidden
         uiViewController.navigationBarTitleType = self.navigationBarTitleType
-        
+         
         uiViewController.setBackEvent(event: self.backEvent)
         uiViewController.action = self.action
         

@@ -432,7 +432,8 @@ public class CDNavigationController: UINavigationController {
             self.titleImageView?.image = navigationBarTitleType.image
             self.titleImageView?.frame.size = CGSize(width: w, height: h)
             self.titleImageView?.center.x = self.view.frame.size.width/2
-            self.titleImageView?.frame.origin.y = (self.navigationBarHeight - (self.closeBtn?.frame.size.height ?? 0))/2 + statusBarHeight
+//            self.titleImageView?.frame.origin.y = (self.navigationBarHeight - (self.closeBtn?.frame.size.height ?? 0))/2 + statusBarHeight
+            self.titleImageView?.frame.origin.y = (self.navigationBarHeight - h)/2 + statusBarHeight
             
         }else{
             self.titleImageView?.isHidden = true

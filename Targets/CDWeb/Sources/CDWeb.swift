@@ -18,6 +18,7 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
     public func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         webView.navigationDelegate = context.coordinator
+        webView.scrollView.delegate = context.coordinator
         
         webViewCommunicator.webView = webView
         webViewCommunicator.addScriptMessages(context.coordinator)
@@ -41,7 +42,7 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
         WebSlave(owner: self)
     }
     
-    public class WebSlave: NSObject, WKNavigationDelegate, WKScriptMessageHandler{
+    public class WebSlave: NSObject, WKNavigationDelegate, WKScriptMessageHandler,UIScrollViewDelegate{
         
         var owner: CDWebview
         
@@ -66,5 +67,15 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
             let message = error.localizedDescription
             self.owner.webViewCommunicator.onError?(.specificError(code, message))
         }
+        
+        public func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+            scrollView.pinchGestureRecognizer?.isEnabled = false
+        }
+        
+        public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+            return nil
+        }
     }
+    
+    
 }

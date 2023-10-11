@@ -37,7 +37,7 @@ struct NavigtionTestView: View{
                         .nViewTitle("회원가입", subTitle: "Phonics Works 2")
                         .nViewCloseButtonImage(UIImage(named: "pre-menu.png"))
                         .nViewIsBackButtonHidden(false)
-                        .nViewIsCloseButtonHidden(false)
+                        .nViewIsCloseButtonHidden(true)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)
                         .nViewNavibarBackgrounType(.paint(color: .red))

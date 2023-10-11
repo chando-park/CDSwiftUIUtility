@@ -182,7 +182,7 @@ public class CDNavigationController: UINavigationController {
                 self.naviBar?.image = image
                 break
             case .paint(let color):
-                UIView.animate(withDuration: 0.3) {
+                UIView.animate(withDuration: 0.1) {
                     self.naviBar?.backgroundColor = color
                 }
                 

@@ -37,7 +37,7 @@ struct WebTestView: View {
     })
     var body: some View {
         ZStack{
-            CDWebview(address: Address.pdf, webViewCommunicator: comunicator)
+            CDWebview(address: Address.pdf, backgrouneColor: .white, webViewCommunicator: comunicator)
         }
     }
 }

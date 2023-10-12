@@ -5,19 +5,24 @@ import WebKit
 public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress_P>: UIViewRepresentable {
 
     private let address: Address
+    private let backgrouneColor: Color
     var webViewCommunicator: WebViewCommunicator<NativeMessage>
     
     public init(address: Address,
+                backgrouneColor: Color,
                 webViewCommunicator: WebViewCommunicator<NativeMessage>) {
         
         self.webViewCommunicator = webViewCommunicator
         self.address = address
+        self.backgrouneColor = backgrouneColor
 
     }
     
     public func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
-        webView.backgroundColor = .white
+        if let cgColor = self.backgrouneColor.cgColor{
+            webView.backgroundColor = UIColor(cgColor: cgColor)
+        }
         webView.navigationDelegate = context.coordinator
         webView.scrollView.delegate = context.coordinator
         

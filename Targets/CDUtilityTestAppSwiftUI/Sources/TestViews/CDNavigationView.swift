@@ -21,12 +21,12 @@ struct NavigtionTestView: View{
                          closeImage: UIImage(named: "home-menu.png"),
                          backImage: UIImage(named: "home-menu.png"),
                          isNavigationBarHidden: false,
-                         isBackBtnHidden: false,
-                         isCloseBtnHidden: false,
-                         backEvent: {
-            CDOrientationLock.shared.recover()
-            action = .dismiss
-        },
+                         isBackBtnHidden: .constant(false),
+                         isCloseBtnHidden: .constant(false),
+//                         backEvent: {
+//            CDOrientationLock.shared.recover()
+//            action = .pop
+//        },
                          action: $action){
             ZStack{
                 Color.yellow
@@ -37,9 +37,10 @@ struct NavigtionTestView: View{
                         .nViewTitle("회원가입", subTitle: "Phonics Works 2")
                         .nViewCloseButtonImage(UIImage(named: "pre-menu.png"))
                         .nViewIsBackButtonHidden(false)
-                        .nViewIsCloseButtonHidden(false)
+                        .nViewIsCloseButtonHidden(true)
                         .nViewStatusBarColor(.purple)
                         .nViewIsNaviBarHidden(false)
+                        .nViewNavibarBackgrounType(.paint(color: .red))
                         .navigationBarBackButtonHidden()
                 }
             }

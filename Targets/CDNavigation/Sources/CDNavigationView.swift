@@ -18,8 +18,8 @@ public struct CDNavigationView<Content: View>: View{
     @State var closeImage: UIImage?
     @State var backImage: UIImage?
     @State var isNavigationBarHidden: Bool
-    @State var isBackBtnHidden: Bool
-    @State var isCloseBtnHidden: Bool
+    @Binding var isBackBtnHidden: Bool
+    @Binding var isCloseBtnHidden: Bool
     var backEvent: CDNavigationController.Event?
     var closeEvent: CDNavigationController.Event?
     @Binding var action: CDNavigationController.Action?
@@ -33,8 +33,8 @@ public struct CDNavigationView<Content: View>: View{
         self.closeImage = closeImage
         self.backImage = backImage
         self.isNavigationBarHidden = isNavigationBarHidden
-        self.isBackBtnHidden = isBackBtnHidden
-        self.isCloseBtnHidden = isCloseBtnHidden
+        self._isBackBtnHidden = isBackBtnHidden
+        self._isCloseBtnHidden = isCloseBtnHidden
         self.backEvent = backEvent
         self.closeEvent = closeEvent
         self._action = action
@@ -76,10 +76,10 @@ public struct CDNavigationView<Content: View>: View{
                 let subFont = navigationBarTitleType.subFontInfo
                 let color = navigationBarTitleType.color
                 navigationBarTitleType = CDNavigationController.NavigationBarTitleType.text(title: title.title,
-                                                                                                          subTitle: title.subTitle,
-                                                                                                          color: color,
-                                                                                                          font: font,
-                                                                                                          subTitleFont: subFont)
+                                                                                            subTitle: title.subTitle,
+                                                                                            color: color,
+                                                                                            font: font,
+                                                                                            subTitleFont: subFont)
             }
             .onPreferenceChange(NViewStatusBarColorPreferenceKey.self) { color in
                 guard isPreferenceUse == true else{
@@ -116,6 +116,7 @@ public struct CDNavigationView<Content: View>: View{
                 guard isPreferenceUse == true else{
                     return
                 }
+
                 if let type = type{
                     navigationBarBackgroundType = type
                 }

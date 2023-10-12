@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct CDNavigationView<Content: View>: View{
 
-     var isPreferenceUse: Bool
+     private var isPreferenceUse: Bool
     
     @State var statusBarColor: Color
     @State var navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType
@@ -62,9 +62,13 @@ public struct CDNavigationView<Content: View>: View{
             callback: { n, c in
             })
             .onPreferenceChange(NViewBackButtonHiddenPreferenceKey.self) { isHidden in
-                guard isPreferenceUse == true else{
-                    return
-                }
+//                guard isPreferenceUse == true else{
+//                    return
+//                }
+                
+//                guard let isHidden = isHidden else{
+//                    return
+//                }
                 
                 isBackBtnHidden = isHidden
             }
@@ -72,50 +76,67 @@ public struct CDNavigationView<Content: View>: View{
 //                guard isPreferenceUse == true else{
 //                    return
 //                }
+                
+                guard let titlestr = title.title else{
+                    return
+                }
+
+                
                 let font = navigationBarTitleType.fontInfo
                 let subFont = navigationBarTitleType.subFontInfo
                 let color = navigationBarTitleType.color
-                navigationBarTitleType = CDNavigationController.NavigationBarTitleType.text(title: title.title,
+                navigationBarTitleType = CDNavigationController.NavigationBarTitleType.text(title: titlestr,
                                                                                             subTitle: title.subTitle,
                                                                                             color: color,
                                                                                             font: font,
                                                                                             subTitleFont: subFont)
             }
             .onPreferenceChange(NViewStatusBarColorPreferenceKey.self) { color in
-                guard isPreferenceUse == true else{
+//                guard isPreferenceUse == true else{
+//                    return
+//                }
+                guard let color = color else{
                     return
                 }
+                
                 statusBarColor = color
                 
             }
             .onPreferenceChange(NViewBarHiddenPreferenceKey.self) { isHidden in
-                guard isPreferenceUse == true else{
-                    return
-                }
+//                guard isPreferenceUse == true else{
+//                    return
+//                }
                 isNavigationBarHidden = isHidden
             }
             .onPreferenceChange(NViewCloseButtonHiddenPreferenceKey.self) { isHidden in
-                guard isPreferenceUse == true else{
-                    return
-                }
+//                guard isPreferenceUse == true else{
+//                    return
+//                }
                 isCloseBtnHidden = isHidden
             }
             .onPreferenceChange(NViewCloseButtonImagePreferenceKey.self) { image in
-                guard isPreferenceUse == true else{
+//                guard isPreferenceUse == true else{
+//                    return
+//                }
+                
+                guard let image = image else{
                     return
                 }
                 closeImage = image
             }
             .onPreferenceChange(NViewBackButtonImagePreferenceKey.self) { image in
-                guard isPreferenceUse == true else{
+//                guard isPreferenceUse == true else{
+//                    return
+//                }
+                guard let image = image else{
                     return
                 }
                 backImage = image
             }
             .onPreferenceChange(NViewNavibarBackgrounTypePreferenceKey.self) { type in
-                guard isPreferenceUse == true else{
-                    return
-                }
+//                guard isPreferenceUse == true else{
+//                    return
+//                }
 
                 if let type = type{
                     navigationBarBackgroundType = type

@@ -31,8 +31,8 @@ public struct NViewTitlePreferenceKey: PreferenceKey {
 
 //상태바 색상
 public struct NViewStatusBarColorPreferenceKey: PreferenceKey {
-    public static var defaultValue: Color = .clear
-    public static func reduce(value: inout Color, nextValue: () -> Color) {
+    public static var defaultValue: Color? = nil
+    public static func reduce(value: inout Color?, nextValue: () -> Color?) {
         value = nextValue()
     }
 }

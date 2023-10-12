@@ -9,7 +9,8 @@ import SwiftUI
 
 public struct CDNavigationView<Content: View>: View{
 
-//    @ObservedObject var config: CDNavigationViewConfiguration
+     var isPreferenceUse: Bool
+    
     @State var statusBarColor: Color
     @State var navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType
     @State var navigationBarTitleType: CDNavigationController.NavigationBarTitleType
@@ -23,20 +24,8 @@ public struct CDNavigationView<Content: View>: View{
     var closeEvent: CDNavigationController.Event?
     @Binding var action: CDNavigationController.Action?
     var content: () -> Content
-    
-//    public init(config: CDNavigationViewConfiguration,
-//                backEvent: CDNavigationController.Event? = nil,
-//                closeEvent: CDNavigationController.Event? = nil,
-//                action: Binding<CDNavigationController.Action?> = .constant(nil),
-//                content: @escaping () -> Content) {
-//        self.config = config
-//        self.content = content
-//        self.backEvent = backEvent
-//        self.closeEvent = closeEvent
-//        self._action = action
-//    }
-    
-    public init(statusBarColor: Color, navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType, navigationBarTitleType: CDNavigationController.NavigationBarTitleType, navigationBarHeight: CGFloat, closeImage: UIImage? = nil, backImage: UIImage? = nil, isNavigationBarHidden: Bool, isBackBtnHidden: Bool, isCloseBtnHidden: Bool, backEvent: CDNavigationController.Event? = nil, closeEvent: CDNavigationController.Event? = nil, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
+
+    public init(isPreferenceUse: Bool = true, statusBarColor: Color, navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType, navigationBarTitleType: CDNavigationController.NavigationBarTitleType, navigationBarHeight: CGFloat, closeImage: UIImage? = nil, backImage: UIImage? = nil, isNavigationBarHidden: Bool, isBackBtnHidden: Binding<Bool>, isCloseBtnHidden: Binding<Bool>, backEvent: CDNavigationController.Event? = nil, closeEvent: CDNavigationController.Event? = nil, action: Binding<CDNavigationController.Action?> = .constant(nil), content: @escaping () -> Content) {
         self.statusBarColor = statusBarColor
         self.navigationBarBackgroundType = navigationBarBackgroundType
         self.navigationBarTitleType = navigationBarTitleType
@@ -50,6 +39,8 @@ public struct CDNavigationView<Content: View>: View{
         self.closeEvent = closeEvent
         self._action = action
         self.content = content
+        
+        self.isPreferenceUse = isPreferenceUse
     }
     
     public var body: some View{
@@ -71,9 +62,16 @@ public struct CDNavigationView<Content: View>: View{
             callback: { n, c in
             })
             .onPreferenceChange(NViewBackButtonHiddenPreferenceKey.self) { isHidden in
+                guard isPreferenceUse == true else{
+                    return
+                }
+                
                 isBackBtnHidden = isHidden
             }
             .onPreferenceChange(NViewTitlePreferenceKey.self) { title in
+                guard isPreferenceUse == true else{
+                    return
+                }
                 let font = navigationBarTitleType.fontInfo
                 let subFont = navigationBarTitleType.subFontInfo
                 let color = navigationBarTitleType.color
@@ -84,20 +82,43 @@ public struct CDNavigationView<Content: View>: View{
                                                                                                           subTitleFont: subFont)
             }
             .onPreferenceChange(NViewStatusBarColorPreferenceKey.self) { color in
+                guard isPreferenceUse == true else{
+                    return
+                }
                 statusBarColor = color
                 
             }
             .onPreferenceChange(NViewBarHiddenPreferenceKey.self) { isHidden in
+                guard isPreferenceUse == true else{
+                    return
+                }
                 isNavigationBarHidden = isHidden
             }
             .onPreferenceChange(NViewCloseButtonHiddenPreferenceKey.self) { isHidden in
+                guard isPreferenceUse == true else{
+                    return
+                }
                 isCloseBtnHidden = isHidden
             }
             .onPreferenceChange(NViewCloseButtonImagePreferenceKey.self) { image in
+                guard isPreferenceUse == true else{
+                    return
+                }
                 closeImage = image
             }
             .onPreferenceChange(NViewBackButtonImagePreferenceKey.self) { image in
+                guard isPreferenceUse == true else{
+                    return
+                }
                 backImage = image
+            }
+            .onPreferenceChange(NViewNavibarBackgrounTypePreferenceKey.self) { type in
+                guard isPreferenceUse == true else{
+                    return
+                }
+                if let type = type{
+                    navigationBarBackgroundType = type
+                }
             }
             .ignoresSafeArea([.container])
         

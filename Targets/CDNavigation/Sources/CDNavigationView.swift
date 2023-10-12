@@ -69,9 +69,9 @@ public struct CDNavigationView<Content: View>: View{
                 isBackBtnHidden = isHidden
             }
             .onPreferenceChange(NViewTitlePreferenceKey.self) { title in
-                guard isPreferenceUse == true else{
-                    return
-                }
+//                guard isPreferenceUse == true else{
+//                    return
+//                }
                 let font = navigationBarTitleType.fontInfo
                 let subFont = navigationBarTitleType.subFontInfo
                 let color = navigationBarTitleType.color

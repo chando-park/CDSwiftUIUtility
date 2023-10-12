@@ -73,6 +73,7 @@ struct ContentView: View{
                 }
             }
         }
+        .routering($router.sheets)
         
     }
 }

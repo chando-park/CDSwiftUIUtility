@@ -17,6 +17,7 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
     
     public func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
+        webView.backgroundColor = .white
         webView.navigationDelegate = context.coordinator
         webView.scrollView.delegate = context.coordinator
         

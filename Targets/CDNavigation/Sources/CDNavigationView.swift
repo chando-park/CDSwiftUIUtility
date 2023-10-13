@@ -85,6 +85,10 @@ public struct CDNavigationView<Content: View>: View{
                     return
                 }
                 
+                guard let color = color else{
+                    return
+                }
+                
                 statusBarColor = color
                 
             }

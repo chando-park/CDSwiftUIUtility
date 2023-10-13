@@ -183,6 +183,7 @@ public class CDNavigationController: UINavigationController {
                 break
             case .paint(let color):
                 UIView.animate(withDuration: 0.1) {
+
                     self.naviBar?.backgroundColor = color
                 }
                 
@@ -345,6 +346,9 @@ public class CDNavigationController: UINavigationController {
                     }
                 }
                 break
+            case .image(_):
+                self.titleLabel?.isHidden = true
+                self.subTitleLabel?.isHidden = true
             default:
                 break
             }
@@ -429,9 +433,11 @@ public class CDNavigationController: UINavigationController {
             
             let h = self.navigationBarHeight*(76/183.0)
             let w =  h*(navigationBarTitleType.image!.size.width/navigationBarTitleType.image!.size.height)
+            self.titleImageView?.image = navigationBarTitleType.image
             self.titleImageView?.frame.size = CGSize(width: w, height: h)
             self.titleImageView?.center.x = self.view.frame.size.width/2
-            self.titleImageView?.frame.origin.y = (self.navigationBarHeight - (self.closeBtn?.frame.size.height ?? 0))/2 + statusBarHeight
+//            self.titleImageView?.frame.origin.y = (self.navigationBarHeight - (self.closeBtn?.frame.size.height ?? 0))/2 + statusBarHeight
+            self.titleImageView?.frame.origin.y = (self.navigationBarHeight - h)/2 + statusBarHeight
             
         }else{
             self.titleImageView?.isHidden = true

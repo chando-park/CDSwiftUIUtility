@@ -20,6 +20,11 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
     
     public func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
+#if DEBUG
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        }
+#endif
         if let cgColor = self.backgrouneColor.cgColor{
             webView.backgroundColor = UIColor(cgColor: cgColor)
         }

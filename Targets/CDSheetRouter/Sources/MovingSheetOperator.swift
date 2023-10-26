@@ -9,6 +9,8 @@ import SwiftUI
 
 public class MovingSheetOperator<SheetRouter:SheetRouterProtocol>: ObservableObject {
     @Published public var sheets: [SheetRouterContext<SheetRouter>] = []
+    
+    public init(){}
     //View의 화면 이동
     public func go(_ sheet: SheetRouter?, animation: SheetAnimation){
         if let s = sheet{

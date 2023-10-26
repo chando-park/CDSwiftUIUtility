@@ -11,7 +11,7 @@ public class PlatformOperator<SheetRouter:SheetRouterProtocol, VM: PlatformOpera
 //public class PlatformOperator<SheetRouter:SheetRouterProtocol>: MovingSheetOperator<SheetRouter> {
     
 //    public weak var viewModel: VM?
-    @Published public var viewModel: VM?
+    @Published public var viewModel: VM
     
     public init(viewModel: VM) {
         self.viewModel = viewModel
@@ -19,7 +19,7 @@ public class PlatformOperator<SheetRouter:SheetRouterProtocol, VM: PlatformOpera
 
     //View의 이벤트를 받아 ViewMdoel로 보냄
     public func send(_ event: VM.Event){
-        self.viewModel?.received(event: event)
+        self.viewModel.received(event: event)
     }
 }
 

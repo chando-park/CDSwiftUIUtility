@@ -7,24 +7,6 @@
 
 import SwiftUI
 
-public class PlatformOperator<SheetRouter:SheetRouterProtocol, VM: PlatformOperatorVM_P>: MovingSheetOperator<SheetRouter> {
-//public class PlatformOperator<SheetRouter:SheetRouterProtocol>: MovingSheetOperator<SheetRouter> {
-    
-//    public weak var viewModel: VM?
-    @Published public var viewModel: VM
-    
-    public init(viewModel: VM) {
-        self.viewModel = viewModel
-    }
-
-    //View의 이벤트를 받아 ViewMdoel로 보냄
-    public func send(_ event: VM.Event){
-        self.viewModel.received(event: event)
-    }
-}
-
-
-//
 //public class PlatformOperator<SheetRouter:SheetRouterProtocol, VM: PlatformOperatorVM_P>: MovingSheetOperator<SheetRouter> {
 //    public weak var viewModel: VM?
 //    

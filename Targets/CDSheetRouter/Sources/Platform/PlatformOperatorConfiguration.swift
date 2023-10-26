@@ -7,21 +7,21 @@
 
 import SwiftUI
 
-public protocol PlatformOperatorVM_P: ObservableObject{
-    associatedtype Event: EventKind
-    func received(event: Event)
-}
-
-public protocol EventKind{}
-extension EventKind{
-    public var id: String{
-        "\(self)"
-    }
-}
-
-public struct EmptySheetRouter: SheetRouterProtocol{
-    public func buildView(isSheeted: Binding<Bool>) -> some View {
-        EmptyView()
-    }
-    
-}
+//public protocol PlatformOperatorVM_P: ObservableObject{
+//    associatedtype Event: EventKind
+//    func received(event: Event)
+//}
+//
+//public protocol EventKind{}
+//extension EventKind{
+//    public var id: String{
+//        "\(self)"
+//    }
+//}
+//
+//public struct EmptySheetRouter: SheetRouterProtocol{
+//    public func buildView(isSheeted: Binding<Bool>) -> some View {
+//        EmptyView()
+//    }
+//    
+//}

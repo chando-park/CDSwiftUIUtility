@@ -10,7 +10,7 @@ import SwiftUI
 
 public class CDNavigationController: UINavigationController {
     
-    let aniTime: Double = 0.3
+    let aniTime: Double = 0.5
     
     public enum Action: Equatable{
         case pop
@@ -199,7 +199,7 @@ public class CDNavigationController: UINavigationController {
             
             backBtn.isEnabled = false
             
-            UIView.animate(withDuration: aniTime) {
+            UIView.animate(withDuration: aniTime, delay: 0, usingSpringWithDamping: 1.2, initialSpringVelocity: 0.1, options: .curveEaseOut) {
                 if self.isBackBtnHidden{
                     backBtn.frame.origin.x = -backBtn.frame.size.width
                 }else{
@@ -250,7 +250,7 @@ public class CDNavigationController: UINavigationController {
             }
 
             closeBtn.isEnabled = false
-            UIView.animate(withDuration: aniTime) {
+            UIView.animate(withDuration: aniTime, delay: 0, usingSpringWithDamping: 1.2, initialSpringVelocity: 0.1, options: .curveEaseOut) {
                 if self.isCloseBtnHidden{
                     closeBtn.frame.origin.x = self.view.frame.size.width
                 }else{

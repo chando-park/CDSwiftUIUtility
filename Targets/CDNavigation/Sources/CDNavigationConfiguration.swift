@@ -132,7 +132,7 @@ public struct CDNavigationWrapper<Content: View>: UIViewControllerRepresentable{
 }
 
 
-public struct MHNavigation<Content: View>: View{
+public struct CDNavigation<Content: View>: View{
 
     @ObservedObject public var config: CDNavigationConfiguration
     public var content: () -> Content

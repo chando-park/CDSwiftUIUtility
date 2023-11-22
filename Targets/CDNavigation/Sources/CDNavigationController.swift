@@ -412,6 +412,7 @@ public class CDNavigationController: UINavigationController {
             self.backBtn?.setImage(backImage, for: .normal)
             self.backBtn?.addTarget(self, action: #selector(backCallback(_:)), for: .touchUpInside)
             self.view.addSubview(self.backBtn!)
+            self.backBtn?.adjustsImageWhenDisabled = false
             
         }
         
@@ -425,6 +426,8 @@ public class CDNavigationController: UINavigationController {
             self.closeBtn?.setImage(closeImage, for: .normal)
             self.closeBtn?.addTarget(self, action: #selector(closeCallback(_:)), for: .touchUpInside)
             self.view.addSubview(self.closeBtn!)
+            
+            self.closeBtn?.adjustsImageWhenDisabled = false
         }
         
         self.titleLabel = UILabel()

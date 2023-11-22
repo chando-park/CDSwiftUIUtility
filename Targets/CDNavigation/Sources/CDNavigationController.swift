@@ -129,16 +129,8 @@ public class CDNavigationController: UINavigationController {
         
     }
     
-    public var backEvent: Event?{
-        didSet{
-            self.setBackEvent(event: backEvent)
-        }
-    }
-    public var closeEvent: Event?{
-        didSet{
-            self.setCloseEvent(event: closeEvent)
-        }
-    }
+    private var backEvent: Event?
+    private  var closeEvent: Event?
 
     
     private let navigationBarHeight: CGFloat
@@ -458,9 +450,9 @@ public class CDNavigationController: UINavigationController {
         self.subFontInfo = navigationBarTitleType.subFontInfo
         
         
-        self.statusBarColor = statusBarColor
+//        self.statusBarColor = statusBarColor
         self.statusbarView = UIView()
-        self.statusbarView.backgroundColor = statusBarColor
+//        self.statusbarView.backgroundColor = statusBarColor
         self.view.addSubview(statusbarView)
         
         statusbarView.translatesAutoresizingMaskIntoConstraints = false
@@ -504,11 +496,21 @@ public class CDNavigationController: UINavigationController {
         self.statusbarView.backgroundColor = color
     }
     
-    func setBackEvent(event: Event?){
+    public func setBackEvent(event: Event?){
         self.backEvent = event
     }
     
-    func setCloseEvent(event: Event?){
+    public func setCloseEvent(event: Event?){
         self.closeEvent = event
+    }
+}
+
+
+public extension UIViewController{
+    var statusBarHeight : CGFloat {
+        if let safeFrame = UIApplication.shared.windows.first?.safeAreaInsets{
+            return Swift.max(safeFrame.top, safeFrame.left)
+        }
+        return 0
     }
 }

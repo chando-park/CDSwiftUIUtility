@@ -13,7 +13,7 @@ public class CDNavigationConfiguration: ObservableObject{
         print("deitit \(self)")
     }
     
-    @Published public var statusBarColor: Color
+    @Published public var statusBarColor: UIColor
     @Published public var navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType
     @Published public var navigationBarTitleType: CDNavigationController.NavigationBarTitleType
     @Published public var navigationBarHeight: CGFloat
@@ -37,7 +37,7 @@ public class CDNavigationConfiguration: ObservableObject{
     public var backEvent: CDNavigationController.Event?
     public var closeEvent: CDNavigationController.Event?
     
-    public init(statusBarColor: Color,
+    public init(statusBarColor: UIColor,
                 navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType,
                 navigationBarTitleType: CDNavigationController.NavigationBarTitleType,
                 navigationBarHeight: CGFloat,
@@ -82,7 +82,7 @@ public struct CDNavigationWrapper<Content: View>: UIViewControllerRepresentable{
         let nc = CDNavigationController(navigationBarHeight: self.config.navigationBarHeight,
                                         navigationBarBackgroundType: self.config.navigationBarBackgroundType,
                                         navigationBarTitleType: self.config.navigationBarTitleType,
-                                        statusBarColor: UIColor(cgColor: self.config.statusBarColor.cgColor!),
+                                        statusBarColor: self.config.statusBarColor,
                                         closeImage: self.config.closeImage,
                                         backImage: self.config.backImage,
                                         rootViewController: UIHostingController(rootView: root))
@@ -92,7 +92,7 @@ public struct CDNavigationWrapper<Content: View>: UIViewControllerRepresentable{
     
     public func updateUIViewController(_ uiViewController: CDNavigationController, context: Context) {
         
-        uiViewController.statusBarColor = UIColor(cgColor: self.config.statusBarColor.cgColor!)
+        uiViewController.statusBarColor = self.config.statusBarColor
         uiViewController.navigationBarBackgroundType = self.config.navigationBarBackgroundType
         uiViewController.navigationBarTitleType = self.config.navigationBarTitleType
         

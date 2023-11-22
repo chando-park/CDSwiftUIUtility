@@ -15,9 +15,24 @@ struct NavigtionTestView: View{
     lazy var topIsect = UIScreen.main.bounds.height*(183/2436)
 //    @State var action: CDNavigationController.Action? = nil
     @State var name: String = ""
+    @StateObject var nConfig = CDNavigationConfiguration(statusBarColor: .blue,
+                                                         navigationBarBackgroundType: .paint(color: .brown),
+                                                         navigationBarTitleType: .text(title: "title",
+                                                                                       subTitle: nil,
+                                                                                       color: .white,
+                                                                                       font: CDNavigationController.FontInfo(name: UIFont.systemFont(ofSize: UIScreen.main.bounds.height*(62.0/2436.0)).fontName,
+                                                                                                                             size: UIScreen.main.bounds.height*(62.0/2436.0)),
+                                                                                       subTitleFont: nil),
+                                                         navigationBarHeight: UIScreen.main.bounds.height*(183.0/2436.0),
+                                                         closeImage: UIImage(named: "home-menu"),
+                                                         backImage: UIImage(named: "home-menu"),
+                                                         isNavigationBarHidden: false,
+                                                         isBackBtnHidden: true,
+                                                         isCloseBtnHidden: false,
+                                                         isUsePreference: false)
     
     var body: some View{
-        CDNavigationView{
+        CDNavigation(config: nConfig){
             VStack{
                 TextField("Enter your name", text: $name)
                     .submitScope()
@@ -26,12 +41,15 @@ struct NavigtionTestView: View{
                     
                     ForumView()
                     NavigationLink("new") {
-                        SecoundScreenView()
+                        SecoundScreenView(nConfig: nConfig)
                     }
                 }
             }
             .onAppear(perform: {
-                CDNavigationConfiguration.shared.isBackBtnHidden = true
+                nConfig.titles = ("title", nil)
+                nConfig.isBackBtnHidden = true
+                nConfig.navigationBarBackgroundType = .paint(color: .brown)
+                    
             })
             
         }
@@ -48,15 +66,21 @@ struct NView_Previews: PreviewProvider {
 
 struct SecoundScreenView: View {
 
-//    @ObservedObject public var config: CDNavigationConfiguration
+    @ObservedObject var nConfig: CDNavigationConfiguration
     
     var body: some View {
         VStack(spacing: 0){
             Color.black
             Color.gray
+            Button("dismiss") {
+                nConfig.action = .dismiss
+            }
         }
         .onAppear(perform: {
-            CDNavigationConfiguration.shared.isBackBtnHidden = false
+            nConfig.titles = ("test", nil)
+            nConfig.isBackBtnHidden = false
+            nConfig.navigationBarBackgroundType = .paint(color: .cyan)
+            
         })
         .ignoresSafeArea([.container])
     }

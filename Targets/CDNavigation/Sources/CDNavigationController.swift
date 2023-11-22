@@ -195,15 +195,18 @@ public class CDNavigationController: UINavigationController {
                 return
             }
             
-            UIView.animate(withDuration: 0.3) {
+            backBtn.isEnabled = false
+            
+            UIView.animate(withDuration: 0.2) {
                 if self.isBackBtnHidden{
                     backBtn.frame.origin.x = -backBtn.frame.size.width
                 }else{
                     let left = backBtn.frame.size.width*(42.0/110)
                     backBtn.frame.origin.x = left
                 }
+            } completion: { _ in
+                backBtn.isEnabled = true
             }
-            
         }
     }
     
@@ -221,6 +224,7 @@ public class CDNavigationController: UINavigationController {
                 return
             }
             
+            backBtn.isEnabled = false
             UIView.animate(withDuration: 0.15) {
                 backBtn.frame.origin.x = -backBtn.frame.size.width
             } completion: { _ in
@@ -231,6 +235,7 @@ public class CDNavigationController: UINavigationController {
                         backBtn.frame.origin.x = left
                     }
                 }
+                backBtn.isEnabled = true
             }
         }
     }
@@ -241,14 +246,17 @@ public class CDNavigationController: UINavigationController {
             guard let closeBtn = self.closeBtn else{
                 return
             }
-            
-            UIView.animate(withDuration: 0.3) {
+
+            closeBtn.isEnabled = false
+            UIView.animate(withDuration: 0.2) {
                 if self.isCloseBtnHidden{
                     closeBtn.frame.origin.x = self.view.frame.size.width
                 }else{
                     let left = closeBtn.frame.size.width*(42.0/110)
                     closeBtn.frame.origin.x = self.view.frame.size.width - left - closeBtn.frame.size.width
                 }
+            } completion: { _ in
+                closeBtn.isEnabled = true
             }
         }
     }
@@ -267,6 +275,7 @@ public class CDNavigationController: UINavigationController {
                 return
             }
             
+            closeBtn.isEnabled = false
             UIView.animate(withDuration: 0.15) {
                 closeBtn.frame.origin.x = self.view.frame.size.width
             } completion: { _ in
@@ -277,6 +286,8 @@ public class CDNavigationController: UINavigationController {
                         closeBtn.frame.origin.x = self.view.frame.size.width - left - closeBtn.frame.size.width
                     }
                 }
+                
+                closeBtn.isEnabled = true
             }
         }
     }

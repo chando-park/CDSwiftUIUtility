@@ -22,6 +22,7 @@ public struct CDPDFKitView: UIViewRepresentable {
     public func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
         pdfView.autoScales = true
+        pdfView.displayMode = .twoUp
         return pdfView
     }
 

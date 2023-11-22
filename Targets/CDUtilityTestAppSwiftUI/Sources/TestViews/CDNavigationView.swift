@@ -10,40 +10,30 @@ import CDNavigation
 import CDSheetRouter
 import CDOrientation
 
+
 struct NavigtionTestView: View{
-    let topIsect = UIScreen.main.bounds.height*(183/2436)
-    @State var action: CDNavigationController.Action? = nil
+    lazy var topIsect = UIScreen.main.bounds.height*(183/2436)
+//    @State var action: CDNavigationController.Action? = nil
+    @State var name: String = ""
+    
     var body: some View{
-        CDNavigationView(statusBarColor: .green,
-                         navigationBarBackgroundType: .paint(color: .orange),
-                         navigationBarTitleType: .text(title: "회원 탈퇴",subTitle: "Phonics Works 3", color: .white, font: CDNavigationController.FontInfo(size: (74.0/183.0)*self.topIsect), subTitleFont: CDNavigationController.FontInfo(size: (54.0/183.0)*self.topIsect)),
-                         navigationBarHeight: topIsect,
-                         closeImage: UIImage(named: "home-menu.png"),
-                         backImage: UIImage(named: "home-menu.png"),
-                         isNavigationBarHidden: false,
-                         isBackBtnHidden: .constant(false),
-                         isCloseBtnHidden: .constant(false),
-//                         backEvent: {
-//            CDOrientationLock.shared.recover()
-//            action = .pop
-//        },
-                         action: $action){
-            ZStack{
-                Color.yellow
-                ForumView()
-                NavigationLink("new") {
+        CDNavigationView{
+            VStack{
+                TextField("Enter your name", text: $name)
+                    .submitScope()
+                ZStack{
+                    Color.yellow
                     
-                    SecoundScreenView()
-                        .nViewTitle("회원가입", subTitle: "Phonics Works 2")
-                        .nViewCloseButtonImage(UIImage(named: "pre-menu.png"))
-                        .nViewIsBackButtonHidden(false)
-                        .nViewIsCloseButtonHidden(true)
-                        .nViewStatusBarColor(.purple)
-                        .nViewIsNaviBarHidden(false)
-                        .nViewNavibarBackgrounType(.paint(color: .red))
-                        .navigationBarBackButtonHidden()
+                    ForumView()
+                    NavigationLink("new") {
+                        SecoundScreenView()
+                    }
                 }
             }
+            .onAppear(perform: {
+                CDNavigationConfiguration.shared.isBackBtnHidden = true
+            })
+            
         }
     }
 }
@@ -58,13 +48,15 @@ struct NView_Previews: PreviewProvider {
 
 struct SecoundScreenView: View {
 
+//    @ObservedObject public var config: CDNavigationConfiguration
+    
     var body: some View {
         VStack(spacing: 0){
             Color.black
             Color.gray
         }
         .onAppear(perform: {
-//            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: self).subjectType)")
+            CDNavigationConfiguration.shared.isBackBtnHidden = false
         })
         .ignoresSafeArea([.container])
     }

@@ -33,15 +33,10 @@ public class CDNavigationController: UINavigationController {
             }
         }
     }
-    
-    
-    
+  
     public typealias Event = () -> Void
     
-    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
-        .landscape
-    }
-    
+
     public enum NavigationBarBackgroundType: Equatable{
         case image(image: UIImage)
         case paint(color: UIColor)
@@ -133,6 +128,17 @@ public class CDNavigationController: UINavigationController {
         }
         
     }
+    
+    public var backEvent: Event?{
+        didSet{
+            self.setBackEvent(event: backEvent)
+        }
+    }
+    public var closeEvent: Event?{
+        didSet{
+            self.setCloseEvent(event: closeEvent)
+        }
+    }
 
     
     private let navigationBarHeight: CGFloat
@@ -149,10 +155,7 @@ public class CDNavigationController: UINavigationController {
     private var statusbarView: UIView!
     private var fontInfo: FontInfo!
     private var subFontInfo: FontInfo?
-    
-    private var backEvent: Event?
-    private var closeEvent: Event?
-    
+
     private var isInit: Bool = false
     
     public override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -286,6 +289,8 @@ public class CDNavigationController: UINavigationController {
         }
     }
     
+   
+    
     var navigationBarTitleType: NavigationBarTitleType?{
         set{
             switch newValue{
@@ -358,21 +363,23 @@ public class CDNavigationController: UINavigationController {
         }
     }
     
+    public var statusBarColor: UIColor?{
+        didSet{
+            guard let statusBarColor = statusBarColor else{
+                return
+            }
+            self.setStatusBar(color: statusBarColor)
+        }
+    }
+    
     public init(navigationBarHeight:CGFloat,
          navigationBarBackgroundType: NavigationBarBackgroundType,
          navigationBarTitleType: NavigationBarTitleType,
          statusBarColor: UIColor,
          closeImage: UIImage?,
          backImage: UIImage?,
-         backEvent: Event?,
-         closeEvent: Event?,
          rootViewController: UIViewController) {
-
- 
         self.navigationBarHeight = navigationBarHeight
-        self.backEvent = backEvent
-        self.closeEvent = closeEvent
-//        self.supportedOrientations =
         super.init(rootViewController: rootViewController)
         
         self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
@@ -450,6 +457,8 @@ public class CDNavigationController: UINavigationController {
         self.fontInfo = navigationBarTitleType.fontInfo
         self.subFontInfo = navigationBarTitleType.subFontInfo
         
+        
+        self.statusBarColor = statusBarColor
         self.statusbarView = UIView()
         self.statusbarView.backgroundColor = statusBarColor
         self.view.addSubview(statusbarView)
@@ -497,5 +506,9 @@ public class CDNavigationController: UINavigationController {
     
     func setBackEvent(event: Event?){
         self.backEvent = event
+    }
+    
+    func setCloseEvent(event: Event?){
+        self.closeEvent = event
     }
 }

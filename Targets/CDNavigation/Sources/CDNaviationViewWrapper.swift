@@ -10,80 +10,26 @@ import Foundation
 import UIKit
 import SwiftUI
 
-public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentable {
-    
-    @Binding var statusBarColor: Color
-    @Binding var navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType
-    @Binding var navigationBarTitleType: CDNavigationController.NavigationBarTitleType
-    @Binding var closeImage: UIImage?
-    @Binding var backImage: UIImage?
-    @Binding var isNavigationBarHidden: Bool
-    @Binding var isBackBtnHidden: Bool
-    @Binding var isCloseBtnHidden: Bool
-    
-    @Binding var navigationBarHeight: CGFloat
-    
-    @Binding var action: CDNavigationController.Action?
-    
-    var backEvent: CDNavigationController.Event?
-    var closeEvent: CDNavigationController.Event?
+public struct CDNavigationView<Content: View>: UIViewControllerRepresentable {
+
+    var config: CDNavigationConfiguration = .shared
     var content: () -> Content
     
-    var callback: (UINavigationController, UIViewController) -> Void
-    
-    
-    public init(statusBarColor: Binding<Color>,
-                navigationBarBackgroundType: Binding<CDNavigationController.NavigationBarBackgroundType>,
-                navigationBarTitleType: Binding<CDNavigationController.NavigationBarTitleType>,
-                closeImage: Binding<UIImage?>,
-                backImage: Binding<UIImage?>,
-                isNavigationBarHidden: Binding<Bool>,
-                isBackBtnHidden: Binding<Bool>,
-                isCloseBtnHidden: Binding<Bool>,
-                navigationBarHeight: Binding<CGFloat>, // navigationBarHeight 추가
-                action: Binding<CDNavigationController.Action?>, // navigationBarHeight 추가
-                backEvent: CDNavigationController.Event?,
-                closeEvent: CDNavigationController.Event?,
-                content: @escaping () -> Content, // content 추가
-                callback: @escaping (UINavigationController, UIViewController) -> Void) {
-        _statusBarColor = statusBarColor
-        _navigationBarBackgroundType = navigationBarBackgroundType
-        _navigationBarTitleType = navigationBarTitleType
-        _closeImage = closeImage
-        _backImage = backImage
-        _isNavigationBarHidden = isNavigationBarHidden
-        _isBackBtnHidden = isBackBtnHidden
-        _isCloseBtnHidden = isCloseBtnHidden
-        _navigationBarHeight = navigationBarHeight
-        _action = action
-//        self.navigationBarHeight = navigationBarHeight // navigationBarHeight 초기화
-        self.content = content // content 초기화
-        self.callback = callback
-        self.backEvent = backEvent
-        self.closeEvent = closeEvent
+    public init(content: @escaping () -> Content) {
+        self.content = content
     }
-    
+
     public func makeUIViewController(context: Context) -> CDNavigationController {
         
         let root = content()
-            .nViewTitle(self.navigationBarTitleType.title, subTitle: self.navigationBarTitleType.subTitle)
-            .nViewStatusBarColor(self.statusBarColor)
-            .nViewIsNaviBarHidden(self.isNavigationBarHidden)
-            .nViewCloseButtonImage(self.closeImage)
-            .nViewBackButtonImage(self.backImage)
-            .nViewIsBackButtonHidden(self.isBackBtnHidden)
-            .nViewIsCloseButtonHidden(self.isCloseBtnHidden)
-            .nViewNavibarBackgrounType(self.navigationBarBackgroundType)
-            
-        
-        let navigationController = CDNavigationController(navigationBarHeight: navigationBarHeight,
-                                                          navigationBarBackgroundType: navigationBarBackgroundType,
-                                                          navigationBarTitleType: navigationBarTitleType,
-                                                          statusBarColor: UIColor(statusBarColor),
-                                                          closeImage: closeImage,
-                                                          backImage: backImage,
-                                                          backEvent: backEvent,
-                                                          closeEvent: closeEvent,
+        let navigationController = CDNavigationController(navigationBarHeight: self.config.navigationBarHeight,
+                                                          navigationBarBackgroundType: self.config.navigationBarBackgroundType,
+                                                          navigationBarTitleType: self.config.navigationBarTitleType,
+                                                          statusBarColor: UIColor(self.config.statusBarColor),
+                                                          closeImage: self.config.closeImage,
+                                                          backImage: self.config.backImage,
+                                                          backEvent: self.config.backEvent,
+                                                          closeEvent: self.config.closeEvent,
                                                           rootViewController: UIHostingController(rootView: root))
         navigationController.delegate = context.coordinator
         return navigationController
@@ -91,19 +37,24 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
     
     public func updateUIViewController(_ uiViewController: CDNavigationController, context: Context) {
         
-        uiViewController.setStatusBar(color: UIColor(self.statusBarColor))
-        uiViewController.isNaviBarHidden = self.isNavigationBarHidden
-        uiViewController.isBackBtnHidden = self.isBackBtnHidden
-        uiViewController.isCloseBtnHidden = self.isCloseBtnHidden
-        uiViewController.navigationBarTitleType = self.navigationBarTitleType
+        print("self.config : \(self.config.isBackBtnHidden)")
+        
+        uiViewController.setStatusBar(color: UIColor(self.config.statusBarColor))
+        uiViewController.isNaviBarHidden = self.config.isNavigationBarHidden
+        uiViewController.isBackBtnHidden = self.config.isBackBtnHidden
+        uiViewController.isCloseBtnHidden = self.config.isCloseBtnHidden
+        uiViewController.navigationBarTitleType = self.config.navigationBarTitleType
          
-        uiViewController.setBackEvent(event: self.backEvent)
-        uiViewController.action = self.action
+        uiViewController.setBackEvent(event: self.config.backEvent)
+        uiViewController.action = self.config.action
         
-        uiViewController.closeImage = self.closeImage
-        uiViewController.backImage = self.backImage
+        uiViewController.closeImage = self.config.closeImage
+        uiViewController.backImage = self.config.backImage
         
-        uiViewController.navigationBarBackgroundType = self.navigationBarBackgroundType
+        uiViewController.setBackEvent(event: self.config.backEvent)
+        uiViewController.setCloseEvent(event: self.config.closeEvent)
+        
+        uiViewController.navigationBarBackgroundType = self.config.navigationBarBackgroundType
         
     }
     
@@ -114,14 +65,14 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
     
     public class NavigationSlave: NSObject, UINavigationControllerDelegate{
         
-        var owner: CDNaviationViewWrapper
+        var owner: CDNavigationView
         
-        public init(owner: CDNaviationViewWrapper) {
+        public init(owner: CDNavigationView) {
             self.owner = owner
         }
         
         public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-            self.owner.callback(navigationController, viewController)
+//            self.owner.callback(navigationController, viewController)
 //            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: self.owner).subjectType)")
 //            print("viewController \(viewController)")
 

@@ -8,6 +8,27 @@
 import SwiftUI
 import CDSheetRouter
 
+extension View {
+    func prefersHomeIndicatorAutoHidden() -> some View {
+        background(HiddenHomeIndicatorHostingController())
+    }
+}
+
+struct HiddenHomeIndicatorHostingController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = UIViewController
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        HiddenHomeIndicatorViewController(rootView: AnyView(EmptyView()))
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+final class HiddenHomeIndicatorViewController: UIHostingController<AnyView> {
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+}
 
 enum SheetRouter: SheetRouterProtocol {
     case fullsheet
@@ -27,30 +48,9 @@ enum SheetRouter: SheetRouterProtocol {
 
 }
 
-struct TestModel: Hashable{
-    var name: String
-}
-
-enum MianEventKind: EventKind{
-    case login
-    case signup
-}
-
-class TestVM: PlatformOperatorVM_P{
-
-    func received(event: MianEventKind) {
-        switch event {
-        case .login:
-            break
-        case .signup:
-            print("signup")
-        }
-    }
-}
-
 struct CDRoutingView: View {
     
-    @StateObject var router: PlatformOperator<SheetRouter,TestVM>
+    @StateObject var router =  MovingSheetOperator<SheetRouter>()
 
     var body: some View {
         List {
@@ -67,15 +67,17 @@ struct CDRoutingView: View {
             }
         }
         .routering($router.sheets)
+        
     }
 }
 
 struct CDRoutingTestingView: View{
     var body: some View {
         NavigationView {
-            CDRoutingView(router: PlatformOperator<SheetRouter,TestVM>(viewModel: TestVM()))
+            CDRoutingView()
             .navigationTitle("Sheet Animation")
         }
+        .prefersHomeIndicatorAutoHidden()
     }
 }
 

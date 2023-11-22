@@ -34,8 +34,8 @@ public class CDNavigationConfiguration: ObservableObject{
         }
     }
     
-    public var backEvent: CDNavigationController.Event?
-    public var closeEvent: CDNavigationController.Event?
+    var backEvent: CDNavigationController.Event?
+    var closeEvent: CDNavigationController.Event?
     
     public init(statusBarColor: UIColor,
                 navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType,
@@ -62,6 +62,14 @@ public class CDNavigationConfiguration: ObservableObject{
         self.action = action
         self.backEvent = backEvent
         self.closeEvent = closeEvent
+    }
+    
+    public func setBackEvent(event: @escaping CDNavigationController.Event){
+        self.backEvent = event
+    }
+    
+    public func setCloseEvent(event: @escaping CDNavigationController.Event){
+        self.closeEvent = event
     }
 }
 

@@ -10,6 +10,8 @@ import SwiftUI
 
 public class CDNavigationController: UINavigationController {
     
+    let aniTime: Double = 0.3
+    
     public enum Action: Equatable{
         case pop
         case dismiss
@@ -197,7 +199,7 @@ public class CDNavigationController: UINavigationController {
             
             backBtn.isEnabled = false
             
-            UIView.animate(withDuration: 0.2) {
+            UIView.animate(withDuration: aniTime) {
                 if self.isBackBtnHidden{
                     backBtn.frame.origin.x = -backBtn.frame.size.width
                 }else{
@@ -225,12 +227,12 @@ public class CDNavigationController: UINavigationController {
             }
             
             backBtn.isEnabled = false
-            UIView.animate(withDuration: 0.15) {
+            UIView.animate(withDuration: aniTime/2) {
                 backBtn.frame.origin.x = -backBtn.frame.size.width
             } completion: { _ in
                 backBtn.setImage(image, for: .normal)
                 if self.isBackBtnHidden == false {
-                    UIView.animate(withDuration: 0.15) {
+                    UIView.animate(withDuration: self.aniTime/2.0) {
                         let left = backBtn.frame.size.width*(42.0/110)
                         backBtn.frame.origin.x = left
                     }
@@ -248,7 +250,7 @@ public class CDNavigationController: UINavigationController {
             }
 
             closeBtn.isEnabled = false
-            UIView.animate(withDuration: 0.2) {
+            UIView.animate(withDuration: aniTime) {
                 if self.isCloseBtnHidden{
                     closeBtn.frame.origin.x = self.view.frame.size.width
                 }else{
@@ -526,5 +528,15 @@ public extension UIViewController{
             return Swift.max(safeFrame.top, safeFrame.left)
         }
         return 0
+    }
+}
+
+
+extension CDNavigationController: UINavigationControllerDelegate{
+    public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        
+    }
+    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        
     }
 }

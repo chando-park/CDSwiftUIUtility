@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-public class CDNavigationConfiguration: ObservableObject{
+public protocol CDNavigationConfiguration_P: ObservableObject{
+    var action: CDNavigationController.Action? {get set}
+}
+
+public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableObject{
     
     deinit{
         print("deitit \(self)")

@@ -37,17 +37,7 @@ public enum SheetAnimation: Equatable{
             return nil
         }
     }
-    
-//    var orientationMask: UIInterfaceOrientationMask{
-//        switch self {
-//        case .full(_, let orientation):
-//            return orientation
-//        default:
-//            return CDOrientationLock.default
-//
-//        }
-//    }
-    
+
     static public func == (lhs: SheetAnimation, rhs: SheetAnimation) -> Bool {
         "\(lhs.self)" == "\(rhs.self)"
     }
@@ -67,7 +57,6 @@ public extension SheetRouterProtocol{
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id
     }
-    
     var id: String { "\(self)" }
 }
 

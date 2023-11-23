@@ -17,6 +17,10 @@ public class MovingSheetOperator<SheetRouter:SheetRouterProtocol>: ObservableObj
             self.sheets.append(SheetRouterContext(router: s, animation: animation))
         }
     }
+    
+    public func pop(){
+        _ = self.sheets.popLast()
+    }
 }
 
 public extension View {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 public extension View {
-    func navigationAction<C: CDNavigationConfiguration_P>(_ c: C, action: Binding<CDNavigationController.Action?>) -> some View {
+    func bindNavigationAction<C: CDNavigationConfiguration_P>(_ c: C, action: Binding<CDNavigationController.Action?>) -> some View {
         modifier(NavigationAction(c: c, action: action))
     }
 }

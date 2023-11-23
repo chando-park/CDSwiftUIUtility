@@ -35,7 +35,6 @@ struct NavigtionTestView: View{
         CDNavigation(config: nConfig){
             VStack{
                 TextField("Enter your name", text: $name)
-                    .submitScope()
                 ZStack{
                     Color.yellow
                     

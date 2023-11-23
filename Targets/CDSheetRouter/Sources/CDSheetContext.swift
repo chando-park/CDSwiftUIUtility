@@ -57,6 +57,7 @@ public extension SheetRouterProtocol{
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id
     }
+    
     var id: String { "\(self)" }
 }
 

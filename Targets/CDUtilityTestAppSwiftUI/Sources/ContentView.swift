@@ -18,6 +18,7 @@ enum AppRouter: SheetRouterProtocol {
     case router
     case navigation
     case pdf//(url: URL, title: String)
+    case sound
     
     var id: String { "\(self)" }
     
@@ -31,6 +32,8 @@ enum AppRouter: SheetRouterProtocol {
             NavigtionTestView()
         case .pdf:
             CDPDFViewerView()
+        case .sound:
+            SoundView()
                 
         }
     }
@@ -69,6 +72,11 @@ struct ContentView: View{
                 Button("open pdf") {
 //                    CDOrientationLock.shared.rotate(orientation: .landscape)
                     self.router.go(.pdf, animation: .push)
+                    
+                }
+                Button("sound") {
+//                    CDOrientationLock.shared.rotate(orientation: .landscape)
+                    self.router.go(.sound, animation: .push)
                     
                 }
             }

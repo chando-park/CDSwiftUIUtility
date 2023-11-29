@@ -38,12 +38,23 @@ public class CDSound: NSObject {
         case cannotMakeAsset
         case cannotMakeUrl
         case innerError(error: Error)
+        
+        var message: String? {
+            switch self {
+            case .innerError(let error):
+                return error.localizedDescription
+            default:
+                return "URL does not exist"
+            }
+        }
     }
     
     public enum SoundPlayStatus{
         case playStart
         case playEnd
         case fail(error: SoundPlayError)
+        
+        
     }
 
     private func getSound(folder: LFE_Folder, soundName: String, soundType: SoundType = .mp3) -> String? {

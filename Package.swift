@@ -32,6 +32,9 @@ let package = Package(
         .library(
             name: "CDOrientation",
             targets: ["CDOrientation"]),
+        .library(
+            name: "CDSound",
+            targets: ["CDSound"]),
     ],
     
     dependencies: [

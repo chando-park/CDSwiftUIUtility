@@ -39,7 +39,7 @@ public class CDSound: NSObject {
         case cannotMakeUrl
         case innerError(error: Error)
         
-        var message: String? {
+        public var message: String? {
             switch self {
             case .innerError(let error):
                 return error.localizedDescription

@@ -4,6 +4,7 @@ import AVFoundation
 
 public class CDSound: NSObject {
     deinit {
+        print("deinit \(self)")
         self.stop()
     }
     
@@ -146,6 +147,7 @@ extension CDSound{
 extension CDSound{
     @objc func soundDidEnd(){
         self.subject.send(.playEnd)
+        self.release()
     }
 }
 

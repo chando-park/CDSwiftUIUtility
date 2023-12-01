@@ -13,6 +13,17 @@ public protocol CDNavigationConfiguration_P: ObservableObject{
 
 public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableObject{
     
+    static let `default`: CDNavigationConfiguration = CDNavigationConfiguration(statusBarColor: .red,
+                                                                                navigationBarBackgroundType: .paint(color: .blue),
+                                                                                navigationBarTitleType: .text(title: "default", subTitle: nil, color: .white, font: .init(size: 10), subTitleFont: nil),
+                                                                                navigationBarHeight: 55,
+                                                                                closeImage: UIImage(systemName: "star.fill"),
+                                                                                backImage: UIImage(systemName: "star.fill"),
+                                                                                isNavigationBarHidden: false,
+                                                                                isBackBtnHidden: false,
+                                                                                isCloseBtnHidden: false,
+                                                                                isUsePreference: false)
+    
     deinit{
         print("deitit \(self)")
     }

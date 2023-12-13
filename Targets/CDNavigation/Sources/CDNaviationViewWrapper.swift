@@ -70,6 +70,7 @@ public struct CDNavigationWrapper<Content: View>: UIViewControllerRepresentable{
         
         public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
 //            self.owner.callback(navigationController, viewController)
+            self.owner.config.action = nil
         }
         
     }

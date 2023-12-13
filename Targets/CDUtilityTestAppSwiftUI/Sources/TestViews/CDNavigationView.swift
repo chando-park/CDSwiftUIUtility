@@ -79,9 +79,10 @@ struct SecoundScreenView: View {
             nConfig.titles = ("test", nil)
             nConfig.isBackBtnHidden = false
             nConfig.navigationBarBackgroundType = .paint(color: .cyan)
-//            nConfig.setBackEvent {
-//                print("setBackEvent")
-//            }
+            nConfig.setBackEvent {
+                print("setBackEvent")
+                nConfig.action = .pop
+            }
             
         })
         .ignoresSafeArea([.container])

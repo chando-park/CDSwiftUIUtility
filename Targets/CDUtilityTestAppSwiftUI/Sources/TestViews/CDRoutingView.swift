@@ -34,6 +34,7 @@ enum SheetRouter: SheetRouterProtocol {
     case fullsheet
     case frontsheet
     case pushsheet
+    case email
   
     @ViewBuilder func buildView(isSheeted: Binding<Bool>) -> some View {
         switch self {
@@ -43,6 +44,8 @@ enum SheetRouter: SheetRouterProtocol {
             PushView(isSheeted: isSheeted)
         case .frontsheet:
             FrontView(isSheeted: isSheeted)
+        case .email:
+            EmailComposeView(to: "", subject: "", message: "", canUseAction: nil)
         }
     }
 
@@ -63,6 +66,9 @@ struct CDRoutingView: View {
                 }
                 Button("front") {
                     router.go(.frontsheet, animation: .front)
+                }
+                Button("emali") {
+                    router.go(.email, animation: .front)
                 }
             }
         }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 public class MovingSheetOperator<SheetRouter:SheetRouterProtocol>: ObservableObject {
     @Published public var sheets: [SheetRouterContext<SheetRouter>] = []
@@ -29,27 +30,11 @@ public extension View {
     }
 }
 
-//extension MovingSheetOperator{
-//    public func showEmailView() {
-//        
-//        let device_ver = UIDevice.current.systemVersion
-//        let app_ver = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
-//        let model: String = {
-//            var systemInfo = utsname()
-//            uname(&systemInfo)
-//            let machineMirror = Mirror(reflecting: systemInfo.machine)
-//            return machineMirror.children.reduce("") { identifier, element in
-//                guard let value = element.value as? Int8, value != 0 else { return identifier }
-//                return identifier + String(UnicodeScalar(UInt8(value)))
-//            }
-//        }()
-//        let text = "Model: \(model), OS: iOS\(device_ver), Ver: LittleFox Phonics \(app_ver), NickName: \(PhcUserDefaults<String>.userNickname.value  ?? "Free User")"
-//        let email = "help@littlefox.com"
-//        
-//        EmailService.shared.sendEmail(subject: "", body: text, to: email) { (isWorked) in
-//            if !isWorked{
-////                self.makeUIUtility(kind: .alert(info: AlertInfo(type: .oneBtn_confirm(actionTitle: "확인", action: nil), title: "❌", message: "사용 중인 디바이스에 메일계정등록 후 다시 시도해주세요.")))
-//            }
-//        }
-//    }
-//}
+struct EmailSheet: SheetRouterProtocol{
+    let to: String
+    let subject: String
+    let message: String
+    func buildView(isSheeted: Binding<Bool>) -> some View {
+        EmailComposeView(to: to, subject: subject, message: message)
+    }
+}

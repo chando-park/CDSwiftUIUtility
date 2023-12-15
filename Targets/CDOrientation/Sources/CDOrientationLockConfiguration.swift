@@ -14,8 +14,8 @@ public protocol CDOrientationLockConfiguration_P{
 public struct CDOrientationLockConfiguration: CDOrientationLockConfiguration_P{
     public var `default`: UIInterfaceOrientationMask
     
-    public init(d: UIInterfaceOrientationMask){
-        self.default = d
+    public init(orientation: UIInterfaceOrientationMask){
+        self.default = orientation
     }
 }
 

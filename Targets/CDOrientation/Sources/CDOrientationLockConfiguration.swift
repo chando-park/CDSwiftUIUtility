@@ -8,6 +8,14 @@
 import UIKit
 
 public protocol CDOrientationLockConfiguration_P{
-    var `default`: UIInterfaceOrientationMask {get}
+    var `default`: UIInterfaceOrientationMask {get set}
+}
+
+public struct CDOrientationLockConfiguration: CDOrientationLockConfiguration_P{
+    public var `default`: UIInterfaceOrientationMask
+    
+    public init(d: UIInterfaceOrientationMask){
+        self.default = d
+    }
 }
 

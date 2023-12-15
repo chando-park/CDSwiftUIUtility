@@ -13,7 +13,7 @@ public class CDOrientationLock{
     
 //    public static let `default`: UIInterfaceOrientationMask = .portrait
     
-    private var isFirstSetting: Bool = false
+    private var isFirstSetting: Bool = true
     private var `default`: UIInterfaceOrientationMask = .portrait
     public var currentMask: UIInterfaceOrientationMask = .portrait
     

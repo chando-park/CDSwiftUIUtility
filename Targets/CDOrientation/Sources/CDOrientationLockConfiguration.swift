@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CDOrientationLockConfiguration_P{
+public protocol CDOrientationLockConfiguration_P{
     var `default`: UIInterfaceOrientationMask {get}
 }
 

@@ -19,7 +19,7 @@ public class CDOrientationLock{
     
     public static var shared = CDOrientationLock()
     
-    func set(config: CDOrientationLockConfiguration_P){
+    public func set(config: CDOrientationLockConfiguration_P){
         
         guard self.isFirstSetting else{
             return

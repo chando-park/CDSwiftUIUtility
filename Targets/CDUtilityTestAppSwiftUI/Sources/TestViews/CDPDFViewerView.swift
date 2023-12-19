@@ -25,7 +25,7 @@ struct CDPDFViewerView: View {
     
     
     var body: some View {
-        ZStack{
+        VStack{
 //            CDPDFViewer(url: url!, name: "title", isActivityViewPresented: $isActivityViewPresented) {
 //                print("onShowActivityViewst")
 //                self.isProgress = true

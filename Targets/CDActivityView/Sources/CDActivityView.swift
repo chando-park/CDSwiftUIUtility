@@ -26,6 +26,11 @@ public struct CDActivityView: UIViewControllerRepresentable {
             applicationActivities: nil
         )
         
+        if UIDevice.current.userInterfaceIdiom == .pad {
+//            activityViewController.popoverPresentationController?.sourceView = uiViewController.webView
+            activityViewController.popoverPresentationController?.sourceRect = uiViewController.accessibilityFrame
+        }
+        
         if isPresented && uiViewController.presentedViewController == nil {
             uiViewController.present(activityViewController, animated: true)
         }

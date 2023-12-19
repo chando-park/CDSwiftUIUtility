@@ -22,7 +22,7 @@ public struct CDActivityView: UIViewControllerRepresentable {
     
     public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         let activityViewController = UIActivityViewController(
-            activityItems: activityItmes.map({$0.toActivity}),
+            activityItems: activityItmes.map({$0.toActivity as Any}),
             applicationActivities: nil
         )
         

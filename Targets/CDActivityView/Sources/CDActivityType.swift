@@ -9,7 +9,7 @@ import SwiftUI
 
 public enum CDActivityType: Equatable, Identifiable{
     case image(UIImage)
-    case url(URL)
+    case url(URL?)
     case text(String)
     
     public var id: String{
@@ -20,12 +20,12 @@ public enum CDActivityType: Equatable, Identifiable{
         lhs.id == rhs.id
     }
     
-    var toActivity: Any{
+    var toActivity: Any?{
         switch self {
         case .image(let image):
             return image
-        case .url(let uRL):
-            return uRL
+        case .url(let url):
+            return url
         case .text(let string):
             return string
         }

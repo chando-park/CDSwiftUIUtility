@@ -79,11 +79,11 @@ public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableO
         self.closeEvent = closeEvent
     }
     
-    public func setBackEvent(event: @escaping CDNavigationController.Event){
+    public func setBackEvent(event: CDNavigationController.Event?){
         self.backEvent = event
     }
     
-    public func setCloseEvent(event: @escaping CDNavigationController.Event){
+    public func setCloseEvent(event: CDNavigationController.Event?){
         self.closeEvent = event
     }
 }

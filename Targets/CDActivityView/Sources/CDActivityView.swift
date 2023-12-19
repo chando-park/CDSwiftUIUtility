@@ -28,7 +28,7 @@ public struct CDActivityView: UIViewControllerRepresentable {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             activityViewController.popoverPresentationController?.sourceView = uiViewController.view
-            activityViewController.popoverPresentationController?.sourceRect = CGRect(x: uiViewController.view.bounds.minX + uiViewController.view.frame.width/2, y: uiViewController.view.bounds.minY, width: 0, height: 0)//uiViewController.accessibilityFrame
+            activityViewController.popoverPresentationController?.sourceRect = CGRect(x: uiViewController.view.bounds.minX + uiViewController.view.frame.width, y: uiViewController.view.bounds.minY, width: 0, height: 0)//uiViewController.accessibilityFrame
         }
         
         if isPresented && uiViewController.presentedViewController == nil {

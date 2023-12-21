@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CDSheetRouter
+import CDOrientation
 
 extension View {
     func prefersHomeIndicatorAutoHidden() -> some View {
@@ -68,7 +69,8 @@ struct CDRoutingView: View {
                     router.go(.frontsheet, animation: .front)
                 }
                 Button("emali") {
-                    router.go(.email, animation: .front)
+//                    router.go(.email, animation: .front)
+                    CDOrientationLock.shared.setDefault(config: CDOrientationLockConfiguration(orientation: .landscapeLeft))
                 }
             }
         }

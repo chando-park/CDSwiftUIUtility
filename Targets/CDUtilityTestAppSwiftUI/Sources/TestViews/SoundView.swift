@@ -8,6 +8,7 @@
 import SwiftUI
 import CDSound
 import Combine
+import CDOrientation
 
 struct SoundView: View {
     
@@ -19,7 +20,8 @@ struct SoundView: View {
             Section {
                 Button("play") {
 //                    router.go(.fullsheet, animation: .full(animationOn: false))
-                    soundPlayer.playSound(soundLocation: .internet, soundStr: "https://cdn.littlefox.co.kr/contents/quiz/data/C0005738/4d85d8fd550b527db7e905eed2717923.mp3?1365148976")
+//                    soundPlayer.playSound(soundLocation: .internet, soundStr: "https://cdn.littlefox.co.kr/contents/quiz/data/C0005738/4d85d8fd550b527db7e905eed2717923.mp3?1365148976")
+                    
                 }
                 
             }

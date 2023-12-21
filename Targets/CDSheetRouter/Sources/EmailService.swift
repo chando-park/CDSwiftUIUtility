@@ -18,11 +18,12 @@ public struct EmailComposeView: UIViewControllerRepresentable {
     
     var isUseEmailSheetAction: ((_ isCanUseEmailSheet: Bool) -> Void)? = nil
     
-    public init(to: String, subject: String, message: String, isUseEmailSheetAction: ((Bool) -> Void)? = nil) {
+    static let isCanUseEmailSheet: Bool = MFMailComposeViewController.canSendMail()
+    
+    public init(to: String, subject: String, message: String) {
         self.to = to
         self.subject = subject
         self.message = message
-        self.isUseEmailSheetAction = isUseEmailSheetAction
     }
     
     public class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
@@ -44,7 +45,6 @@ public struct EmailComposeView: UIViewControllerRepresentable {
         viewController.setToRecipients([to])
         viewController.setSubject(subject)
         viewController.setMessageBody(message, isHTML: false)
-        isUseEmailSheetAction?(MFMailComposeViewController.canSendMail())
         
         return viewController
     }

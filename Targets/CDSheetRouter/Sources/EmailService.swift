@@ -18,7 +18,9 @@ public struct EmailComposeView: UIViewControllerRepresentable {
     
     var isUseEmailSheetAction: ((_ isCanUseEmailSheet: Bool) -> Void)? = nil
     
-    static let isCanUseEmailSheet: Bool = MFMailComposeViewController.canSendMail()
+    static var isCanUseEmailSheet: Bool {
+        MFMailComposeViewController.canSendMail()
+    }
     
     public init(to: String, subject: String, message: String) {
         self.to = to

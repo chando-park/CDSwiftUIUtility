@@ -23,12 +23,15 @@ public struct CDNavigationWrapper<Content: View>: UIViewControllerRepresentable{
     public func makeUIViewController(context: Context) -> CDNavigationController {
         let root = content()
 
+        
         let nc = CDNavigationController(navigationBarHeight: self.config.navigationBarHeight,
                                         navigationBarBackgroundType: self.config.navigationBarBackgroundType,
                                         navigationBarTitleType: self.config.navigationBarTitleType,
-                                        statusBarColor: self.config.statusBarColor,
+                                        statusBarColor: self.config.statusBarColor, 
+                                        isStatusBarHidden: self.config.isStatusHidden,
                                         closeImage: self.config.closeImage,
                                         backImage: self.config.backImage,
+                                        
                                         rootViewController: UIHostingController(rootView: root))
         nc.delegate = context.coordinator
         return nc
@@ -54,6 +57,8 @@ public struct CDNavigationWrapper<Content: View>: UIViewControllerRepresentable{
         uiViewController.setBackEvent(event: self.config.backEvent)
         uiViewController.setCloseEvent(event: self.config.closeEvent)
         uiViewController.action = self.config.action
+        
+        uiViewController.isStatusBarHidden = self.config.isStatusHidden
     }
     
     public func makeCoordinator() -> NavigationSlave {

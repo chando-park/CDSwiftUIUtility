@@ -15,7 +15,8 @@ struct NavigtionTestView: View{
     lazy var topIsect = UIScreen.main.bounds.height*(183/2436)
 //    @State var action: CDNavigationController.Action? = nil
     @State var name: String = ""
-    @StateObject var nConfig = CDNavigationConfiguration(statusBarColor: .blue,
+    @StateObject var nConfig = CDNavigationConfiguration(statusBarColor: .blue, 
+                                                         isStatusHidden: true,
                                                          navigationBarBackgroundType: .paint(color: .brown),
                                                          navigationBarTitleType: .text(title: "title",
                                                                                        subTitle: nil,
@@ -28,8 +29,7 @@ struct NavigtionTestView: View{
                                                          backImage: UIImage(named: "home-menu"),
                                                          isNavigationBarHidden: false,
                                                          isBackBtnHidden: true,
-                                                         isCloseBtnHidden: false,
-                                                         isUsePreference: false)
+                                                         isCloseBtnHidden: false)
     
     var body: some View{
         CDNavigation(config: nConfig){

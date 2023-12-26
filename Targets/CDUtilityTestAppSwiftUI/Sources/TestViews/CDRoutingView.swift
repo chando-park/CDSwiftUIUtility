@@ -46,7 +46,7 @@ enum SheetRouter: SheetRouterProtocol {
         case .frontsheet:
             FrontView(isSheeted: isSheeted)
         case .email:
-            EmailComposeView(to: "", subject: "", message: "", canUseAction: nil)
+            EmailComposeView(to: "", subject: "", message: "")
         }
     }
 
@@ -70,7 +70,7 @@ struct CDRoutingView: View {
                 }
                 Button("emali") {
 //                    router.go(.email, animation: .front)
-                    CDOrientationLock.shared.setDefault(config: CDOrientationLockConfiguration(orientation: .landscapeLeft))
+//                    CDOrientationLock.shared.setDefault(config: CDOrientationLockConfiguration(orientation: .landscapeLeft))
                 }
             }
         }

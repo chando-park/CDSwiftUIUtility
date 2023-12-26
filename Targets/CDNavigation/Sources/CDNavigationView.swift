@@ -21,6 +21,7 @@ public struct CDNavigation<Content: View>: View{
     public var body: some View{
         CDNavigationWrapper(config: config, content: content)
             .ignoresSafeArea([.container])
+            .statusBar(hidden: self.config.isStatusHidden)
         
     }
 }

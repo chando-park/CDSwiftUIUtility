@@ -156,6 +156,16 @@ public class CDNavigationController: UINavigationController {
         return .lightContent
     }
     
+    public override var prefersStatusBarHidden: Bool{
+        self.isStatusBarHidden
+    }
+    
+    var isStatusBarHidden: Bool = false{
+        didSet{
+            self.statusbarView.isHidden = self.isStatusBarHidden
+        }
+    }
+    
     var isNaviBarHidden: Bool = false{
         didSet{
             UIView.animate(withDuration: 0.3) {
@@ -381,18 +391,21 @@ public class CDNavigationController: UINavigationController {
          navigationBarBackgroundType: NavigationBarBackgroundType,
          navigationBarTitleType: NavigationBarTitleType,
          statusBarColor: UIColor,
+                isStatusBarHidden: Bool,
          closeImage: UIImage?,
          backImage: UIImage?,
          rootViewController: UIViewController) {
         self.navigationBarHeight = navigationBarHeight
         super.init(rootViewController: rootViewController)
         
+        self.isStatusBarHidden = isStatusBarHidden
         self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
         
         self.naviBar = UIImageView(frame: CGRect(origin: CGPoint(x: 0,
                                                                  y: self.statusBarHeight),
                                                  size: CGSize(width: self.view.frame.size.width,
                                                               height: self.navigationBarHeight)))
+        self.naviBar?.isUserInteractionEnabled = true
         switch navigationBarBackgroundType {
         case .image(let image):
             self.naviBar?.image = image
@@ -408,7 +421,7 @@ public class CDNavigationController: UINavigationController {
             let btnHeight = (118.0/183.0)*self.navigationBarHeight
             let btnWidth = btnHeight*(backImage.size.width/backImage.size.height)
             let left = btnWidth*(42.0/110)
-            let top = (self.navigationBarHeight - btnHeight)/2
+            let top = (self.navigationBarHeight - btnHeight)/2 - ((self.isStatusBarHidden && UIDevice.current.userInterfaceIdiom == .pad) ? self.statusBarHeight : 0)
             self.backBtn = UIButton(frame: CGRect(origin: CGPoint(x: left, y: top+statusBarHeight),
                                                    size: CGSize(width: btnWidth, height: btnHeight)))
             self.backBtn?.setImage(backImage, for: .normal)
@@ -422,7 +435,7 @@ public class CDNavigationController: UINavigationController {
             let btnHeight = (118.0/183.0)*self.navigationBarHeight
             let btnWidth = btnHeight*(closeImage.size.width/closeImage.size.height)
             let left = btnWidth*(42.0/110)
-            let top = (self.navigationBarHeight - btnHeight)/2
+            let top = (self.navigationBarHeight - btnHeight)/2 - ((self.isStatusBarHidden && UIDevice.current.userInterfaceIdiom == .pad) ? self.statusBarHeight : 0)
             self.closeBtn = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.size.width - left - btnWidth, y: top+statusBarHeight),
                                                    size: CGSize(width: btnWidth, height: btnHeight)))
             self.closeBtn?.setImage(closeImage, for: .normal)
@@ -469,7 +482,9 @@ public class CDNavigationController: UINavigationController {
 //        self.statusBarColor = statusBarColor
         self.statusbarView = UIView()
 //        self.statusbarView.backgroundColor = statusBarColor
+        self.statusbarView.isHidden = self.isStatusBarHidden
         self.view.addSubview(statusbarView)
+        
         
         statusbarView.translatesAutoresizingMaskIntoConstraints = false
         statusbarView.heightAnchor

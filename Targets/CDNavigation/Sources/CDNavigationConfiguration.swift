@@ -13,7 +13,8 @@ public protocol CDNavigationConfiguration_P: ObservableObject{
 
 public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableObject{
     
-    static public let `default`: CDNavigationConfiguration = CDNavigationConfiguration(statusBarColor: .red,
+    static public let `default`: CDNavigationConfiguration = CDNavigationConfiguration(statusBarColor: .red, 
+                                                                                       isStatusHidden: false,
                                                                                        navigationBarBackgroundType: .paint(color: .blue),
                                                                                        navigationBarTitleType: .text(title: "default", subTitle: nil, color: .white, font: .init(size: 10), subTitleFont: nil),
                                                                                        navigationBarHeight: 55,
@@ -21,14 +22,14 @@ public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableO
                                                                                        backImage: UIImage(systemName: "star.fill"),
                                                                                        isNavigationBarHidden: false,
                                                                                        isBackBtnHidden: false,
-                                                                                       isCloseBtnHidden: false,
-                                                                                       isUsePreference: false)
+                                                                                       isCloseBtnHidden: false)
     
     deinit{
         print("deitit \(self)")
     }
     
     @Published public var statusBarColor: UIColor
+    @Published public var isStatusHidden: Bool
     @Published public var navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType
     @Published public var navigationBarTitleType: CDNavigationController.NavigationBarTitleType
     @Published public var navigationBarHeight: CGFloat
@@ -53,6 +54,7 @@ public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableO
     var closeEvent: CDNavigationController.Event?
     
     public init(statusBarColor: UIColor,
+                isStatusHidden: Bool,
                 navigationBarBackgroundType: CDNavigationController.NavigationBarBackgroundType,
                 navigationBarTitleType: CDNavigationController.NavigationBarTitleType,
                 navigationBarHeight: CGFloat,
@@ -62,10 +64,10 @@ public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableO
                 isBackBtnHidden: Bool,
                 isCloseBtnHidden: Bool,
                 action: CDNavigationController.Action? = nil,
-                isUsePreference: Bool,
                 backEvent: CDNavigationController.Event? = nil,
                 closeEvent: CDNavigationController.Event? = nil) {
         self.statusBarColor = statusBarColor
+        self.isStatusHidden = isStatusHidden
         self.navigationBarBackgroundType = navigationBarBackgroundType
         self.navigationBarTitleType = navigationBarTitleType
         self.navigationBarHeight = navigationBarHeight

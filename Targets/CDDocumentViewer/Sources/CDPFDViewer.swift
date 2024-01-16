@@ -13,15 +13,15 @@ import CDFileDownLoader
 
 
 public struct CDPDFKitView: UIViewRepresentable {
-    @Binding var documentURL: URL? // 표시할 PDF 문서
+    var documentURL: URL? // 표시할 PDF 문서
     let type: PDFDisplayMode
     
 //    public init(documentURL: Binding<URL?>) {
 //        self._documentURL = documentURL
 //    }
     
-    public init(documentURL: Binding<URL?>, type: PDFDisplayMode) {
-        self._documentURL = documentURL
+    public init(documentURL: URL?, type: PDFDisplayMode) {
+        self.documentURL = documentURL
         self.type = type
     }
 
@@ -29,13 +29,16 @@ public struct CDPDFKitView: UIViewRepresentable {
         let pdfView = PDFView()
         pdfView.autoScales = true
         pdfView.displayMode = type
+        
+        if let documentURL = documentURL {
+            pdfView.document = PDFDocument(url: documentURL)
+        }
+        
         return pdfView
     }
 
     public func updateUIView(_ uiView: PDFView, context: Context) {
-        if let documentURL = documentURL {
-            uiView.document = PDFDocument(url: documentURL)
-        }
+       
         
     }
 }

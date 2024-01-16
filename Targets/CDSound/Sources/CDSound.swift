@@ -81,6 +81,7 @@ public class CDSound: NSObject {
     private func release(){
         NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
         self.player = nil
+        
     }
 }
 

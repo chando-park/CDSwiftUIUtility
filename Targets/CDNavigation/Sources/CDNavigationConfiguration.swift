@@ -12,7 +12,6 @@ public protocol CDNavigationConfiguration_P: ObservableObject{
 }
 
 public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableObject{
-    
     static public let `default`: CDNavigationConfiguration = CDNavigationConfiguration(statusBarColor: .red, 
                                                                                        isStatusHidden: false,
                                                                                        navigationBarBackgroundType: .paint(color: .blue),

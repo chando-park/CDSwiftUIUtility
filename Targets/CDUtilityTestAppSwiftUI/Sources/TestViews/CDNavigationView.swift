@@ -52,8 +52,11 @@ struct NavigtionTestView: View{
             })
             
         }
+//        .prefersPersistentSystemOverlaysHidden()
     }
 }
+
+
 
 struct NView_Previews: PreviewProvider {
     static var previews: some View {

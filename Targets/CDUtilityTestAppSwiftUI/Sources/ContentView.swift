@@ -12,6 +12,7 @@ import CDDocumentViewer
 import CDFileDownLoader
 import CDActivityView
 import CDOrientation
+import CoreData
 
 enum AppRouter: SheetRouterProtocol {
     case web
@@ -34,7 +35,6 @@ enum AppRouter: SheetRouterProtocol {
             CDPDFViewerView()
         case .sound:
             SoundView()
-                
         }
     }
 
@@ -58,6 +58,7 @@ struct ContentView: View{
     
     var body: some View {
         List {
+//            textentity
             Section {
                 Button("web") {
                     router.go(.web, animation: .push)
@@ -78,6 +79,13 @@ struct ContentView: View{
 //                    CDOrientationLock.shared.rotate(orientation: .landscape)
                     self.router.go(.sound, animation: .push)
                     
+                }
+                
+               Button("coredata save") {
+                   CDCoreDataSinglton.shared.insertNewObject(name: "안녕", age: 65)
+                }
+                Button("coredata get") {
+                    CDCoreDataSinglton.shared.getObject()
                 }
             }
         }

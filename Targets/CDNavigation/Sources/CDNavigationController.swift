@@ -160,11 +160,16 @@ public class CDNavigationController: UINavigationController {
         self.isStatusBarHidden
     }
     
+    public override var prefersHomeIndicatorAutoHidden: Bool{
+        true
+    }
+    
     var isStatusBarHidden: Bool = false{
         didSet{
             self.statusbarView.isHidden = self.isStatusBarHidden
         }
     }
+    
     
     var isNaviBarHidden: Bool = false{
         didSet{

@@ -36,8 +36,11 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
         
         
         if let request = address.request {
-            webView.load(request)
+            
+            print("loadHtml address \(String(describing: request.url?.absoluteString))")
             print("loadHtml allHTTPHeaderFields \(String(describing: request.allHTTPHeaderFields))")
+            
+            webView.load(request)
         }else{
             self.webViewCommunicator.onError?(.invalidURL)
         }

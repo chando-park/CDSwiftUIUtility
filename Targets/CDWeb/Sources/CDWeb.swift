@@ -8,16 +8,12 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
     private let backgrouneColor: Color
     var webViewCommunicator: WebViewCommunicator<NativeMessage>
     
-    @Binding var isRequest: Bool
-    
     public init(address: Address,
                 backgrouneColor: Color,
-                isRequest: Binding<Bool>,
                 webViewCommunicator: WebViewCommunicator<NativeMessage>) {
         
         self.webViewCommunicator = webViewCommunicator
         self.address = address
-        self._isRequest = isRequest
         self.backgrouneColor = backgrouneColor
 
     }
@@ -37,22 +33,23 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
         
         webViewCommunicator.webView = webView
         webViewCommunicator.addScriptMessages(context.coordinator)
-
+        
+        
+        if let request = address.request {
+            
+            print("loadHtml address \(String(describing: request.url?.absoluteString))")
+            print("loadHtml allHTTPHeaderFields \(String(describing: request.allHTTPHeaderFields))")
+            
+            webView.load(request)
+        }else{
+            self.webViewCommunicator.onError?(.invalidURL)
+        }
+        
         return webView
     }
     
     public func updateUIView(_ uiView: WKWebView, context: Context) {
-        if self.isRequest{
-            if let request = address.request {
-                
-                print("loadHtml address \(String(describing: request.url?.absoluteString))")
-                print("loadHtml allHTTPHeaderFields \(String(describing: request.allHTTPHeaderFields))")
-                
-                uiView.load(request)
-            }else{
-                self.webViewCommunicator.onError?(.invalidURL)
-            }
-        }
+        
     }
 
     public func makeCoordinator() -> WebSlave {
@@ -77,14 +74,12 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
         
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             self.owner.webViewCommunicator.onFinished?(webView)
-            self.owner.isRequest = false
         }
         
         public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             let code = (error as NSError).code
             let message = error.localizedDescription
             self.owner.webViewCommunicator.onError?(.specificError(code, message))
-            self.owner.isRequest = false
         }
         
         public func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {

@@ -80,13 +80,7 @@ struct ContentView: View{
                     self.router.go(.sound, animation: .push)
                     
                 }
-                
-               Button("coredata save") {
-                   CDCoreDataSinglton.shared.insertNewObject(name: "안녕", age: 65)
-                }
-                Button("coredata get") {
-                    CDCoreDataSinglton.shared.getObject()
-                }
+
             }
         }
         .routering($router.sheets)

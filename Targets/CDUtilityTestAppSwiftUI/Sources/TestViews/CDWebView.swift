@@ -32,18 +32,13 @@ public enum Address: String, CDWebAddress_P, CaseIterable{
 }
 
 struct WebTestView: View {
-    @State var isResuest: Bool = false
     @ObservedObject var comunicator = WebViewCommunicator(nativeMessages: NativeMessage.allCases, act: { message, body, webview in
         print("message : \(message)")
     })
     var body: some View {
         ZStack{
-            CDWebview(address: Address.pdf, backgrouneColor: .white, isRequest: $isResuest, webViewCommunicator: comunicator)
+            CDWebview(address: Address.pdf, backgrouneColor: .white, webViewCommunicator: comunicator)
         }
-        .onAppear(perform: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                self.isResuest = true
-            }
-        })
+
     }
 }

@@ -49,9 +49,9 @@ public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: Observable
     }
     
     func actInNavive(message: WKScriptMessage){
-        if let nm = NativeMessage(rawValue: message.name),
-           let messagebody = message.body as? String{
-            act(nm,messagebody,webView)
+        if let nm = NativeMessage(rawValue: message.name){
+//           let messagebody = message.body {
+            act(nm, message.body ,webView)
         }
         
     }    

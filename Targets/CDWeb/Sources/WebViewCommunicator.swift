@@ -31,9 +31,18 @@ public class WebViewCommunicator<NativeMessage: NativeMessageList_P>: Observable
 //        self.onError = onError
 //    }
     public init(webView: WKWebView? = nil,
-                nativeMessages: [NativeMessage]?) {
+                nativeMessages: [NativeMessage]?,
+                act: ((_: NativeMessage, _: Any, _: WKWebView?) -> Void)? = nil,
+                onStarted: (() -> Void)? = nil,
+                onFinished: ((_: WKWebView) -> Void)? = nil,
+                onError: ((_: CDWebError?) -> Void)? = nil) {
         self.webView = webView
         self.nativeMessages = nativeMessages
+        
+        self.act = act
+        self.onStarted = onStarted
+        self.onFinished = onFinished
+        self.onError = onError
     }
     
     public func setCallback(act: @escaping (_: NativeMessage, _: Any, _: WKWebView?) -> Void,

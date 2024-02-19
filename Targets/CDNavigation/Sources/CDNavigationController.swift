@@ -181,8 +181,8 @@ public class CDNavigationController: UINavigationController {
 //                    self.additionalSafeAreaInsets.top = 0
                     self.naviBar?.alpha = 0
                 }else{
-//                    self.naviBar?.frame.origin.y = self.statusBarHeight
-//                    self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
+                    self.naviBar?.frame.origin.y = self.statusBarHeight
+                    self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
                     
                     self.naviBar?.alpha = 1
                 }

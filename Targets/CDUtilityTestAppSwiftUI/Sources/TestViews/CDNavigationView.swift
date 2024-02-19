@@ -46,8 +46,8 @@ struct NavigtionTestView: View{
             }
             .onAppear(perform: {
                 nConfig.titles = ("title", nil)
-                nConfig.isBackBtnHidden = true
-                nConfig.navigationBarBackgroundType = .paint(color: .brown)
+                nConfig.isNavigationBarHidden = true
+                nConfig.isStatusHidden = true
                     
             })
             

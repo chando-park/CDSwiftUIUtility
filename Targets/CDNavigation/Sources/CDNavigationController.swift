@@ -167,6 +167,7 @@ public class CDNavigationController: UINavigationController {
     var isStatusBarHidden: Bool = false{
         didSet{
             self.statusbarView.isHidden = self.isStatusBarHidden
+            self.setNeedsStatusBarAppearanceUpdate()
         }
     }
     
@@ -176,11 +177,14 @@ public class CDNavigationController: UINavigationController {
             UIView.animate(withDuration: 0.3) {
                 self.navigationBar.isHidden = self.isNaviBarHidden
                 if self.isNaviBarHidden{
-                    self.naviBar?.frame.origin.y = -(self.statusBarHeight + UINavigationController().navigationBar.frame.size.height)
-                    self.additionalSafeAreaInsets.top = 0
+//                    self.naviBar?.frame.origin.y = -(self.statusBarHeight + UINavigationController().navigationBar.frame.size.height)
+//                    self.additionalSafeAreaInsets.top = 0
+                    self.naviBar?.alpha = 0
                 }else{
-                    self.naviBar?.frame.origin.y = self.statusBarHeight
-                    self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
+//                    self.naviBar?.frame.origin.y = self.statusBarHeight
+//                    self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
+                    
+                    self.naviBar?.alpha = 1
                 }
             }
         }

@@ -9,7 +9,7 @@ public class CDSound: NSObject {
     }
     
     private var player: AVPlayer?
-    private var subject = PassthroughSubject<SoundPlayStatus,Never>()
+//    private var subject = PassthroughSubject<SoundPlayStatus,Never>()
     
     private let tPlayerTracksKey = "tracks"
     private let tPlayerPlayableKey = "playable"
@@ -62,21 +62,21 @@ public class CDSound: NSObject {
         
     }
     
-    private var url: URL?{
-        didSet{
-            guard let url = url else {
-                return
-            }
-            self.asset = AVURLAsset(url: url)
-        }
-    }
-    
-    private var asset: AVAsset?{
-        didSet{
-            self.asset?.cancelLoading()
-            self.setPlayer(asset: self.asset)
-        }
-    }
+//    private var url: URL?{
+//        didSet{
+//            guard let url = url else {
+//                return
+//            }
+//            self.asset = AVURLAsset(url: url)
+//        }
+//    }
+//    
+    private var asset: AVAsset?
+//        didSet{
+//            self.asset?.cancelLoading()
+//            self.setPlayer(asset: self.asset)
+//        }
+//    }
     
     private func release(){
         NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
@@ -92,8 +92,8 @@ extension CDSound{
         case internet
     }
     
-    public func playSound(soundLocation: SoundLocationType, soundStr: String){
-        
+    public func playSound(soundLocation: SoundLocationType, soundStr: String) -> AnyPublisher<SoundPlayStatus,Never>{
+
         let url: URL? = {
             switch soundLocation {
             case .device:
@@ -106,13 +106,21 @@ extension CDSound{
                 return URL(string: soundStr)
             }
         }()
+
+//        self.url = url
         
         guard let url = url else{
-            self.subject.send(.fail(error: .cannotMakeUrl))
-            return
+            return Just(SoundPlayStatus.fail(error: .cannotMakeUrl)).eraseToAnyPublisher()
+                .receive(on: DispatchQueue.main)
+                .eraseToAnyPublisher()
         }
         
-        self.url = url
+        self.asset?.cancelLoading()
+        self.asset = AVURLAsset(url: url)
+        
+        return self.setPlayer(asset: self.asset)
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
     
     public func stop(){
@@ -120,12 +128,15 @@ extension CDSound{
         self.release()
     }
 
-    private func setPlayer(asset: AVAsset?){
+    private func setPlayer(asset: AVAsset?) -> AnyPublisher<SoundPlayStatus,Never>{
+        
+        let subject = PassthroughSubject<SoundPlayStatus,Never>()
+        
         self.stop()
         
         guard let asset = asset else {
-            self.subject.send(.fail(error: .cannotMakeAsset))
-            return
+            subject.send(.fail(error: .cannotMakeAsset))
+            return subject.eraseToAnyPublisher()
         }
         
         let requestKeys : [String] = [tPlayerTracksKey,tPlayerPlayableKey,tPlayerDurationKey]
@@ -136,11 +147,11 @@ extension CDSound{
                     let status = asset.statusOfValue(forKey: key, error: &error)
                     
                     if status == .failed{
-                        self.subject.send(.fail(error: .innerError(error: error ?? .init(domain: "unknown Error", code: -1))))
+                        subject.send(.fail(error: .innerError(error: error ?? .init(domain: "unknown Error", code: -1))))
                         return
                     }
                     if asset.isPlayable == false{
-                        self.subject.send(.fail(error: .innerError(error: error ?? .init(domain: "unknown Error", code: -1))))
+                        subject.send(.fail(error: .innerError(error: error ?? .init(domain: "unknown Error", code: -1))))
                         return
                     }
                 }
@@ -148,25 +159,31 @@ extension CDSound{
                 let item = AVPlayerItem(asset: asset)
                 self.player = AVPlayer(playerItem: item)
                 self.player?.play()
-                self.subject.send(.playStart)
+                subject.send(.playStart)
 
-                NotificationCenter.default.addObserver(self, selector: #selector(self.soundDidEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+//                NotificationCenter.default.addObserver(self, selector: #selector(self.soundDidEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
+                    subject.send(.playEnd) // 재생이 끝나면 완료됨을 보냄
+                    self.release()
+                }
             }
         }
+        
+        return subject.eraseToAnyPublisher()
     }
 }
 
-extension CDSound{
-    @objc func soundDidEnd(){
-        self.subject.send(.playEnd)
-        self.release()
-    }
-}
+//extension CDSound{
+//    @objc func soundDidEnd(){
+//        self.subject.send(.playEnd)
+//        
+//    }
+//}
 
 
-extension CDSound{
-    public func subscribe() -> AnyPublisher<SoundPlayStatus, Never>{
-        self.subject.eraseToAnyPublisher()
-    }
-}
-
+//extension CDSound{
+//    public func subscribe() -> AnyPublisher<SoundPlayStatus, Never>{
+//        self.subject.eraseToAnyPublisher()
+//    }
+//}
+//

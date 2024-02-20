@@ -19,22 +19,15 @@ struct SoundView: View {
         List {
             Section {
                 Button("play") {
-//                    router.go(.fullsheet, animation: .full(animationOn: false))
-//                    soundPlayer.playSound(soundLocation: .internet, soundStr: "https://cdn.littlefox.co.kr/contents/quiz/data/C0005738/4d85d8fd550b527db7e905eed2717923.mp3?1365148976")
-                    
+                    soundPlayer.playSound(soundLocation: .internet, soundStr: "https://cdn.littlefox.co.kr/contents/quiz/data/C0005738/4d85d8fd550b527db7e905eed2717923.mp3?1365148976")
+                        .sink { status in
+                            print("status \(status)")
+                        }
+                        .store(in: &cancellables)
                 }
                 
             }
         }
-        .onAppear(perform: {
-            soundPlayer.subscribe()
-                .sink { status in
-                    print("status \(status)")
-                    //https://cdn.littlefox.co.kr/contents/quiz/data/C0005738/4d85d8fd550b527db7e905eed2717923.mp3?1365148976
-                }
-                .store(in: &cancellables)
-        })
-        
     }
 }
 

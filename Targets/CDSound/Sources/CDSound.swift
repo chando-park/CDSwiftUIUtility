@@ -125,6 +125,7 @@ extension CDSound{
     
     public func stop(){
         self.player?.pause()
+        self.asset = nil
         self.release()
     }
 

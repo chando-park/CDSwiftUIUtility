@@ -140,7 +140,7 @@ extension CDSound{
         }
         
         let requestKeys : [String] = [tPlayerTracksKey,tPlayerPlayableKey,tPlayerDurationKey]
-        asset.loadValuesAsynchronously(forKeys: requestKeys) {
+        asset.loadValuesAsynchronously(forKeys: requestKeys) {[weak self] in
             DispatchQueue.main.async {
                 for key in requestKeys {
                     var error: NSError?
@@ -157,14 +157,14 @@ extension CDSound{
                 }
                 
                 let item = AVPlayerItem(asset: asset)
-                self.player = AVPlayer(playerItem: item)
-                self.player?.play()
+                self?.player = AVPlayer(playerItem: item)
+                self?.player?.play()
                 subject.send(.playStart)
 
 //                NotificationCenter.default.addObserver(self, selector: #selector(self.soundDidEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
+                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) {  [weak self] _ in
                     subject.send(.playEnd) // 재생이 끝나면 완료됨을 보냄
-                    self.release()
+                    self?.release()
                 }
             }
         }

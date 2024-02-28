@@ -32,6 +32,9 @@ let package = Package(
         .library(
             name: "CDOrientation",
             targets: ["CDOrientation"]),
+        .library(
+            name: "CDSound",
+            targets: ["CDSound"]),
     ],
     
     dependencies: [
@@ -89,6 +92,10 @@ let package = Package(
             name: "CDOrientation",
             dependencies: [],
             path: "Targets/CDOrientation/Sources"),
+        .target(
+            name: "CDSound",
+            dependencies: [],
+            path: "Targets/CDSound/Sources"),
 //
 //            .testTarget(
 //                name: "CDActivityViewTests",

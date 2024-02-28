@@ -22,9 +22,14 @@ public struct CDActivityView: UIViewControllerRepresentable {
     
     public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         let activityViewController = UIActivityViewController(
-            activityItems: activityItmes.map({$0.toActivity}),
+            activityItems: activityItmes.map({$0.toActivity as Any}),
             applicationActivities: nil
         )
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            activityViewController.popoverPresentationController?.sourceView = uiViewController.view
+            activityViewController.popoverPresentationController?.sourceRect = CGRect(x: uiViewController.view.bounds.minX + uiViewController.view.frame.width, y: uiViewController.view.bounds.minY, width: 0, height: 0)//uiViewController.accessibilityFrame
+        }
         
         if isPresented && uiViewController.presentedViewController == nil {
             uiViewController.present(activityViewController, animated: true)

@@ -79,47 +79,25 @@ public class CDFileDownLoader: NSObject {
     
     public override init(){}
     
-    public func downloadFile(url: URL?, name: CDFileName, onStart: () -> Void, onEnd: @escaping (_ destination: URL?, _ error: CDFileDownLoaderError?) -> Void){
-        
-        onStart()
+    public func downloadFile(url: URL?, name: CDFileName) -> AnyPublisher<URL, CDFileDownLoaderError> {//onEnd: @escaping (_ destination: URL?, _ error: CDFileDownLoaderError?) -> Void){
         
         guard let fileURL = url else {
-            onEnd(nil, .inValidURL)
-            return
+            return Result<URL, CDFileDownLoaderError>.Publisher(.failure(.inValidURL))
+                .eraseToAnyPublisher()
         }
         
         let destination = name.destination
         
-        URLSession.shared.dataTaskPublisher(for: fileURL)
+        return URLSession.shared.dataTaskPublisher(for: fileURL)
             .subscribe(on: DispatchQueue.global())
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("Download error: \(error)")
-                    DispatchQueue.main.async {
-                        onEnd(nil, .inerError(error))
-                    }
-                }
-            }, receiveValue: { value in
-                let data = value.data
-                do {
-                    try data.write(to: destination)
-                    DispatchQueue.main.async {
-                        onEnd(destination, nil)
-                    }
-                    
-                    print("File downloaded to: \(destination)")
-                } catch {
-                    print("Error saving downloaded file: \(error)")
-                    DispatchQueue.main.async {
-                        onEnd(nil, .writingError)
-                    }
-                    
-                }
+            .tryMap({ res in
+                try res.data.write(to: destination)
+                return destination
             })
-            .store(in: &cancellables)
+            .mapError({ error in
+                (error as? CDFileDownLoaderError) ?? CDFileDownLoaderError.inerError(error)
+            })
+            .eraseToAnyPublisher()
     }
     
 }

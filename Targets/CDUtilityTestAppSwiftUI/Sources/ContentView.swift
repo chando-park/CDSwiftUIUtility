@@ -12,12 +12,14 @@ import CDDocumentViewer
 import CDFileDownLoader
 import CDActivityView
 import CDOrientation
+import CoreData
 
 enum AppRouter: SheetRouterProtocol {
     case web
     case router
     case navigation
     case pdf//(url: URL, title: String)
+    case sound
     
     var id: String { "\(self)" }
     
@@ -31,30 +33,32 @@ enum AppRouter: SheetRouterProtocol {
             NavigtionTestView()
         case .pdf:
             CDPDFViewerView()
-                
+        case .sound:
+            SoundView()
         }
     }
 
 }
 
-enum AppRouterKind: EventKind{
+enum AppRouterKind{
     case login
     case signup
     case openPDF//(urlStr: String, title: String)
 }
 
-class AppRouterVM: PlatformOperatorVM_P{
+class AppRouterVM: ObservableObject{
     func received(event: AppRouterKind) {
         print("evemnt \(event)")
     }
 }
 
 struct ContentView: View{
-    @ObservedObject var vm: AppRouterVM
-    @ObservedObject var router:PlatformOperator<AppRouter,AppRouterVM>
+    @StateObject var vm = AppRouterVM()
+    @StateObject var router = MovingSheetOperator<AppRouter>()
     
     var body: some View {
         List {
+//            textentity
             Section {
                 Button("web") {
                     router.go(.web, animation: .push)
@@ -67,10 +71,16 @@ struct ContentView: View{
                     router.go(.navigation, animation: .full(animationOn: true))
                 }
                 Button("open pdf") {
-                    CDOrientationLock.shared.rotate(orientation: .landscape)
+//                    CDOrientationLock.shared.rotate(orientation: .landscape)
                     self.router.go(.pdf, animation: .push)
                     
                 }
+                Button("sound") {
+//                    CDOrientationLock.shared.rotate(orientation: .landscape)
+                    self.router.go(.sound, animation: .push)
+                    
+                }
+
             }
         }
         .routering($router.sheets)
@@ -80,12 +90,10 @@ struct ContentView: View{
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        @ObservedObject var vm = AppRouterVM()
-        @ObservedObject var platform = PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm)
+//        @ObservedObject var vm = AppRouterVM()
+//        @ObservedObject var platform = PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm)
         NavigationView {
-            ContentView(vm: vm, router: PlatformOperator<AppRouter,AppRouterVM>(viewModel: vm))
-        }.routering($platform.sheets) { router in
-            print("rrr \(router)")
+            ContentView()
         }
     }
 }

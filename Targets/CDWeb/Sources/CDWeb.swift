@@ -20,6 +20,11 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
     
     public func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
+#if DEBUG
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        }
+#endif
         if let cgColor = self.backgrouneColor.cgColor{
             webView.backgroundColor = UIColor(cgColor: cgColor)
         }
@@ -31,8 +36,11 @@ public struct CDWebview<NativeMessage:NativeMessageList_P, Address: CDWebAddress
         
         
         if let request = address.request {
-            webView.load(request)
+            
+            print("loadHtml address \(String(describing: request.url?.absoluteString))")
             print("loadHtml allHTTPHeaderFields \(String(describing: request.allHTTPHeaderFields))")
+            
+            webView.load(request)
         }else{
             self.webViewCommunicator.onError?(.invalidURL)
         }

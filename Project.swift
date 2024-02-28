@@ -34,4 +34,5 @@ let project = Project.app(name: "CDUtility",
                             "CDDocumentViewer",
                             "CDOrientation",
                             "CDSound",
+                            "CDNetworkCheck",
                           ])

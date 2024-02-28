@@ -35,6 +35,9 @@ let package = Package(
         .library(
             name: "CDSound",
             targets: ["CDSound"]),
+        .library(
+            name: "CDNetworkCheck",
+            targets: ["CDNetworkCheck"]),
     ],
     
     dependencies: [
@@ -96,6 +99,10 @@ let package = Package(
             name: "CDSound",
             dependencies: [],
             path: "Targets/CDSound/Sources"),
+        .target(
+            name: "CDNetworkCheck",
+            dependencies: [],
+            path: "Targets/CDNetworkCheck/Sources"),
 //
 //            .testTarget(
 //                name: "CDActivityViewTests",

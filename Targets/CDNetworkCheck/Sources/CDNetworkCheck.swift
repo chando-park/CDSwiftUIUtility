@@ -8,10 +8,10 @@
 import Network
 import Combine
 
-class CDNetworkStatusChecker {
+public class CDNetworkStatusChecker {
 
     // 네트워크 상태 타입 정의
-    enum NetworkStatus {
+    public enum NetworkStatus {
         case wifi
         case cellular
         case notConnected
@@ -21,7 +21,7 @@ class CDNetworkStatusChecker {
     private let queue = DispatchQueue.global(qos: .background)
     
     // 네트워크 상태를 확인하는 Publisher 생성 메소드
-    func networkStatusPublisher() -> AnyPublisher<NetworkStatus, Never> {
+    public func networkStatusPublisher() -> AnyPublisher<NetworkStatus, Never> {
         let monitor = NWPathMonitor()
         self.monitor = monitor
         

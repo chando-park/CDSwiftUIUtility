@@ -71,13 +71,13 @@ public enum CDFileName{
 }
 
 
-public class CDFileDownLoader {
+public class CDFileDownLoader: NSObject {
     
     public static let shared = CDFileDownLoader()
     
     var cancellables = Set<AnyCancellable>()
     
-    public init(){}
+    public override init(){}
     
     public func downloadFile(url: URL?, name: CDFileName, onStart: () -> Void, onEnd: @escaping (_ destination: URL?, _ error: CDFileDownLoaderError?) -> Void){
         

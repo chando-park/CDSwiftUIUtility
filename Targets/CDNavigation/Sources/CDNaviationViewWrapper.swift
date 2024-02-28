@@ -105,6 +105,13 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
         
         uiViewController.navigationBarBackgroundType = self.navigationBarBackgroundType
         
+<<<<<<< Updated upstream
+=======
+        uiViewController.isStatusBarHidden = self.config.isStatusHidden
+        
+        uiViewController.isCloseBtnEnable = self.config.isCloseBtnEnable
+        uiViewController.isBackBtnEnable = self.config.isBackBtnEnable
+>>>>>>> Stashed changes
     }
     
     public func makeCoordinator() -> NavigationSlave {
@@ -121,10 +128,23 @@ public struct CDNaviationViewWrapper<Content: View>: UIViewControllerRepresentab
         }
         
         public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+<<<<<<< Updated upstream
             self.owner.callback(navigationController, viewController)
 //            print("Mirror(reflecting: self).subjectType \(Mirror(reflecting: self.owner).subjectType)")
 //            print("viewController \(viewController)")
 
+=======
+            self.owner.config.action = nil
+            self.owner.config.isBackBtnEnable = false
+            self.owner.config.isCloseBtnHidden = false
+            print("willShow")
+        }
+        
+        public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+            print("didShow")
+            self.owner.config.isBackBtnEnable = true
+            self.owner.config.isCloseBtnHidden = true
+>>>>>>> Stashed changes
         }
     }
 }

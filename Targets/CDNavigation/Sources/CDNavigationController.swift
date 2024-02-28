@@ -159,6 +159,36 @@ public class CDNavigationController: UINavigationController {
         return .lightContent
     }
     
+<<<<<<< Updated upstream
+=======
+    public override var prefersStatusBarHidden: Bool{
+        self.isStatusBarHidden
+    }
+    
+    public override var prefersHomeIndicatorAutoHidden: Bool{
+        true
+    }
+    
+    var isStatusBarHidden: Bool = false{
+        didSet{
+            self.statusbarView.isHidden = self.isStatusBarHidden
+            self.setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+    
+    var isBackBtnEnable: Bool = true{
+        didSet{
+            self.backBtn?.isEnabled = self.isBackBtnEnable
+        }
+    }
+    
+    var isCloseBtnEnable: Bool = true{
+        didSet{
+            self.closeBtn?.isEnabled = self.isCloseBtnEnable
+        }
+    }
+    
+>>>>>>> Stashed changes
     var isNaviBarHidden: Bool = false{
         didSet{
             UIView.animate(withDuration: 0.3) {
@@ -363,14 +393,27 @@ public class CDNavigationController: UINavigationController {
          backEvent: Event?,
          closeEvent: Event?,
          rootViewController: UIViewController) {
+<<<<<<< Updated upstream
 
  
+=======
+        
+        
+        
+>>>>>>> Stashed changes
         self.navigationBarHeight = navigationBarHeight
         self.backEvent = backEvent
         self.closeEvent = closeEvent
 //        self.supportedOrientations =
         super.init(rootViewController: rootViewController)
         
+<<<<<<< Updated upstream
+=======
+//        self.delegate = self
+//        self.de
+        
+        self.isStatusBarHidden = isStatusBarHidden
+>>>>>>> Stashed changes
         self.additionalSafeAreaInsets.top = self.navigationBarHeight - UINavigationController().navigationBar.frame.size.height
         
         self.naviBar = UIImageView(frame: CGRect(origin: CGPoint(x: 0,
@@ -492,4 +535,31 @@ public class CDNavigationController: UINavigationController {
     func setBackEvent(event: Event?){
         self.backEvent = event
     }
+<<<<<<< Updated upstream
+=======
+    
+    public func setCloseEvent(event: Event?){
+        self.closeEvent = event
+    }
+}
+
+
+public extension UIViewController{
+    var statusBarHeight : CGFloat {
+        if let safeFrame = UIApplication.shared.windows.first?.safeAreaInsets{
+            return Swift.max(safeFrame.top, safeFrame.left)
+        }
+        return 0
+    }
+}
+
+
+extension CDNavigationController: UINavigationControllerDelegate{
+    public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        print("willShow")
+    }
+    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        print("didShow")
+    }
+>>>>>>> Stashed changes
 }

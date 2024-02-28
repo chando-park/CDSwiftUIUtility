@@ -59,6 +59,9 @@ public struct CDNavigationWrapper<Content: View>: UIViewControllerRepresentable{
         uiViewController.action = self.config.action
         
         uiViewController.isStatusBarHidden = self.config.isStatusHidden
+        
+        uiViewController.isBackBtnEnable = self.config.isBackBtnEnable
+        uiViewController.isCloseBtnEnable = self.config.isCloseBtnEnable
     }
     
     public func makeCoordinator() -> NavigationSlave {
@@ -74,8 +77,14 @@ public struct CDNavigationWrapper<Content: View>: UIViewControllerRepresentable{
         }
         
         public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-//            self.owner.callback(navigationController, viewController)
             self.owner.config.action = nil
+            self.owner.config.isBackBtnEnable = false
+            self.owner.config.isCloseBtnEnable = false
+        }
+        
+        public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+            self.owner.config.isBackBtnEnable = true
+            self.owner.config.isCloseBtnEnable = true
         }
         
     }

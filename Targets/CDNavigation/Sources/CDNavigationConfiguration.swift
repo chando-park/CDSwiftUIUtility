@@ -39,6 +39,9 @@ public class CDNavigationConfiguration: CDNavigationConfiguration_P, ObservableO
     @Published public var isCloseBtnHidden: Bool
     @Published public var action: CDNavigationController.Action?
     
+    @Published public var isBackBtnEnable: Bool = true
+    @Published public var isCloseBtnEnable: Bool = true
+    
     public var titles: (title: String, subTitle: String?) = ("", nil){
         didSet{
             self.navigationBarTitleType = .text(title: self.titles.title, 

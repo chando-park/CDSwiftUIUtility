@@ -171,6 +171,18 @@ public class CDNavigationController: UINavigationController {
         }
     }
     
+    var isBackBtnEnable: Bool = true{
+        didSet{
+            self.backBtn?.isEnabled = self.isBackBtnEnable
+        }
+    }
+    
+    var isCloseBtnEnable: Bool = true{
+        didSet{
+            self.closeBtn?.isEnabled = self.isCloseBtnEnable
+        }
+    }
+    
     
     var isNaviBarHidden: Bool = false{
         didSet{

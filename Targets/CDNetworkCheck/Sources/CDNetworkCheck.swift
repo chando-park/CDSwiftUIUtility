@@ -20,13 +20,14 @@ public class CDNetworkStatusChecker {
     private var monitor: NWPathMonitor?
     private let queue = DispatchQueue.global(qos: .background)
     
+    public init(monitor: NWPathMonitor? = NWPathMonitor()) {
+        self.monitor = monitor
+    }
+    
     // 네트워크 상태를 확인하는 Publisher 생성 메소드
     public func networkStatusPublisher() -> AnyPublisher<NetworkStatus, Never> {
-        let monitor = NWPathMonitor()
-        self.monitor = monitor
-        
-        return Future<NetworkStatus, Never> { promise in
-            monitor.pathUpdateHandler = { path in
+        Future<NetworkStatus, Never> { promise in
+            self.monitor?.pathUpdateHandler = { path in
                 let status: NetworkStatus
                 
                 if path.status == .satisfied {
@@ -42,10 +43,10 @@ public class CDNetworkStatusChecker {
                 promise(.success(status))
                 
                 // 네트워크 상태 확인 후 모니터링 중단
-                monitor.cancel()
+                self.monitor?.cancel()
             }
             
-            monitor.start(queue: self.queue)
+            self.monitor?.start(queue: self.queue)
         }
         .handleEvents(receiveCancel: {
             self.monitor?.cancel()

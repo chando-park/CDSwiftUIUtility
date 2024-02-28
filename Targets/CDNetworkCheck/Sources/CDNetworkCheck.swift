@@ -20,8 +20,8 @@ public class CDNetworkStatusChecker {
     private var monitor: NWPathMonitor?
     private let queue = DispatchQueue.global(qos: .background)
     
-    public init(monitor: NWPathMonitor? = NWPathMonitor()) {
-        self.monitor = monitor
+    public init() {
+        self.monitor = NWPathMonitor()
     }
     
     // 네트워크 상태를 확인하는 Publisher 생성 메소드

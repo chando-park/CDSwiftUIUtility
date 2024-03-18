@@ -186,7 +186,7 @@ public class CDNavigationController: UINavigationController {
     
     var isNaviBarHidden: Bool = false{
         didSet{
-            UIView.animate(withDuration: 0.3) {
+//            UIView.animate(withDuration: 0.3) {
                 self.navigationBar.isHidden = self.isNaviBarHidden
                 if self.isNaviBarHidden{
                     self.naviBar?.frame.origin.y = -(self.statusBarHeight + UINavigationController().navigationBar.frame.size.height)
@@ -198,7 +198,7 @@ public class CDNavigationController: UINavigationController {
                     
                     self.naviBar?.alpha = 1
                 }
-            }
+//            }
         }
     }
     

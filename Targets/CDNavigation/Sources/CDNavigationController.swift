@@ -304,16 +304,15 @@ public class CDNavigationController: UINavigationController {
                 return
             }
             
-//            guard let image = self.closeImage else{
-//                self.closeBtn?.isHidden = true
-//                return
-//            }
+            guard let image = self.closeImage else{
+                return
+            }
             
             closeBtn.isEnabled = false
             UIView.animate(withDuration: 0.15) {
                 closeBtn.frame.origin.x = self.view.frame.size.width
             } completion: { _ in
-                closeBtn.setImage(self.closeImage, for: .normal)
+                closeBtn.setImage(image, for: .normal)
                 if self.isCloseBtnHidden == false {
                     UIView.animate(withDuration: 0.15) {
                         let left = closeBtn.frame.size.width*(42.0/110)
@@ -526,6 +525,14 @@ public class CDNavigationController: UINavigationController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        self.naviBar?.frame = CGRect(origin: CGPoint(x: 0, y: self.statusBarHeight), size: CGSize(width: self.view.frame.size.width, height: navigationBarHeight))
+        let type = self.navigationBarTitleType
+        self.navigationBarTitleType = type
     }
 
     @objc private func backCallback(_ sender: UIButton){

@@ -282,12 +282,12 @@ public class CDNavigationController: UINavigationController {
 
             closeBtn.isEnabled = false
             UIView.animate(withDuration: aniTime, delay: 0, usingSpringWithDamping: 1.2, initialSpringVelocity: 0.1, options: .curveEaseOut) {
-//                let tW = (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeLeft) ? self.view.frame.size.height : self.view.frame.size.width
+                let tW = (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeLeft) ? self.view.frame.size.height : self.view.frame.size.width
                 if self.isCloseBtnHidden{
-                    closeBtn.frame.origin.x = self.view.frame.size.width
+                    closeBtn.frame.origin.x = tW
                 }else{
                     let left = closeBtn.frame.size.width*(42.0/110)
-                    closeBtn.frame.origin.x = self.view.frame.size.width
+                    closeBtn.frame.origin.x = tW - left - closeBtn.frame.size.width
                 }
             } completion: { _ in
                 closeBtn.isEnabled = true

@@ -283,10 +283,10 @@ public class CDNavigationController: UINavigationController {
             closeBtn.isEnabled = false
             UIView.animate(withDuration: aniTime, delay: 0, usingSpringWithDamping: 1.2, initialSpringVelocity: 0.1, options: .curveEaseOut) {
                 if self.isCloseBtnHidden{
-                    closeBtn.frame.origin.x = max(self.view.frame.size.width, self.view.frame.size.height)
+                    closeBtn.frame.origin.x = UIDevice.current.orientation == .portrait ? self.view.frame.size.width : self.view.frame.size.height
                 }else{
                     let left = closeBtn.frame.size.width*(42.0/110)
-                    closeBtn.frame.origin.x = max(self.view.frame.size.width, self.view.frame.size.height) - left - closeBtn.frame.size.width
+                    closeBtn.frame.origin.x = (UIDevice.current.orientation == .portrait ? self.view.frame.size.width : self.view.frame.size.height) - left - closeBtn.frame.size.width
                 }
             } completion: { _ in
                 closeBtn.isEnabled = true

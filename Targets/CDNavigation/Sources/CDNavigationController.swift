@@ -527,12 +527,22 @@ public class CDNavigationController: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+//    public override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//        
+//        self.naviBar?.frame = CGRect(origin: CGPoint(x: 0, y: self.statusBarHeight), size: CGSize(width: self.view.frame.size.width, height: navigationBarHeight))
+//        let type = self.navigationBarTitleType
+//        self.navigationBarTitleType = type
+//    }
+    
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         
-        self.naviBar?.frame = CGRect(origin: CGPoint(x: 0, y: self.statusBarHeight), size: CGSize(width: self.view.frame.size.width, height: navigationBarHeight))
-        let type = self.navigationBarTitleType
-        self.navigationBarTitleType = type
+        coordinator.animate { _ in
+            self.naviBar?.frame = CGRect(origin: CGPoint(x: 0, y: self.statusBarHeight), size: CGSize(width: self.view.frame.size.width, height: self.navigationBarHeight))
+            let type = self.navigationBarTitleType
+            self.navigationBarTitleType = type
+        }
     }
 
     @objc private func backCallback(_ sender: UIButton){

@@ -8,7 +8,7 @@
 import CoreData
 import Combine
 
-public class CDCoreDataStackPublisher: CDCoreDataStack{
+open class CDCoreDataStackPublisher: CDCoreDataStack{
     public func saveContext(_ context: NSManagedObjectContext) -> Future<String?, NSError> {
         return Future<String?, NSError> { promiss in
             context.perform {

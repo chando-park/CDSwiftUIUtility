@@ -35,4 +35,5 @@ let project = Project.app(name: "CDUtility",
                             "CDOrientation",
                             "CDSound",
                             "CDNetworkCheck",
+                            "CDCoreDataStack",
                           ])

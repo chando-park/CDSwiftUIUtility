@@ -38,6 +38,9 @@ let package = Package(
         .library(
             name: "CDNetworkCheck",
             targets: ["CDNetworkCheck"]),
+        .library(
+            name: "CDCoreDataStack",
+            targets: ["CDCoreDataStack"]),
     ],
     
     dependencies: [
@@ -103,6 +106,10 @@ let package = Package(
             name: "CDNetworkCheck",
             dependencies: [],
             path: "Targets/CDNetworkCheck/Sources"),
+        .target(
+            name: "CDCoreDataStack",
+            dependencies: [],
+            path: "Targets/CDCoreDataStack/Sources"),
 //
 //            .testTarget(
 //                name: "CDActivityViewTests",

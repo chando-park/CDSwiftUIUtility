@@ -9,12 +9,12 @@ import CoreData
 import Combine
 
 open class CDCoreDataStackPublisher: CDCoreDataStack{
-    public func saveContext(_ context: NSManagedObjectContext) -> Future<String?, NSError> {
-        return Future<String?, NSError> { promiss in
+    public func saveContext(_ context: NSManagedObjectContext) -> Future<Void, NSError> {
+        return Future<Void, NSError> { promiss in
             context.perform {
                 do {
                     try context.save()
-                    promiss(.success(nil))
+                    promiss(.success(()))
                 } catch let error as NSError {
                     promiss(.failure(error))
                 }

@@ -8,7 +8,7 @@
 import CoreData
 
 
-open class CoreDataStack {
+open class CDCoreDataStack {
     //  public static let modelName = "PandemicReport"
     //
     //  public static let model: NSManagedObjectModel = {
@@ -22,7 +22,7 @@ open class CoreDataStack {
     public let modelName: String
     public let managedObjectModel: NSManagedObjectModel
     
-    init(modelName: String, managedObjectModel: NSManagedObjectModel) {
+    public init(modelName: String, managedObjectModel: NSManagedObjectModel) {
         self.modelName = modelName
         self.managedObjectModel = managedObjectModel
     }

@@ -110,20 +110,6 @@ let package = Package(
             name: "CDCoreDataStack",
             dependencies: [],
             path: "Targets/CDCoreDataStack/Sources"),
-//
-//            .testTarget(
-//                name: "CDActivityViewTests",
-//                dependencies: ["CDActivityView"],
-//                path: "Targets/CDActivityView/Tests"),
-//        .target(
-//            name: "CDFileDownLoader",
-//            dependencies: [],
-//            path: "Targets/CDFileDownLoader/Sources"),
-//
-//            .testTarget(
-//                name: "CDFileDownLoaderTests",
-//                dependencies: ["CDFileDownLoader"],
-//                path: "Targets/CDFileDownLoader/Tests"),
         
     ]
 )

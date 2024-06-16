@@ -9,16 +9,6 @@ import CoreData
 
 
 open class CDCoreDataStack {
-    //  public static let modelName = "PandemicReport"
-    //
-    //  public static let model: NSManagedObjectModel = {
-    //    // swiftlint:disable force_unwrapping
-    //    let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd")!
-    //    return NSManagedObjectModel(contentsOf: modelURL)!
-    //  }()
-    // swiftlint:enable force_unwrapping
-    
-    
     public let modelName: String
     public let managedObjectModel: NSManagedObjectModel
     

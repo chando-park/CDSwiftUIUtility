@@ -41,6 +41,9 @@ let package = Package(
         .library(
             name: "CDCoreDataStack",
             targets: ["CDCoreDataStack"]),
+        .library(
+            name: "CDURLSessionPublisher",
+            targets: ["CDURLSessionPublisher"]),
     ],
     
     dependencies: [
@@ -110,6 +113,10 @@ let package = Package(
             name: "CDCoreDataStack",
             dependencies: [],
             path: "Targets/CDCoreDataStack/Sources"),
+        .target(
+            name: "CDURLSessionPublisher",
+            dependencies: [],
+            path: "Targets/CDURLSessionPublisher/Sources"),
         
     ]
 )
